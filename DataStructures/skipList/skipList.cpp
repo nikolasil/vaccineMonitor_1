@@ -2,7 +2,7 @@
 
 #include "skipList.h"
 
-int coinFlip()
+int skipListNode::coinFlip()
 {
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);
@@ -13,6 +13,7 @@ int coinFlip()
 
 skipListNode::skipListNode(int id) : id(id)
 {
+    this->next = NULL;
 }
 
 skipListNode::~skipListNode()

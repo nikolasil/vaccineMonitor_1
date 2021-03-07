@@ -1,6 +1,8 @@
 #ifndef SKIPLIST_H
 #define SKIPLIST_H
 
+#include "../../citizenRecords/citizen.h"
+
 class skipListNode
 {
 public:
@@ -8,7 +10,10 @@ public:
     ~skipListNode();
 
 private:
+    int coinFlip();
+
     int id;
+    citizenRecord *citizen;
     skipListNode *down;
     skipListNode *next;
 }
@@ -24,7 +29,8 @@ public:
 private:
     int height;
     skipListNode *list;
-    skipList *nextLevel;
+    skipList *upLevel;
+    skipList *downLevel;
 }
 
 class skipList_Lists
