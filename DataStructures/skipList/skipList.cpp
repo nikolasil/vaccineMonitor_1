@@ -16,6 +16,15 @@ skipListNode::skipListNode(int id) : id(id)
 {
     this->next = NULL;
     this->down = NULL;
+    this->citizen = NULL;
+}
+
+skipListNode::skipListNode(skipListNode *node)
+{
+    this->id = node->getId();
+    this->citizen = node->getCitizen();
+    this->next = NULL;
+    this->down = node;
 }
 
 skipListNode::~skipListNode()
@@ -24,9 +33,9 @@ skipListNode::~skipListNode()
 
 void skipListNode::destroy()
 {
-    skipListNode *temp = this->next;
     if (this != NULL)
     {
+        skipListNode *temp = this->next;
         while (temp != NULL)
         {
             skipListNode *next = temp->next;
@@ -43,6 +52,7 @@ void skipListNode::print()
     while (temp != NULL)
     {
         cout << temp->id << " ";
+        // cout << "[" << temp->id << "," << temp << "," << temp->down << "]";
         temp = temp->next;
     }
     cout << endl;
@@ -130,5 +140,94 @@ void skipListNode::remove(skipListNode **list, int key)
             return;
         prev->next = temp->next;
         delete temp;
+    }
+}
+
+// skipListLevel
+
+skipListLevel::skipListLevel(int l) : myLevel(l)
+{
+    this->list = NULL;
+    this->downLevel = NULL;
+    this->upLevel = NULL;
+}
+
+skipListLevel::skipListLevel() : myLevel(0)
+{
+    this->list = NULL;
+    this->downLevel = NULL;
+    this->upLevel = NULL;
+}
+
+skipListLevel::~skipListLevel()
+{
+}
+
+void skipListLevel::setUpLevel(skipListLevel *up)
+{
+    this->upLevel = up;
+}
+
+void skipListLevel::setDownLevel(skipListLevel *down)
+{
+    this->downLevel = down;
+}
+
+skipListLevel *skipListLevel::getUpLevel()
+{
+    return this->upLevel;
+}
+
+skipListLevel *skipListLevel::getDownLevel()
+{
+    return this->downLevel;
+}
+
+skipListNode *skipListLevel::getList()
+{
+    return this->list;
+}
+
+void skipListLevel::print()
+{
+    this->list->print();
+}
+
+void skipListLevel::add(int id)
+{
+    skipListNode *new_node = new skipListNode(id);
+    if (this->list == NULL)
+    {
+        this->list = new_node;
+    }
+    else
+    {
+        this->list->add(&this->list, new_node);
+    }
+    skipListNode *temp = new_node;
+    skipListLevel *level = this;
+    while (temp->coinFlip())
+    {
+        if (level->myLevel != 9)
+        {
+            skipListNode *up_node = new skipListNode(temp);
+            if (level->upLevel == NULL)
+            {
+                level->upLevel = new skipListLevel(level->myLevel + 1);
+                level->upLevel->setDownLevel(level);
+                level->upLevel->list = up_node;
+            }
+            else
+            {
+                level->upLevel->list->add(&level->upLevel->list, up_node);
+            }
+
+            level = level->upLevel;
+            temp = up_node;
+        }
+        else
+        {
+            break;
+        }
     }
 }

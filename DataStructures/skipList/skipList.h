@@ -7,6 +7,7 @@ class skipListNode
 {
 public:
     skipListNode(int id);
+    skipListNode(skipListNode *node);
     ~skipListNode();
     void destroy();
     void add(skipListNode **list, skipListNode *new_node);
@@ -24,25 +25,37 @@ public:
     int getId();
     citizenRecord *getCitizen();
 
-private:
     int coinFlip();
 
+private:
     int id;
     citizenRecord *citizen;
-    skipListNode *next;
     skipListNode *down;
+    skipListNode *next;
 };
 
 class skipListLevel
 {
 public:
+    skipListLevel(int l);
     skipListLevel();
     ~skipListLevel();
 
-    skipListNode *add(int id);
+    void add(int id);
+
+    void setUpLevel(skipListLevel *up);
+    void setDownLevel(skipListLevel *down);
+
+    skipListLevel *getUpLevel();
+    skipListLevel *getDownLevel();
+    skipListNode *getList();
+
+    void print();
 
 private:
+    int myLevel;
     skipListNode *list;
+    skipListLevel *upLevel;
     skipListLevel *downLevel;
 };
 
@@ -53,7 +66,6 @@ public:
     ~skipList();
 
 private:
-    int maxLevels;
     skipList *ceiling;
     skipList *floor;
 };
