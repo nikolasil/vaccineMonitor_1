@@ -1,7 +1,11 @@
 #ifndef SKIPLIST_H
 #define SKIPLIST_H
-
+#include <limits>
 #include "../../citizenRecords/citizen.h"
+
+#define POS_INF std ::numeric_limits<int>::max()
+#define NEG_INF std ::numeric_limits<int>::min()
+#define maxLevels 9
 
 class skipListNode
 {
@@ -10,8 +14,9 @@ public:
     skipListNode(skipListNode *node);
     ~skipListNode();
     void destroy();
-    void add(skipListNode **list, skipListNode *new_node);
-    void remove(skipListNode **list, int key);
+
+    // void add(skipListNode **list, skipListNode *new_node);
+    // void remove(skipListNode **list, int key);
 
     void print();
 
@@ -37,24 +42,26 @@ private:
 class skipListLevel
 {
 public:
-    skipListLevel(int l);
+    skipListLevel(skipListLevel *prevLevel, int l);
     skipListLevel();
     ~skipListLevel();
-
-    void add(int id);
 
     void setUpLevel(skipListLevel *up);
     void setDownLevel(skipListLevel *down);
 
     skipListLevel *getUpLevel();
     skipListLevel *getDownLevel();
+    int getMyLevel();
     skipListNode *getList();
+    skipListNode *getPosInf();
+    skipListNode *getNegInf();
 
     void print();
 
 private:
     int myLevel;
     skipListNode *list;
+    skipListNode *pos_inf;
     skipListLevel *upLevel;
     skipListLevel *downLevel;
 };
@@ -65,22 +72,31 @@ public:
     skipList();
     ~skipList();
 
-private:
-    skipList *ceiling;
-    skipList *floor;
-};
+    void add(int id);
+    void remove(int id);
+    void search(int id);
 
-class skipList_Lists
-{
-public:
-    skipList_Lists();
-    ~skipList_Lists();
+    void print();
+
+    skipListLevel *getCeiling();
+    skipListLevel *getFloor();
 
 private:
-    string virus;
-    skipList *vaccinated;
-    skipList *notVaccinated;
-    skipList_Lists *nextSkipList;
+    skipListLevel *ceiling;
+    skipListLevel *floor;
 };
+
+// class skipList_Lists
+// {
+// public:
+//     skipList_Lists();
+//     ~skipList_Lists();
+
+// private:
+//     string virus;
+//     skipList *vaccinated;
+//     skipList *notVaccinated;
+//     skipList_Lists *nextSkipList;
+// };
 
 #endif

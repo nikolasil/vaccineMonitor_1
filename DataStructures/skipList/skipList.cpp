@@ -97,64 +97,73 @@ citizenRecord *skipListNode::getCitizen()
     return this->citizen;
 }
 
-void skipListNode::add(skipListNode **list, skipListNode *new_node)
-{
-    skipListNode *curr;
-    if (*list == NULL || (*list)->id >= new_node->id)
-    {
-        new_node->next = *list;
-        *list = new_node;
-    }
-    else
-    {
-        curr = *list;
-        while (curr->next != NULL && curr->next->id < new_node->id)
-        {
-            curr = curr->next;
-        }
-        new_node->next = curr->next;
-        curr->next = new_node;
-    }
-}
+// void skipListNode::add(skipListNode **list, skipListNode *new_node)
+// {
+//     skipListNode *curr;
+//     if (*list == NULL || (*list)->id >= new_node->id)
+//     {
+//         new_node->next = *list;
+//         *list = new_node;
+//     }
+//     else
+//     {
+//         curr = *list;
+//         while (curr->next != NULL && curr->next->id < new_node->id)
+//         {
+//             curr = curr->next;
+//         }
+//         new_node->next = curr->next;
+//         curr->next = new_node;
+//     }
+// }
 
-void skipListNode::remove(skipListNode **list, int key)
-{
-    skipListNode *temp = *list;
-    skipListNode *prev = NULL;
+// void skipListNode::remove(skipListNode **list, int key)
+// {
+//     skipListNode *temp = *list;
+//     skipListNode *prev = NULL;
 
-    if (temp != NULL && temp->id == key)
-    {
-        *list = temp->next;
-        delete temp;
-        return;
-    }
-    else
-    {
-        while (temp != NULL && temp->id != key)
-        {
-            prev = temp;
-            temp = temp->next;
-        }
+//     if (temp != NULL && temp->id == key)
+//     {
+//         *list = temp->next;
+//         delete temp;
+//         return;
+//     }
+//     else
+//     {
+//         while (temp != NULL && temp->id != key)
+//         {
+//             prev = temp;
+//             temp = temp->next;
+//         }
 
-        if (temp == NULL)
-            return;
-        prev->next = temp->next;
-        delete temp;
-    }
-}
+//         if (temp == NULL)
+//             return;
+//         prev->next = temp->next;
+//         delete temp;
+//     }
+// }
 
 // skipListLevel
 
-skipListLevel::skipListLevel(int l) : myLevel(l)
+skipListLevel::skipListLevel(skipListLevel *prevLevel, int l) : myLevel(l)
 {
-    this->list = NULL;
+    this->list = new skipListNode(NEG_INF);
+    this->pos_inf = new skipListNode(POS_INF);
+    this->list->add(&this->list, this->pos_inf);
+
+    this->list->setDownLevel(prevLevel->getNegInf());
+    this->pos_inf->setDownLevel(prevLevel->getPosInf());
+
     this->downLevel = NULL;
     this->upLevel = NULL;
 }
 
 skipListLevel::skipListLevel() : myLevel(0)
 {
-    this->list = NULL;
+    this->list = new skipListNode(NEG_INF);
+    this->pos_inf = new skipListNode(POS_INF);
+    this->list->add(&this->list, this->pos_inf);
+
     this->downLevel = NULL;
     this->upLevel = NULL;
 }
@@ -183,7 +192,22 @@ skipListLevel *skipListLevel::getDownLevel()
     return this->downLevel;
 }
 
+int skipListLevel::getMyLevel()
+{
+    return this->myLevel;
+}
+
 skipListNode *skipListLevel::getList()
+{
+    return this->list;
+}
+
+skipListNode *skipListLevel::getPosInf()
+{
+    return this->pos_inf;
+}
+
+skipListNode *skipListLevel::getNegInf()
 {
     return this->list;
 }
@@ -193,41 +217,72 @@ void skipListLevel::print()
     this->list->print();
 }
 
-void skipListLevel::add(int id)
+// skipList
+
+skipList::skipList()
 {
-    skipListNode *new_node = new skipListNode(id);
-    if (this->list == NULL)
+    this->floor = new skipListLevel();
+    this->ceiling = this->floor;
+}
+
+skipList::~skipList()
+{
+}
+
+void skipList::add(int id)
+{
+    skipListLevel *currNode = ceiling->getPosInf();
+    skipListLevel *nextNode = currNode->getNext();
+
+    skipListNode *newNode = new skipListNode(id);
+
+    while (1)
     {
-        this->list = new_node;
-    }
-    else
-    {
-        this->list->add(&this->list, new_node);
-    }
-    skipListNode *temp = new_node;
-    skipListLevel *level = this;
-    while (temp->coinFlip())
-    {
-        if (level->myLevel != 9)
+        if (id < nextNode->getId())
         {
-            skipListNode *up_node = new skipListNode(temp);
-            if (level->upLevel == NULL)
-            {
-                level->upLevel = new skipListLevel(level->myLevel + 1);
-                level->upLevel->setDownLevel(level);
-                level->upLevel->list = up_node;
+            // step down
+
+            if (currNode->getDownLevel() != NULL)
+            { // IF THERE IS A DOWN LEVEL
+                currNode = currNode->getDownLevel();
+                nextNode = currNode->getNext();
+                continue;
             }
             else
-            {
-                level->upLevel->list->add(&level->upLevel->list, up_node);
+            { /* if there is no down
+                we will put the new node after the currNode*/
+                currNode->setNext(newNode);
+                newNode->setNext(nextNode);
+                // flip a coin
             }
+        }
+    }
+}
 
-            level = level->upLevel;
-            temp = up_node;
-        }
-        else
-        {
-            break;
-        }
+void skipList::remove(int id)
+{
+}
+
+void skipList::search(int id)
+{
+}
+
+skipListLevel *getCeiling();
+{
+    return this->ceiling;
+}
+
+skipListLevel *getFloor()
+{
+    return this->floor;
+}
+
+void skipList::print()
+{
+    skipListLevel *temp = this->ceiling;
+    while (temp != NULL)
+    {
+        temp->print();
+        temp = temp->getDownLevel();
     }
 }
