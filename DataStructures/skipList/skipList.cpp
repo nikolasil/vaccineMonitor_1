@@ -253,8 +253,12 @@ void skipList::add(int id)
                 we will put the new node after the currNode*/
                 currNode->setNext(newNode);
                 newNode->setNext(nextNode);
-                // flip a coin
+                // TODO: flip a coin
+                return;
             }
+        }
+        else
+        {
         }
     }
 }
