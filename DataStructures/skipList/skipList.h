@@ -15,8 +15,8 @@ public:
     ~skipListNode();
     void destroy();
 
-    // void add(skipListNode **list, skipListNode *new_node);
-    // void remove(skipListNode **list, int key);
+    void add(skipListNode *new_node);
+    void remove(int key);
 
     void print();
 

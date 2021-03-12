@@ -97,51 +97,33 @@ citizenRecord *skipListNode::getCitizen()
     return this->citizen;
 }
 
-// void skipListNode::add(skipListNode **list, skipListNode *new_node)
-// {
-//     skipListNode *curr;
-//     if (*list == NULL || (*list)->id >= new_node->id)
-//     {
-//         new_node->next = *list;
-//         *list = new_node;
-//     }
-//     else
-//     {
-//         curr = *list;
-//         while (curr->next != NULL && curr->next->id < new_node->id)
-//         {
-//             curr = curr->next;
-//         }
-//         new_node->next = curr->next;
-//         curr->next = new_node;
-//     }
-// }
+void skipListNode::add(skipListNode *new_node)
+{
+    skipListNode *curr = this;
+    while (curr->next != NULL && curr->next->id < new_node->id)
+    {
+        curr = curr->next;
+    }
+    new_node->next = curr->next;
+    curr->next = new_node;
+}
 
-// void skipListNode::remove(skipListNode **list, int key)
-// {
-//     skipListNode *temp = *list;
-//     skipListNode *prev = NULL;
+void skipListNode::remove(int key)
+{
+    skipListNode *temp = this;
+    skipListNode *prev = NULL;
 
-//     if (temp != NULL && temp->id == key)
-//     {
-//         *list = temp->next;
-//         delete temp;
-//         return;
-//     }
-//     else
-//     {
-//         while (temp != NULL && temp->id != key)
-//         {
-//             prev = temp;
-//             temp = temp->next;
-//         }
+    while (temp != NULL && temp->id != key)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
 
-//         if (temp == NULL)
-//             return;
-//         prev->next = temp->next;
-//         delete temp;
-//     }
-// }
+    if (temp == NULL)
+        return;
+    prev->next = temp->next;
+    delete temp;
+}
 
 // skipListLevel
 
@@ -149,12 +131,12 @@ skipListLevel::skipListLevel(skipListLevel *prevLevel, int l) : myLevel(l)
 {
     this->list = new skipListNode(NEG_INF);
     this->pos_inf = new skipListNode(POS_INF);
-    this->list->add(&this->list, this->pos_inf);
+    this->list->setNext(this->pos_inf);
 
-    this->list->setDownLevel(prevLevel->getNegInf());
-    this->pos_inf->setDownLevel(prevLevel->getPosInf());
+    this->list->setDown(prevLevel->getNegInf());
+    this->pos_inf->setDown(prevLevel->getPosInf());
 
-    this->downLevel = NULL;
+    this->downLevel = prevLevel;
     this->upLevel = NULL;
 }
 
@@ -162,7 +144,7 @@ skipListLevel::skipListLevel() : myLevel(0)
 {
     this->list = new skipListNode(NEG_INF);
     this->pos_inf = new skipListNode(POS_INF);
-    this->list->add(&this->list, this->pos_inf);
+    this->list->setNext(this->pos_inf);
 
     this->downLevel = NULL;
     this->upLevel = NULL;
@@ -227,38 +209,80 @@ skipList::skipList()
 
 skipList::~skipList()
 {
+    skipListLevel *temp = this->ceiling;
+    while (temp != NULL)
+    {
+        temp->getList()->destroy();
+        skipListLevel *next = temp->getDownLevel();
+        delete temp;
+        temp = next;
+    }
 }
 
 void skipList::add(int id)
 {
-    skipListLevel *currNode = ceiling->getPosInf();
-    skipListLevel *nextNode = currNode->getNext();
+    skipListLevel *currLevel = this->ceiling;
+    skipListNode *currNode = ceiling->getNegInf();
+    skipListNode *nextNode = currNode->getNext();
 
-    skipListNode *newNode = new skipListNode(id);
-
+    skipListNode *prevCreated = NULL;
+    int create = 0;
     while (1)
     {
         if (id < nextNode->getId())
         {
-            // step down
+            if (currNode->coinFlip() || create)
+            { // create a node
+                if (create)
+                {
+                    skipListNode *downNode = new skipListNode(id);
+                    prevCreated->setDown(downNode);
+                    currNode->setNext(downNode);
+                    downNode->setNext(nextNode);
+                    prevCreated = downNode;
+                }
+                else if (!create) // if it is the first time
+                {
+                    prevCreated = new skipListNode(id);
+                    currNode->setNext(prevCreated);
+                    prevCreated->setNext(nextNode);
+                    if (prevCreated->coinFlip() && currLevel == this->ceiling && this->ceiling->getMyLevel() < maxLevels - 1)
+                    { // make a new level
+                        skipListLevel *newLevel = new skipListLevel(this->ceiling, this->ceiling->getMyLevel() + 1);
+                        this->ceiling->setUpLevel(newLevel);
+                        this->ceiling = newLevel;
+                        this->ceiling->getList()->add(new skipListNode(prevCreated));
+                    }
+                    create = 1;
+                }
+            }
 
-            if (currNode->getDownLevel() != NULL)
-            { // IF THERE IS A DOWN LEVEL
-                currNode = currNode->getDownLevel();
+            if (currNode->getDown() != NULL)
+            { // if there is a down level
+                // step down
+                currNode = currNode->getDown();
                 nextNode = currNode->getNext();
-                continue;
+                currLevel = currLevel->getDownLevel();
             }
             else
-            { /* if there is no down
-                we will put the new node after the currNode*/
-                currNode->setNext(newNode);
-                newNode->setNext(nextNode);
-                // TODO: flip a coin
+            {
+                if (!create)
+                {
+                    prevCreated = new skipListNode(id);
+                    currNode->setNext(prevCreated);
+                    prevCreated->setNext(nextNode);
+                }
                 return;
             }
         }
+        else if (id > nextNode->getId())
+        {
+            currNode = nextNode;
+            nextNode = nextNode->getNext();
+        }
         else
         {
+            return;
         }
     }
 }
@@ -271,12 +295,12 @@ void skipList::search(int id)
 {
 }
 
-skipListLevel *getCeiling();
+skipListLevel *skipList::getCeiling()
 {
     return this->ceiling;
 }
 
-skipListLevel *getFloor()
+skipListLevel *skipList::getFloor()
 {
     return this->floor;
 }

@@ -7,12 +7,13 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     skipList *skiplist = new skipList();
+    for (int i = 0; i < 50; i++)
+    {
+        skiplist->add(i);
+    }
 
-    skiplist->add(5);
-    skiplist->add(6);
-    skiplist->add(7);
-    skiplist->add(9);
-    skiplist->add(8);
     skiplist->print();
+    cout << skiplist->getCeiling()->getMyLevel() << endl;
+    delete skiplist;
     return 0;
 }
