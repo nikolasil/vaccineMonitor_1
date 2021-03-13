@@ -3,15 +3,6 @@
 #include "skipList.h"
 #include "../../citizenRecords/citizen.h"
 
-int skipListNode::coinFlip()
-{
-    struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC, &ts);
-    srand((time_t)ts.tv_nsec);
-
-    return rand() % 2;
-}
-
 skipListNode::skipListNode(int id) : id(id)
 {
     this->next = NULL;
@@ -51,8 +42,8 @@ void skipListNode::print()
     skipListNode *temp = this;
     while (temp != NULL)
     {
-        cout << temp->id << " ";
-        // cout << "[" << temp->id << "," << temp << "," << temp->down << "]";
+        // cout << temp->id << " ";
+        cout << "[" << temp->id << "," << temp << "," << temp->down << "]";
         temp = temp->next;
     }
     cout << endl;
@@ -108,26 +99,11 @@ void skipListNode::add(skipListNode *new_node)
     curr->next = new_node;
 }
 
-void skipListNode::remove(int key)
-{
-    skipListNode *temp = this;
-    skipListNode *prev = NULL;
-
-    while (temp != NULL && temp->id != key)
-    {
-        prev = temp;
-        temp = temp->next;
-    }
-
-    if (temp == NULL)
-        return;
-    prev->next = temp->next;
-    delete temp;
-}
-
-// skipListLevel
+// skipListLevel methods implemantation
 
 skipListLevel::skipListLevel(skipListLevel *prevLevel, int l) : myLevel(l)
+/* when we make a new level we must make the negative and positive infinity points
+to the down levels negative and positive infinity  */
 {
     this->list = new skipListNode(NEG_INF);
     this->pos_inf = new skipListNode(POS_INF);
@@ -140,7 +116,7 @@ skipListLevel::skipListLevel(skipListLevel *prevLevel, int l) : myLevel(l)
     this->upLevel = NULL;
 }
 
-skipListLevel::skipListLevel() : myLevel(0)
+skipListLevel::skipListLevel() : myLevel(0) /* this costructor in beeing called only for the 0 level */
 {
     this->list = new skipListNode(NEG_INF);
     this->pos_inf = new skipListNode(POS_INF);
@@ -194,20 +170,30 @@ skipListNode *skipListLevel::getNegInf()
     return this->list;
 }
 
-void skipListLevel::print()
+void skipListLevel::print() /* print only the list of the level */
 {
     this->list->print();
 }
 
-// skipList
+// skipList methods implemantation
 
-skipList::skipList()
+int skipList::coinFlip() /* returns 0 or 1 with 50% change each */
+{
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    srand((time_t)ts.tv_nsec); // tv_nsec to change the value with nanoseconds so the function dont return the same thing every time
+
+    return rand() % 2;
+}
+
+skipList::skipList() /* create the skip list with level 0 that has negative infinity
+                        and posotive infinty nodes */
 {
     this->floor = new skipListLevel();
     this->ceiling = this->floor;
 }
 
-skipList::~skipList()
+skipList::~skipList() /* delete the all the skip list levels and nodes */
 {
     skipListLevel *temp = this->ceiling;
     while (temp != NULL)
@@ -219,7 +205,8 @@ skipList::~skipList()
     }
 }
 
-void skipList::add(int id)
+void skipList::add(int id) /* add the id in the skip list
+                            if it is the same id no insertion will happen*/
 {
     skipListLevel *currLevel = this->ceiling;
     skipListNode *currNode = ceiling->getNegInf();
@@ -227,11 +214,17 @@ void skipList::add(int id)
 
     skipListNode *prevCreated = NULL;
     int create = 0;
+    int heightOfNewNode = 0;
+    while (this->coinFlip() && (this->ceiling->getMyLevel() >= heightOfNewNode) && this->ceiling->getMyLevel() < maxLevels - 1)
+    {
+        heightOfNewNode++;
+    }
+
     while (1)
     {
         if (id < nextNode->getId())
         {
-            if (currNode->coinFlip() || create)
+            if (currLevel->getMyLevel() <= heightOfNewNode)
             { // create a node
                 if (create)
                 {
@@ -246,7 +239,7 @@ void skipList::add(int id)
                     prevCreated = new skipListNode(id);
                     currNode->setNext(prevCreated);
                     prevCreated->setNext(nextNode);
-                    if (prevCreated->coinFlip() && currLevel == this->ceiling && this->ceiling->getMyLevel() < maxLevels - 1)
+                    if (currLevel == this->ceiling && heightOfNewNode == this->ceiling->getMyLevel() + 1)
                     { // make a new level
                         skipListLevel *newLevel = new skipListLevel(this->ceiling, this->ceiling->getMyLevel() + 1);
                         this->ceiling->setUpLevel(newLevel);
@@ -289,10 +282,113 @@ void skipList::add(int id)
 
 void skipList::remove(int id)
 {
+    skipListLevel *currLevel = this->ceiling;
+    skipListNode *currNode = ceiling->getNegInf();
+    skipListNode *nextNode = currNode->getNext();
+
+    while (1)
+    {
+        if (id < nextNode->getId())
+        {
+            if (currNode->getDown() != NULL)
+            { // if there is a down level
+                // step down
+                currNode = currNode->getDown();
+                nextNode = currNode->getNext();
+                currLevel = currLevel->getDownLevel();
+            }
+            else
+            {
+                return;
+            }
+        }
+        else if (id > nextNode->getId())
+        {
+            currNode = nextNode;
+            nextNode = nextNode->getNext();
+        }
+        else
+        {
+            int deleteLevel = 0;
+            if (currNode == this->ceiling->getNegInf() && nextNode->getNext() == this->ceiling->getPosInf())
+            {
+                deleteLevel = 1;
+            }
+            skipListNode *toDelete = nextNode;
+            currNode->setNext(nextNode->getNext());
+            nextNode = toDelete->getDown();
+            delete toDelete;
+            if (deleteLevel && this->ceiling != this->floor)
+            {
+                skipListLevel *temp = this->ceiling->getDownLevel();
+                this->ceiling->getList()->destroy();
+                delete this->ceiling;
+                this->ceiling = temp;
+            }
+            if (nextNode != NULL)
+            {
+                currNode = currNode->getDown();
+                while (1)
+                {
+                    if (currNode->getNext() == nextNode)
+                    {
+                        break;
+                    }
+                    currNode = currNode->getNext();
+                }
+                currLevel = currLevel->getDownLevel();
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
 }
 
-void skipList::search(int id)
+skipListNode *skipList::search(int id, char top_bottom = 't')
 {
+    skipListLevel *currLevel = this->ceiling;
+    skipListNode *currNode = ceiling->getNegInf();
+    skipListNode *nextNode = currNode->getNext();
+
+    while (1)
+    {
+        if (id < nextNode->getId())
+        {
+            if (currNode->getDown() != NULL)
+            { // if there is a down level
+                // step down
+                currNode = currNode->getDown();
+                nextNode = currNode->getNext();
+                currLevel = currLevel->getDownLevel();
+            }
+            else
+            {
+                return NULL;
+            }
+        }
+        else if (id > nextNode->getId())
+        {
+            currNode = nextNode;
+            nextNode = nextNode->getNext();
+        }
+        else
+        {
+            if (top_bottom == 'b')
+            {
+                while (1)
+                {
+                    if (nextNode->getDown() == NULL)
+                    {
+                        break;
+                    }
+                    nextNode = nextNode->getDown();
+                }
+            }
+            return nextNode;
+        }
+    }
 }
 
 skipListLevel *skipList::getCeiling()
@@ -305,7 +401,7 @@ skipListLevel *skipList::getFloor()
     return this->floor;
 }
 
-void skipList::print()
+void skipList::print() /* print all the levels one by one */
 {
     skipListLevel *temp = this->ceiling;
     while (temp != NULL)

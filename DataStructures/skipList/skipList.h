@@ -16,7 +16,6 @@ public:
     void destroy();
 
     void add(skipListNode *new_node);
-    void remove(int key);
 
     void print();
 
@@ -29,8 +28,6 @@ public:
     skipListNode *getDown();
     int getId();
     citizenRecord *getCitizen();
-
-    int coinFlip();
 
 private:
     int id;
@@ -74,12 +71,13 @@ public:
 
     void add(int id);
     void remove(int id);
-    void search(int id);
+    skipListNode *search(int id, char top_bottom);
 
     void print();
 
     skipListLevel *getCeiling();
     skipListLevel *getFloor();
+    int coinFlip();
 
 private:
     skipListLevel *ceiling;
