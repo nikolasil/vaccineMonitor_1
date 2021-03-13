@@ -70,7 +70,7 @@ public:
     skipList();
     ~skipList();
 
-    void add(int id);
+    void add(int id, citizenRecord *citizen);
     void remove(int id);
     skipListNode *search(int id, char top_bottom);
 

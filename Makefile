@@ -1,7 +1,7 @@
 CC = g++
 CFLAFS = -g
 
-FILES = vaccineMonitor.o util.o citizen.o date.o tree.o linkedListString.o bloomFilter.o
+FILES = vaccineMonitor.o util.o citizen.o date.o tree.o linkedListString.o bloomFilter.o skipList.o
 
 vaccineMonitor: clean $(FILES)
 	$(CC) $(CFLAFS) -o vaccineMonitor $(FILES)
@@ -26,6 +26,9 @@ linkedListString.o:
 
 bloomFilter.o:
 	$(CC) $(CFLAFS) -c DataStructures/bloomFilter/bloomFilter.cpp
+
+skipList.o:
+	$(CC) $(CFLAFS) -c DataStructures/skipList/skipList.cpp
 
 .PHONY: clean
 clean:
