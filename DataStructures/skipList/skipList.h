@@ -2,6 +2,7 @@
 #define SKIPLIST_H
 #include <limits>
 #include "../../citizenRecords/citizen.h"
+#include "../linkedList/linkedListString.h"
 
 #define POS_INF std ::numeric_limits<int>::max()
 #define NEG_INF std ::numeric_limits<int>::min()
@@ -10,7 +11,7 @@
 class skipListNode
 {
 public:
-    skipListNode(int id);
+    skipListNode(int id, citizenRecord *citizen);
     skipListNode(skipListNode *node);
     ~skipListNode();
     void destroy();
@@ -22,7 +23,7 @@ public:
     void setNext(skipListNode *temp);
     void setDown(skipListNode *temp);
     void setId(int id);
-    void setCitizen();
+    void setCitizen(citizenRecord *citizen);
 
     skipListNode *getNext();
     skipListNode *getDown();
@@ -84,17 +85,22 @@ private:
     skipListLevel *floor;
 };
 
-// class skipList_Lists
-// {
-// public:
-//     skipList_Lists();
-//     ~skipList_Lists();
+class skipList_Lists
+{
+public:
+    skipList_Lists(linkedListStringNode *virus);
+    ~skipList_Lists();
 
-// private:
-//     string virus;
-//     skipList *vaccinated;
-//     skipList *notVaccinated;
-//     skipList_Lists *nextSkipList;
-// };
+    skipList_Lists *add(linkedListStringNode *virus);
+
+    skipList *getVaccinated(linkedListStringNode *virus);
+    skipList *getNotVaccinated(linkedListStringNode *virus);
+
+private:
+    linkedListStringNode *virus;
+    skipList *vaccinated;
+    skipList *notVaccinated;
+    skipList_Lists *next;
+};
 
 #endif
