@@ -11,7 +11,7 @@ public:
     treeNode();
     ~treeNode();
 
-    treeNode *insert(treeNode *node, citizenRecord *citizen, int *duplicate);
+    treeNode *insert(treeNode *node, citizenRecord *citizen, citizenRecord **merged, int *duplicate);
     // treeNode *remove(treeNode *node, citizenRecord *citizen);
     citizenRecord *getCitizen();
     void print(treeNode *node);

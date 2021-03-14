@@ -88,6 +88,7 @@ private:
 class skipList_Lists
 {
 public:
+    skipList_Lists();
     skipList_Lists(linkedListStringNode *virus);
     ~skipList_Lists();
 

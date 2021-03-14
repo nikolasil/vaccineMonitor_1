@@ -224,6 +224,7 @@ void skipList::add(int id, citizenRecord *citizen) /* add the id in the skip lis
         heightOfNewNode++;
     }
 
+    cout << id << endl;
     while (1)
     {
         if (id < nextNode->getId())
@@ -277,8 +278,9 @@ void skipList::add(int id, citizenRecord *citizen) /* add the id in the skip lis
             currNode = nextNode;
             nextNode = nextNode->getNext();
         }
-        else
+        else if (id == nextNode->getId())
         {
+            // cout << nextNode->getId() << "Equal" << id << endl;
             return;
         }
     }
@@ -416,6 +418,14 @@ void skipList::print() /* print all the levels one by one */
 }
 
 // skipList methods implemantation
+
+skipList_Lists::skipList_Lists()
+{
+    this->virus = NULL;
+    this->vaccinated = NULL;
+    this->notVaccinated = NULL;
+    this->next = NULL;
+}
 
 skipList_Lists::skipList_Lists(linkedListStringNode *virus)
 {

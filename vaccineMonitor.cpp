@@ -8,6 +8,7 @@
 #include "DataStructures/binaryAvlTree/tree.h"
 #include "DataStructures/linkedList/linkedListString.h"
 #include "DataStructures/bloomFilter/bloomFilter.h"
+#include "DataStructures/skipList/skipList.h"
 #include "citizenRecords/citizen.h"
 
 using namespace std;
@@ -68,8 +69,11 @@ int main(int argc, char *argv[])
     linkedListStringNode *statusList = new linkedListStringNode("YES");
     statusList = statusList->add("NO");
     bloomFilterList *bloomList = new bloomFilterList(bloomSize);
+    skipList_Lists *skiplist = new skipList_Lists();
+
     while (getline(file, line))
     {
+        cout << line << endl;
         int length;
         citizenRecord *citizen;
         string *words = splitString(line, &length);
@@ -93,11 +97,11 @@ int main(int argc, char *argv[])
         {
             virusList = virusList->add(words[5]);
             bloomList = bloomList->add(virusList);
+            skiplist = skiplist->add(virusList);
         }
         linkedListStringNode *status = statusList->search(words[6]);
         linkedListStringNode *country = countryList->search(words[3]);
         linkedListStringNode *virus = virusList->search(words[5]);
-
         if (length == 8) // YES
         {
             citizen = new citizenRecord(stoi(words[0]), words[1], words[2], country, stoi(words[4]), virus, status, words[7]);
@@ -107,10 +111,38 @@ int main(int argc, char *argv[])
             citizen = new citizenRecord(stoi(words[0]), words[1], words[2], country, stoi(words[4]), virus, status, "");
         }
         int duplicate = 0;
-        tree = tree->insert(tree, citizen, &duplicate);
+        citizenRecord *merged = NULL;
+        cout << "out id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+        tree = tree->insert(tree, citizen, &merged, &duplicate);
+        cout << "out id=" << stoi(words[0]) << " " << citizen->getID() << endl;
         if (!duplicate)
         {
-            bloomList->getBloom(virus)->add(citizen->getID());
+            if (merged == NULL)
+            {
+                cout << "citizen id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+                bloomList->getBloom(virus)->add(citizen->getID());
+                if (status->getString().compare("YES") == 0)
+                {
+                    skiplist->getVaccinated(virus)->add(citizen->getID(), citizen);
+                }
+                else
+                {
+                    skiplist->getNotVaccinated(virus)->add(citizen->getID(), citizen);
+                }
+            }
+            else
+            {
+                cout << "merged id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+                bloomList->getBloom(virus)->add(merged->getID());
+                if (status->getString().compare("YES") == 0)
+                {
+                    skiplist->getVaccinated(virus)->add(merged->getID(), merged);
+                }
+                else
+                {
+                    skiplist->getNotVaccinated(virus)->add(merged->getID(), merged);
+                }
+            }
         }
         else
         {
@@ -127,6 +159,13 @@ int main(int argc, char *argv[])
     }
     file.close();
     cout << "Done loading records and creating data structures" << endl;
+    cout << endl;
+    linkedListStringNode *a = virusList->search("Smallpox");
+    cout << endl;
+    skiplist->getVaccinated(a)->print();
+    cout << endl;
+    skiplist->getNotVaccinated(a)->print();
+    cout << endl;
     do
     {
         cout << endl;

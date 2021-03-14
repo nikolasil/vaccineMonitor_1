@@ -59,21 +59,23 @@ treeNode *treeNode::leftRotation(treeNode *x)
     return y;
 }
 
-treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, int *duplicate)
+treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord **merged, int *duplicate)
 {
     /* 1. Perform the normal BST insertion */
     if (node == NULL)
         return (newTreeNode(citizen));
 
     if (citizen->getID() < node->citizen->getID())
-        node->left = insert(node->left, citizen, duplicate);
+        node->left = insert(node->left, citizen, merged, duplicate);
     else if (citizen->getID() > node->citizen->getID())
-        node->right = insert(node->right, citizen, duplicate);
-    else // Equal keys are not allowed in BST
+        node->right = insert(node->right, citizen, merged, duplicate);
+    else if (citizen->getID() == node->citizen->getID()) // Equal keys are not allowed in BST
     {
+        cout << "tree " << node->citizen->getID() << " " << citizen->getID() << endl;
         if (node->getCitizen()->getStatus()->getVirusStatus(citizen->getStatus()->getVirusName()) == NULL)
         {
             node->getCitizen()->getStatus()->mergeStatus(citizen->getStatus());
+            *merged = node->getCitizen();
         }
         else
         {
