@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 
     while (getline(file, line))
     {
-        cout << line << endl;
+        // cout << line << endl;
         int length;
         citizenRecord *citizen;
         string *words = splitString(line, &length);
@@ -112,14 +112,14 @@ int main(int argc, char *argv[])
         }
         int duplicate = 0;
         citizenRecord *merged = NULL;
-        cout << "out id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+        // cout << "out id=" << stoi(words[0]) << " " << citizen->getID() << endl;
         tree = tree->insert(tree, citizen, &merged, &duplicate);
-        cout << "out id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+        // cout << "out id=" << stoi(words[0]) << " " << citizen->getID() << endl;
         if (!duplicate)
         {
             if (merged == NULL)
             {
-                cout << "citizen id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+                // cout << "citizen id=" << stoi(words[0]) << " " << citizen->getID() << endl;
                 bloomList->getBloom(virus)->add(citizen->getID());
                 if (status->getString().compare("YES") == 0)
                 {
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                cout << "merged id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+                // cout << "merged id=" << stoi(words[0]) << " " << citizen->getID() << endl;
                 bloomList->getBloom(virus)->add(merged->getID());
                 if (status->getString().compare("YES") == 0)
                 {
@@ -223,4 +223,5 @@ int main(int argc, char *argv[])
     delete virusList;
     delete statusList;
     delete bloomList;
+    delete skiplist;
 }

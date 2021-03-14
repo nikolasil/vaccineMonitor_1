@@ -224,7 +224,7 @@ void skipList::add(int id, citizenRecord *citizen) /* add the id in the skip lis
         heightOfNewNode++;
     }
 
-    cout << id << endl;
+    // cout << id << endl;
     while (1)
     {
         if (id < nextNode->getId())
