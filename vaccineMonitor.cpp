@@ -12,6 +12,8 @@
 #include "DataStructures/skipList/skipList.h"
 #include "citizenRecords/citizen.h"
 
+using namespace std;
+
 vaccineMonitor::vaccineMonitor(int bloomSize)
 {
     this->tree = NULL;
@@ -143,31 +145,31 @@ void vaccineMonitor::startMenu()
         {
             if (command[0].compare("/vaccineStatusBloom") == 0)
             {
-                vaccineStatusBloom(command, tree, virusList, bloomList);
+                vaccineStatusBloom(command, length);
             }
             else if (command[0].compare("/vaccineStatus") == 0)
             {
-                vaccineStatus(command);
+                vaccineStatus(command, length);
             }
             else if (command[0].compare("/populationStatus") == 0)
             {
-                populationStatus(command);
+                populationStatus(command, length);
             }
             else if (command[0].compare("/popStatusByAge") == 0)
             {
-                popStatusByAge(command);
+                popStatusByAge(command, length);
             }
             else if (command[0].compare("/insertCitizenRecord") == 0)
             {
-                insertCitizenRecord(command);
+                insertCitizenRecord(command, length);
             }
             else if (command[0].compare("/vaccinateNow") == 0)
             {
-                vaccinateNow(command);
+                vaccinateNow(command, length);
             }
             else if (command[0].compare("/list-nonVaccinated-Persons") == 0)
             {
-                listNonVaccinatedPersons(command);
+                listNonVaccinatedPersons(command, length);
             }
             else if (command[0].compare("/exit") == 0)
             {
@@ -188,64 +190,74 @@ void vaccineMonitor::startMenu()
 }
 
 // COMMANDS
-void vaccineMonitor::vaccineStatusBloom(string *arguments, treeNode *tree, linkedListStringNode *virusList, bloomFilterList *bloomList)
+void vaccineMonitor::vaccineStatusBloom(string *arguments, int length)
 {
     cout << "Selected: vaccineStatusBloom" << endl;
-    int id = stoi(arguments[1]);
-    string virus = arguments[2];
-    treeNode *citizen = tree->search(tree, id);
-    if (citizen != NULL)
+    int id;
+    string virus = "";
+    try
     {
-        // citizenID exists
-        if (virusList->search(virus) != NULL)
-        {
-            int res = bloomList->getBloom(virusList->search(virus))->check(id);
-            if (res)
-            {
-                cout << "MAYBE" << endl;
-            }
-            else
-            {
-                cout << "NOT VACCINATED" << endl;
-            }
-        }
-        else
-        {
-            cout << "ERROR Virus name=" << virus << " dont exist in our database" << endl;
-        }
+        id = stoi(arguments[1]);
+        virus = arguments[2];
+    }
+    catch (std::exception &e)
+    {
+        cout << "citizenID must be given as first argument" << endl;
+        cout << "VirusName must be given as second argument" << endl;
+        return;
+    }
+    int res;
+
+    linkedListStringNode *v = virusList->search(virus);
+    if (v != NULL)
+    {
+        res = bloomList->getBloom(v)->check(id);
     }
     else
     {
-        cout << "ERROR Citizen with id=" << id << " dont exist in our database" << endl;
+        cout << "NOT VACCINATED" << endl;
+        return;
+    }
+
+    if (res)
+    {
+        cout << "MAYBE" << endl;
+    }
+    else
+    {
+        cout << "NOT VACCINATED" << endl;
     }
 }
 
-void vaccineMonitor::vaccineStatus(string *arguments)
+void vaccineMonitor::vaccineStatus(string *arguments, int length)
 {
     cout << "Selected: vaccineStatus" << endl;
+    int id = stoi(arguments[1]);
+    string virus = arguments[2];
+    treeNode *citizen = tree->search(tree, id);
 }
 
-void vaccineMonitor::populationStatus(string *arguments)
+void vaccineMonitor::populationStatus(string *arguments, int length)
 {
     cout << "Selected: populationStatus" << endl;
 }
 
-void vaccineMonitor::popStatusByAge(string *arguments)
+void vaccineMonitor::popStatusByAge(string *arguments, int length)
 {
     cout << "Selected: popStatusByAge" << endl;
 }
 
-void vaccineMonitor::insertCitizenRecord(string *arguments)
+void vaccineMonitor::insertCitizenRecord(string *arguments, int length)
 {
     cout << "Selected: insertCitizenRecord" << endl;
 }
 
-void vaccineMonitor::vaccinateNow(string *arguments)
+void vaccineMonitor::vaccinateNow(string *arguments, int length)
 {
     cout << "Selected: vaccinateNow" << endl;
 }
 
-void vaccineMonitor::listNonVaccinatedPersons(string *arguments)
+void vaccineMonitor::listNonVaccinatedPersons(string *arguments, int length)
 {
     cout << "Selected: list-nonVaccinated-Persons" << endl;
 }

@@ -14,18 +14,17 @@ public:
 
     void addFromFile(string filePath);
     void addRecord(string input);
-
     void startMenu();
 
 private:
     // COMMANDS
-    void vaccineStatusBloom(string *arguments, treeNode *tree, linkedListStringNode *virusList, bloomFilterList *bloomList);
-    void vaccineStatus(string *arguments);
-    void populationStatus(string *arguments);
-    void popStatusByAge(string *arguments);
-    void insertCitizenRecord(string *arguments);
-    void vaccinateNow(string *arguments);
-    void listNonVaccinatedPersons(string *arguments);
+    void vaccineStatusBloom(string *arguments, int length);
+    void vaccineStatus(string *arguments, int length);
+    void populationStatus(string *arguments, int length);
+    void popStatusByAge(string *arguments, int length);
+    void insertCitizenRecord(string *arguments, int length);
+    void vaccinateNow(string *arguments, int length);
+    void listNonVaccinatedPersons(string *arguments, int length);
     void teminate();
 
     treeNode *tree;
