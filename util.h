@@ -3,22 +3,10 @@
 
 #include <string>
 
-#include "DataStructures/binaryAvlTree/tree.h"
-#include "DataStructures/linkedList/linkedListString.h"
-#include "DataStructures/bloomFilter/bloomFilter.h"
-
 using namespace std;
 
+int checkArguments(int argc, char *argv[], string &filepath, int &bloomSize);
 string getInput(string prompt);
 string *splitString(string input, int *length);
-
-void vaccineStatusBloom(string *arguments, treeNode *tree, linkedListStringNode *virusList, bloomFilterList *bloomList);
-void vaccineStatus(string *arguments);
-void populationStatus(string *arguments);
-void popStatusByAge(string *arguments);
-void insertCitizenRecord(string *arguments);
-void vaccinateNow(string *arguments);
-void listNonVaccinatedPersons(string *arguments);
-void teminate();
 
 #endif

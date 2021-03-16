@@ -1,10 +1,13 @@
 CC = g++
 CFLAFS = -g
 
-FILES = vaccineMonitor.o util.o citizen.o date.o tree.o linkedListString.o bloomFilter.o skipList.o
+FILES = main.o vaccineMonitor.o util.o citizen.o date.o tree.o linkedListString.o bloomFilter.o skipList.o
 
 vaccineMonitor: clean $(FILES)
 	$(CC) $(CFLAFS) -o vaccineMonitor $(FILES)
+
+main.o:
+	$(CC) $(CFLAFS) -c main.cpp
 
 vaccineMonitor.o:
 	$(CC) $(CFLAFS) -c vaccineMonitor.cpp

@@ -1,11 +1,54 @@
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <sys/stat.h>
 
 #include "util.h"
-#include "DataStructures/binaryAvlTree/tree.h"
-#include "DataStructures/linkedList/linkedListString.h"
-#include "DataStructures/bloomFilter/bloomFilter.h"
+
+int checkArguments(int argc, char *argv[], string &filepath, int &bloomSize)
+{
+    struct stat buffer;
+    if (argc != 5)
+    {
+        cout << "The number of arguments given must be 4" << endl;
+        return 0;
+    }
+    else if (string(argv[1]).compare("-c") == 0 && string(argv[3]).compare("-b") == 0)
+    {
+        if (stat(argv[2], &buffer) != 0)
+        {
+            cout << "The file " << argv[1] << " don't exists" << endl;
+            return 0;
+        }
+        if (atoi(argv[4]) <= 0)
+        {
+            cout << "The BloomSize must be positive" << endl;
+            return 0;
+        }
+        filepath = string(argv[2]);
+        bloomSize = atoi(argv[4]);
+    }
+    else if (string(argv[1]).compare("-b") == 0 && string(argv[3]).compare("-c") == 0)
+    {
+        if (stat(argv[4], &buffer) != 0)
+        {
+            cout << "The file " << argv[1] << " don't exists" << endl;
+            return 0;
+        }
+        if (atoi(argv[2]) <= 0)
+        {
+            cout << "The BloomSize must be positive" << endl;
+            return 0;
+        }
+        filepath = string(argv[4]);
+        bloomSize = atoi(argv[2]);
+    }
+    else
+    {
+        cout << "-c filepath -b BloomSize || -b BloomSize -c filepath" << endl;
+        return 0;
+    }
+    return 1;
+}
 
 string getInput(string prompt)
 {
@@ -35,71 +78,4 @@ string *splitString(string input, int *length)
         arguments[i++] = arg;
     }
     return arguments;
-}
-
-void vaccineStatusBloom(string *arguments, treeNode *tree, linkedListStringNode *virusList, bloomFilterList *bloomList)
-{
-    cout << "Selected: vaccineStatusBloom" << endl;
-    int id = stoi(arguments[1]);
-    string virus = arguments[2];
-    treeNode *citizen = tree->search(tree, id);
-    if (citizen != NULL)
-    {
-        // citizenID exists
-        if (virusList->search(virus) != NULL)
-        {
-            int res = bloomList->getBloom(virusList->search(virus))->check(id);
-            if (res)
-            {
-                cout << "MAYBE" << endl;
-            }
-            else
-            {
-                cout << "NOT VACCINATED" << endl;
-            }
-        }
-        else
-        {
-            cout << "ERROR Virus name=" << virus << " dont exist in our database" << endl;
-        }
-    }
-    else
-    {
-        cout << "ERROR Citizen with id=" << id << " dont exist in our database" << endl;
-    }
-}
-
-void vaccineStatus(string *arguments)
-{
-    cout << "Selected: vaccineStatus" << endl;
-}
-
-void populationStatus(string *arguments)
-{
-    cout << "Selected: populationStatus" << endl;
-}
-
-void popStatusByAge(string *arguments)
-{
-    cout << "Selected: popStatusByAge" << endl;
-}
-
-void insertCitizenRecord(string *arguments)
-{
-    cout << "Selected: insertCitizenRecord" << endl;
-}
-
-void vaccinateNow(string *arguments)
-{
-    cout << "Selected: vaccinateNow" << endl;
-}
-
-void listNonVaccinatedPersons(string *arguments)
-{
-    cout << "Selected: list-nonVaccinated-Persons" << endl;
-}
-
-void teminate()
-{
-    cout << "Selected: exit" << endl;
 }
