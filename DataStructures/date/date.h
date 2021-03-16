@@ -15,10 +15,12 @@ public:
     void print();
     int compare(date d);
 
+    // GETTERS
     string getDay();
     string getMonth();
     string getYear();
 
+    // SETTERS
     void setDay(string d);
     void setMonth(string m);
     void setYear(string y);

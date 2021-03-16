@@ -39,15 +39,12 @@ int date::compare(date d)
 
     if (a.compare(b) < 0)
     {
-        // cout << a << "<" << b << endl;
         return -1;
     }
     else if (a.compare(b) > 0)
     {
-        // cout << a << ">" << b << endl;
         return 1;
     }
-    // cout << a << "=" << b << endl;
     return 0;
 }
 
