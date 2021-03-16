@@ -66,14 +66,11 @@ int main(int argc, char *argv[])
     treeNode *tree = NULL;
     linkedListStringNode *countryList = new linkedListStringNode();
     linkedListStringNode *virusList = new linkedListStringNode();
-    // linkedListStringNode *statusList = new linkedListStringNode("YES");
-    // statusList = statusList->add("NO");
     bloomFilterList *bloomList = new bloomFilterList(bloomSize);
     skipList_Lists *skiplist = new skipList_Lists();
 
     while (getline(file, line))
     {
-        // cout << line << endl;
         int length;
         citizenRecord *citizen;
         string *words = splitString(line, &length);
@@ -116,14 +113,14 @@ int main(int argc, char *argv[])
         }
         int duplicate = 0;
         citizenRecord *merged = NULL;
-        // cout << "out id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+
         tree = tree->insert(tree, citizen, &merged, &duplicate);
-        // cout << "out id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+
         if (!duplicate)
         {
             if (merged == NULL)
             {
-                // cout << "citizen id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+
                 bloomList->getBloom(virus)->add(citizen->getID());
                 if (status == 'y')
                 {
@@ -136,7 +133,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                // cout << "merged id=" << stoi(words[0]) << " " << citizen->getID() << endl;
+
                 bloomList->getBloom(virus)->add(merged->getID());
                 if (status == 'y')
                 {
@@ -163,13 +160,14 @@ int main(int argc, char *argv[])
     }
     file.close();
     cout << "Done loading records and creating data structures" << endl;
-    cout << endl;
-    linkedListStringNode *a = virusList->search("Smallpox");
-    cout << endl;
-    skiplist->getVaccinated(a)->print();
-    cout << endl;
-    skiplist->getNotVaccinated(a)->print();
-    cout << endl;
+    // cout << endl;
+    // linkedListStringNode *a = virusList->search("Smallpox");
+    // cout << endl;
+    // skiplist->getVaccinated(a)->print();
+    // cout << endl;
+    // skiplist->getNotVaccinated(a)->print();
+    // cout << endl;
+    // tree->search(tree, 6634)->getCitizen()->print();
     do
     {
         cout << endl;

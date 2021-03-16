@@ -15,6 +15,16 @@ public:
     void print();
     int compare(date d);
 
+    string getDay();
+    string getMonth();
+    string getYear();
+
+    void setDay(string d);
+    void setMonth(string m);
+    void setYear(string y);
+    void setAll(string dd, string mm, string yy);
+    void setAll(string d);
+
 private:
     string day;
     string month;

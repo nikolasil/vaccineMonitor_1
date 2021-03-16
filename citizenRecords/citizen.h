@@ -18,13 +18,15 @@ public:
     listStatus(linkedListStringNode *virus, char s, date d);
     ~listStatus();
 
-    void addStatus(linkedListStringNode *virus, char s, string d);
-    void mergeStatus(listStatus *stat);
+    void addStatus(linkedListStringNode *virus, char s, string d); /* add in the end of the list a new virus status */
+    void mergeStatus(listStatus *stat);                            /*   merges 2 list status into one. the list that the method was called will point
+                                                                        to the stat list that was given as an argument
+                                                                        BE CAREFUL: there may be duplicates after */
 
-    char getVirusStatus(linkedListStringNode *virus); /*   given the virus name return the status of that virus.
-                                                                            NULL if that virus is not in that citizen list */
-    date getVirusDate(linkedListStringNode *virus);   /*   given the virus name return the date of that virus
-                                                                            EMPTY DATE if that virus is not in that citizen list*/
+    char getVirusStatus(linkedListStringNode *virus); /*    given the virus name return the status of that virus.
+                                                            '\0' if that virus is not in that citizen list */
+    date getVirusDate(linkedListStringNode *virus);   /*    given the virus name return the date of that virus
+                                                            EMPTY DATE if that virus is not in that citizen list*/
     // GETTERS
     linkedListStringNode *getVirusName();
     char getVirusStatus();
@@ -34,7 +36,7 @@ public:
 
 private:
     linkedListStringNode *virusName;
-    char status;
+    char status; // 'y' stands for "YES", 'n' for "NO"
     date dateVaccinated;
     listStatus *next;
 };
@@ -46,14 +48,15 @@ public:
     citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, linkedListStringNode *virus, char stat, string d);
     ~citizenRecord();
 
-    void print();
-
+    // GETTERS
     int getID();
     string getFirstName();
     string getLastName();
     linkedListStringNode *getCountry();
     int getAge();
     listStatus *getStatus();
+
+    void print();
 
 private:
     int citizenID;

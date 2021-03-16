@@ -8,6 +8,7 @@ class bloomFilter
 public:
     bloomFilter(int bloomSize);
     ~bloomFilter();
+
     void setBit(int k, int value);
     int getBit(int k);
     int getSize();

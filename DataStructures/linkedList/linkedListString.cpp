@@ -71,9 +71,16 @@ linkedListStringNode *linkedListStringNode::search(string d)
     return temp;
 }
 
+// GETTERS
 string linkedListStringNode::getString()
 {
     return this->data;
+}
+
+// SETTERS
+void linkedListStringNode::setString(string s)
+{
+    this->data = s;
 }
 
 void linkedListStringNode::printData()

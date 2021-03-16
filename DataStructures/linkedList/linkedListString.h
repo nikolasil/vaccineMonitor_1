@@ -15,9 +15,15 @@ public:
     linkedListStringNode *add(string d);
     linkedListStringNode *remove(string d);
     linkedListStringNode *search(string d);
+
+    // GETTERS
     string getString();
-    void printData();
-    void print();
+
+    // SETTERS
+    void setString(string s);
+
+    void printData(); // print only this node
+    void print();     // print this and all the next nodes
 
 private:
     string data;

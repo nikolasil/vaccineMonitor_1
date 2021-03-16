@@ -9,69 +9,66 @@ treeNode::treeNode()
 
 treeNode::~treeNode()
 {
-    delete this->citizen;
-    delete this->left;
-    delete this->right;
+    delete this->getCitizen();
+    delete this->getLeft();
+    delete this->getRight();
 }
 
 treeNode *treeNode::newTreeNode(citizenRecord *citizen)
 {
     treeNode *node = new treeNode();
-    node->citizen = citizen;
-    node->left = NULL;
-    node->right = NULL;
-    node->balanceHeight = 1;
-    node->key = node->citizen->getID();
+    node->setCitizen(citizen);
+    node->setLeft(NULL);
+    node->setRight(NULL);
+    node->setBalanceHeight(1);
+    node->setKey(node->getCitizen()->getID());
     return node;
 }
 
 treeNode *treeNode::rightRotation(treeNode *y)
 {
-    treeNode *x = y->left;
-    treeNode *temp = x->right;
+    treeNode *x = y->getLeft();
+    treeNode *z = x->getRight();
 
-    // Perform rotation
-    x->right = y;
-    y->left = temp;
+    x->setRight(y);
+    y->setLeft(z);
 
-    // Update heights
-    y->balanceHeight = max(getHeight(y->left), getHeight(y->right)) + 1;
-    x->balanceHeight = max(getHeight(x->left), getHeight(x->right)) + 1;
+    y->setBalanceHeight(max(y->getLeft()->getBalanceHeight(), y->getRight()->getBalanceHeight()) + 1);
+    x->setBalanceHeight(max(x->getLeft()->getBalanceHeight(), x->getRight()->getBalanceHeight()) + 1);
 
-    // Return new root
     return x;
 }
 
 treeNode *treeNode::leftRotation(treeNode *x)
 {
-    treeNode *y = x->right;
-    treeNode *temp = y->left;
+    treeNode *y = x->getRight();
+    treeNode *z = y->getLeft();
 
-    // Perform rotation
-    y->left = x;
-    x->right = temp;
+    y->setLeft(x);
+    x->setRight(z);
 
-    // Update heights
-    x->balanceHeight = max(getHeight(x->left), getHeight(x->right)) + 1;
-    y->balanceHeight = max(getHeight(y->left), getHeight(y->right)) + 1;
+    x->setBalanceHeight(max(x->getLeft()->getBalanceHeight(), x->getRight()->getBalanceHeight()) + 1);
+    y->setBalanceHeight(max(y->getLeft()->getBalanceHeight(), y->getRight()->getBalanceHeight()) + 1);
 
-    // Return new root
     return y;
 }
 
 treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord **merged, int *duplicate)
 {
-    /* 1. Perform the normal BST insertion */
     if (node == NULL)
-        return (newTreeNode(citizen));
-
-    if (citizen->getID() < node->citizen->getID())
-        node->left = insert(node->left, citizen, merged, duplicate);
-    else if (citizen->getID() > node->citizen->getID())
-        node->right = insert(node->right, citizen, merged, duplicate);
-    else if (citizen->getID() == node->citizen->getID()) // Equal keys are not allowed in BST
     {
-        // cout << "tree " << node->citizen->getID() << " " << citizen->getID() << endl;
+        return (newTreeNode(citizen));
+    }
+    if (citizen->getID() < node->getCitizen()->getID()) // smaller GO LEFT
+    {
+        node->setLeft(insert(node->getLeft(), citizen, merged, duplicate));
+    }
+    else if (citizen->getID() > node->getCitizen()->getID()) // bigger GO RIGHT
+    {
+        node->setRight(insert(node->getRight(), citizen, merged, duplicate));
+    }
+    else if (citizen->getID() == node->getCitizen()->getID()) // equal
+    {
         if (node->getCitizen()->getStatus()->getVirusStatus(citizen->getStatus()->getVirusName()) == '\0')
         {
             node->getCitizen()->getStatus()->mergeStatus(citizen->getStatus());
@@ -84,139 +81,107 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
         delete citizen;
         return node;
     }
-    /* 2. Update height of this ancestor node */
-    node->balanceHeight = max(getHeight(node->left), getHeight(node->right)) + 1;
 
-    /* 3. Get the balance factor of this ancestor 
-        node to check whether this node became 
-        unbalanced */
-    int balance = getBalance(node);
+    // update balance height of node
+    node->setBalanceHeight(max(node->getLeft()->getBalanceHeight(), node->getRight()->getBalanceHeight()) + 1);
 
-    // If this node becomes unbalanced, then
-    // there are 4 cases
-
-    // Left Left Case
-    if (balance > 1 && citizen->getID() < node->left->citizen->getID())
-        return rightRotation(node);
-
-    // Right Right Case
-    if (balance < -1 && citizen->getID() > node->right->citizen->getID())
-        return leftRotation(node);
-
-    // Left Right Case
-    if (balance > 1 && citizen->getID() > node->left->citizen->getID())
+    if (node->getBalance() > 1 && citizen->getID() < node->getLeft()->getCitizen()->getID())
     {
-        node->left = leftRotation(node->left);
         return rightRotation(node);
     }
-
-    // Right Left Case
-    if (balance < -1 && citizen->getID() < node->right->citizen->getID())
+    if (node->getBalance() < -1 && citizen->getID() > node->getRight()->getCitizen()->getID())
     {
-        node->right = rightRotation(node->right);
         return leftRotation(node);
     }
-
-    /* return the (unchanged) node pointer */
+    if (node->getBalance() > 1 && citizen->getID() > node->getLeft()->getCitizen()->getID())
+    {
+        node->setLeft(leftRotation(node->getLeft()));
+        return rightRotation(node);
+    }
+    if (node->getBalance() < -1 && citizen->getID() < node->getRight()->getCitizen()->getID())
+    {
+        node->setRight(rightRotation(node->getRight()));
+        return leftRotation(node);
+    }
     return node;
 }
 
 treeNode *treeNode::search(treeNode *root, int key)
 {
-    if (root == NULL || root->key == key)
+    if (root == NULL || root->getKey() == key)
     {
         return root;
     }
-    if (root->key < key)
+    if (root->getKey() < key)
     {
-        return search(root->right, key);
+        return search(root->getRight(), key);
     }
-    return search(root->left, key);
+    return search(root->getLeft(), key);
 }
+
+int treeNode::getBalance()
+{
+    if (this == NULL)
+    {
+        return 0;
+    }
+    return this->getLeft()->getBalanceHeight() - this->getRight()->getBalanceHeight();
+}
+
+// GETTERS
 
 citizenRecord *treeNode::getCitizen()
 {
     return this->citizen;
 }
 
-int treeNode::getBalance(treeNode *node)
+treeNode *treeNode::getLeft()
 {
-    if (node == NULL)
+    return this->left;
+}
+
+treeNode *treeNode::getRight()
+{
+    return this->right;
+}
+
+int treeNode::getKey()
+{
+    return this->key;
+}
+
+int treeNode::getBalanceHeight()
+{
+    if (this == NULL)
+    {
         return 0;
-    return getHeight(node->left) - getHeight(node->right);
+    }
+    return this->balanceHeight;
 }
 
-int treeNode::getHeight(treeNode *node)
+// SETTERS
+
+void treeNode::setCitizen(citizenRecord *citizen)
 {
-    if (node == NULL)
-        return 0;
-    return node->balanceHeight;
+    this->citizen = citizen;
 }
 
-struct Trunk
+void treeNode::setLeft(treeNode *l)
 {
-    Trunk *prev;
-    string str;
-
-    Trunk(Trunk *prev, string str)
-    {
-        this->prev = prev;
-        this->str = str;
-    }
-};
-
-void showTrunks(Trunk *p)
-{
-    if (p == nullptr)
-    {
-        return;
-    }
-
-    showTrunks(p->prev);
-    cout << p->str;
+    this->left = l;
 }
 
-void printTree(treeNode *root, Trunk *prev = NULL, bool isLeft = true)
+void treeNode::setRight(treeNode *r)
 {
-    if (root == nullptr)
-    {
-        return;
-    }
-
-    string prev_str = "    ";
-    Trunk *trunk = new Trunk(prev, prev_str);
-
-    printTree(root->left, trunk, true);
-
-    if (!prev)
-    {
-        trunk->str = "———";
-    }
-    else if (isLeft)
-    {
-        trunk->str = ".———";
-        prev_str = "    |";
-    }
-    else
-    {
-        trunk->str = "`———";
-        prev->str = prev_str;
-    }
-
-    showTrunks(trunk);
-    cout << root->key << endl;
-
-    if (prev)
-    {
-        prev->str = prev_str;
-    }
-    trunk->str = "    |";
-
-    printTree(root->right, trunk, false);
-    delete trunk;
+    this->right = r;
 }
 
-void treeNode::print(treeNode *node)
+void treeNode::setKey(int id)
 {
-    printTree(node);
+    this->key = id;
+}
+
+void treeNode::setBalanceHeight(int b)
+{
+    this->balanceHeight = b;
 }

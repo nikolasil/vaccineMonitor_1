@@ -88,7 +88,6 @@ void bloomFilter::add(int number)
     {
         int bit = hash_i(numberstring, i) % this->getSize();
         this->setBit(bit, 1);
-        // cout << "hash_" << i << " of " << numberstring << " is " << bit << endl;
     }
 }
 
@@ -106,7 +105,6 @@ int bloomFilter::check(int number)
             flag = 0;
             break;
         }
-        // cout << "hash_" << i << " of " << numberstring << " is " << bit << endl;
     }
     return flag;
 }

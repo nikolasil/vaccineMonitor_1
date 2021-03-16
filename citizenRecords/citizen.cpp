@@ -8,7 +8,6 @@
 
 listStatus::listStatus(linkedListStringNode *virus, char s, string d) : dateVaccinated(d)
 {
-    cout << sizeof(listStatus) << endl;
     this->virusName = virus;
     this->status = s;
     this->next = NULL;
@@ -117,11 +116,11 @@ void listStatus::print()
         temp->virusName->printData();
         if (this->status == 'y')
         {
-            cout << ", status: YES ";
+            cout << ", status: YES";
         }
         else
         {
-            cout << ", status: NO ";
+            cout << ", status: NO";
         }
 
         date nullDate("", "", "");
