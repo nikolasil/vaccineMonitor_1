@@ -72,7 +72,7 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
     else if (citizen->getID() == node->citizen->getID()) // Equal keys are not allowed in BST
     {
         // cout << "tree " << node->citizen->getID() << " " << citizen->getID() << endl;
-        if (node->getCitizen()->getStatus()->getVirusStatus(citizen->getStatus()->getVirusName()) == NULL)
+        if (node->getCitizen()->getStatus()->getVirusStatus(citizen->getStatus()->getVirusName()) == '\0')
         {
             node->getCitizen()->getStatus()->mergeStatus(citizen->getStatus());
             *merged = node->getCitizen();

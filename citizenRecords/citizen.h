@@ -9,26 +9,32 @@
 using namespace std;
 
 class listStatus
+/* this class is a linked list that holds the
+the viruses statuses that a citizen can have */
 {
 public:
-    listStatus(linkedListStringNode *virus, linkedListStringNode *s, string d);
-    listStatus(linkedListStringNode *virus, linkedListStringNode *s, date d);
+    // 2 different constructors where the date is string or class date
+    listStatus(linkedListStringNode *virus, char s, string d);
+    listStatus(linkedListStringNode *virus, char s, date d);
     ~listStatus();
 
-    void addStatus(linkedListStringNode *virus, linkedListStringNode *s, string d);
+    void addStatus(linkedListStringNode *virus, char s, string d);
     void mergeStatus(listStatus *stat);
-    linkedListStringNode *getVirusStatus(linkedListStringNode *virus);
-    date getVirusDate(linkedListStringNode *virus);
 
+    char getVirusStatus(linkedListStringNode *virus); /*   given the virus name return the status of that virus.
+                                                                            NULL if that virus is not in that citizen list */
+    date getVirusDate(linkedListStringNode *virus);   /*   given the virus name return the date of that virus
+                                                                            EMPTY DATE if that virus is not in that citizen list*/
+    // GETTERS
     linkedListStringNode *getVirusName();
-    linkedListStringNode *getVirusStatus();
+    char getVirusStatus();
     date getDateVaccinated();
 
     void print();
 
 private:
     linkedListStringNode *virusName;
-    linkedListStringNode *status;
+    char status;
     date dateVaccinated;
     listStatus *next;
 };
@@ -37,7 +43,7 @@ class citizenRecord
 {
 public:
     citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, listStatus *stat);
-    citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, linkedListStringNode *virus, linkedListStringNode *stat, string d);
+    citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, linkedListStringNode *virus, char stat, string d);
     ~citizenRecord();
 
     void print();

@@ -66,8 +66,8 @@ int main(int argc, char *argv[])
     treeNode *tree = NULL;
     linkedListStringNode *countryList = new linkedListStringNode();
     linkedListStringNode *virusList = new linkedListStringNode();
-    linkedListStringNode *statusList = new linkedListStringNode("YES");
-    statusList = statusList->add("NO");
+    // linkedListStringNode *statusList = new linkedListStringNode("YES");
+    // statusList = statusList->add("NO");
     bloomFilterList *bloomList = new bloomFilterList(bloomSize);
     skipList_Lists *skiplist = new skipList_Lists();
 
@@ -99,7 +99,11 @@ int main(int argc, char *argv[])
             bloomList = bloomList->add(virusList);
             skiplist = skiplist->add(virusList);
         }
-        linkedListStringNode *status = statusList->search(words[6]);
+        char status = 'n';
+        if (words[6].compare("YES") == 0)
+        {
+            status = 'y';
+        }
         linkedListStringNode *country = countryList->search(words[3]);
         linkedListStringNode *virus = virusList->search(words[5]);
         if (length == 8) // YES
@@ -121,7 +125,7 @@ int main(int argc, char *argv[])
             {
                 // cout << "citizen id=" << stoi(words[0]) << " " << citizen->getID() << endl;
                 bloomList->getBloom(virus)->add(citizen->getID());
-                if (status->getString().compare("YES") == 0)
+                if (status == 'y')
                 {
                     skiplist->getVaccinated(virus)->add(citizen->getID(), citizen);
                 }
@@ -134,7 +138,7 @@ int main(int argc, char *argv[])
             {
                 // cout << "merged id=" << stoi(words[0]) << " " << citizen->getID() << endl;
                 bloomList->getBloom(virus)->add(merged->getID());
-                if (status->getString().compare("YES") == 0)
+                if (status == 'y')
                 {
                     skiplist->getVaccinated(virus)->add(merged->getID(), merged);
                 }
@@ -221,7 +225,6 @@ int main(int argc, char *argv[])
     delete tree;
     delete countryList;
     delete virusList;
-    delete statusList;
     delete bloomList;
     delete skiplist;
 }

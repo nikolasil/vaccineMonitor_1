@@ -6,14 +6,15 @@
 #include "../DataStructures/date/date.h"
 #include "../DataStructures/linkedList/linkedListString.h"
 
-listStatus::listStatus(linkedListStringNode *virus, linkedListStringNode *s, string d) : dateVaccinated(d)
+listStatus::listStatus(linkedListStringNode *virus, char s, string d) : dateVaccinated(d)
 {
+    cout << sizeof(listStatus) << endl;
     this->virusName = virus;
     this->status = s;
     this->next = NULL;
 }
 
-listStatus::listStatus(linkedListStringNode *virus, linkedListStringNode *s, date d) : dateVaccinated(d)
+listStatus::listStatus(linkedListStringNode *virus, char s, date d) : dateVaccinated(d)
 {
     this->virusName = virus;
     this->status = s;
@@ -28,7 +29,7 @@ listStatus::~listStatus()
     }
 }
 
-void listStatus::addStatus(linkedListStringNode *virus, linkedListStringNode *s, string d)
+void listStatus::addStatus(linkedListStringNode *virus, char s, string d)
 {
     listStatus *temp = this;
     if (temp == NULL)
@@ -63,22 +64,7 @@ void listStatus::mergeStatus(listStatus *stat)
     }
 }
 
-linkedListStringNode *listStatus::getVirusName()
-{
-    return this->virusName;
-}
-
-linkedListStringNode *listStatus::getVirusStatus()
-{
-    return this->status;
-}
-
-date listStatus::getDateVaccinated()
-{
-    return this->dateVaccinated;
-}
-
-linkedListStringNode *listStatus::getVirusStatus(linkedListStringNode *virus)
+char listStatus::getVirusStatus(linkedListStringNode *virus)
 {
     listStatus *temp = this;
     do
@@ -89,7 +75,7 @@ linkedListStringNode *listStatus::getVirusStatus(linkedListStringNode *virus)
         }
         temp = temp->next;
     } while (temp != NULL);
-    return NULL;
+    return '\0';
 }
 
 date listStatus::getVirusDate(linkedListStringNode *virus)
@@ -107,6 +93,21 @@ date listStatus::getVirusDate(linkedListStringNode *virus)
     return nullDate;
 }
 
+linkedListStringNode *listStatus::getVirusName()
+{
+    return this->virusName;
+}
+
+char listStatus::getVirusStatus()
+{
+    return this->status;
+}
+
+date listStatus::getDateVaccinated()
+{
+    return this->dateVaccinated;
+}
+
 void listStatus::print()
 {
     listStatus *temp = this;
@@ -114,8 +115,15 @@ void listStatus::print()
     {
         cout << "[virusName: ";
         temp->virusName->printData();
-        cout << ", status: ";
-        temp->status->printData();
+        if (this->status == 'y')
+        {
+            cout << ", status: YES ";
+        }
+        else
+        {
+            cout << ", status: NO ";
+        }
+
         date nullDate("", "", "");
         if (temp->dateVaccinated.compare(nullDate) != 0)
         {
@@ -131,7 +139,7 @@ citizenRecord::citizenRecord(int id, string name, string lastn, linkedListString
 {
 }
 
-citizenRecord::citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, linkedListStringNode *virus, linkedListStringNode *stat, string d) : citizenID(id), firstName(name), lastName(lastn), country(count), age(ag)
+citizenRecord::citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, linkedListStringNode *virus, char stat, string d) : citizenID(id), firstName(name), lastName(lastn), country(count), age(ag)
 {
     this->status = new listStatus(virus, stat, d);
 }
