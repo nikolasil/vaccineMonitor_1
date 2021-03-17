@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-//#include <sys/stat.h>
 
 #include "vaccineMonitor.h"
 #include "util.h"
@@ -87,10 +86,10 @@ void vaccineMonitor::addRecord(string input)
     }
     int duplicate = 0;
     citizenRecord *merged = NULL;
-
+    // insert in tree
     tree = tree->insert(tree, citizen, &merged, &duplicate);
 
-    if (!duplicate)
+    if (!duplicate) // if not a bad duplicate
     {
         if (merged == NULL)
         {
@@ -138,6 +137,17 @@ void vaccineMonitor::startMenu()
     do
     {
         cout << endl;
+        cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" << endl;
+        cout << "Available commands" << endl;
+        cout << "   /vaccineStatusBloom citizenID virusName" << endl;
+        cout << "   /vaccineStatus citizenID [virusName]" << endl;
+        cout << "   /populationStatus [country] virusName date1 date2" << endl;
+        cout << "   /popStatusByAge [country] virusName date1 date2" << endl;
+        cout << "   /insertCitizenRecord citizenID firstName lastName country age virusName YES/NO [date] " << endl;
+        cout << "   /vaccinateNow citizenID firstName lastName country age virusName" << endl;
+        cout << "   /list-nonVaccinated-Persons virusName " << endl;
+        cout << "   /exit" << endl;
+        cout << endl;
         string input = getInput("Enter command: ");
         int length;
         string *command = splitString(input, &length);
@@ -179,7 +189,7 @@ void vaccineMonitor::startMenu()
             }
             else
             {
-                cout << "Invalid command! Try Again!" << endl;
+                cout << "Invalid command!" << endl;
             }
         }
         else
@@ -192,49 +202,149 @@ void vaccineMonitor::startMenu()
 // COMMANDS
 void vaccineMonitor::vaccineStatusBloom(string *arguments, int length)
 {
-    cout << "Selected: vaccineStatusBloom" << endl;
-    int id;
-    string virus = "";
-    try
+    cout << endl;
+    cout << "- Selected: /vaccineStatusBloom" << endl;
+    if (length == 3)
     {
-        id = stoi(arguments[1]);
-        virus = arguments[2];
-    }
-    catch (std::exception &e)
-    {
-        cout << "citizenID must be given as first argument" << endl;
-        cout << "VirusName must be given as second argument" << endl;
-        return;
-    }
-    int res;
+        int id;
+        string virus = "";
+        try
+        {
+            id = stoi(arguments[1]);
+            virus = arguments[2];
+        }
+        catch (std::exception &e)
+        {
+            cout << "ERROR citizenID must be given as first argument && it must be an integer" << endl;
+            cout << "ERROR virusName must be given as second argument" << endl;
+            return;
+        }
+        cout << "- citizenID: " << id << endl;
+        cout << "- virusName: " << virus << endl;
+        cout << endl;
+        int res;
+        linkedListStringNode *v = virusList->search(virus);
+        if (v != NULL)
+        {
+            res = bloomList->getBloom(v)->check(id);
+        }
+        else
+        {
+            cout << "NOT VACCINATED" << endl;
+            return;
+        }
 
-    linkedListStringNode *v = virusList->search(virus);
-    if (v != NULL)
-    {
-        res = bloomList->getBloom(v)->check(id);
+        if (res)
+        {
+            cout << "MAYBE" << endl;
+            return;
+        }
+        else
+        {
+            cout << "NOT VACCINATED" << endl;
+            return;
+        }
     }
     else
     {
-        cout << "NOT VACCINATED" << endl;
+        cout << "ERROR 2 Arguments must be given" << endl;
+        cout << "ERROR Total arguments given was: " << length - 1 << endl;
         return;
-    }
-
-    if (res)
-    {
-        cout << "MAYBE" << endl;
-    }
-    else
-    {
-        cout << "NOT VACCINATED" << endl;
     }
 }
 
 void vaccineMonitor::vaccineStatus(string *arguments, int length)
 {
-    cout << "Selected: vaccineStatus" << endl;
-    int id = stoi(arguments[1]);
-    string virus = arguments[2];
-    treeNode *citizen = tree->search(tree, id);
+    cout << endl;
+    cout << "- Selected: /vaccineStatus" << endl;
+    if (length == 2 || length == 3)
+    {
+        int id;
+        string virus = "";
+        try
+        {
+            id = stoi(arguments[1]);
+            if (length == 3)
+            {
+                virus = arguments[2];
+            }
+        }
+        catch (std::exception &e)
+        {
+            cout << "ERROR citizenID must be given as first argument && it must be an integer" << endl;
+            if (length == 3)
+            {
+                cout << "ERROR virusName must be given as second argument" << endl;
+            }
+            return;
+        }
+        cout << "- citizenID: " << id << endl;
+        if (length == 3)
+        {
+            cout << "- virusName: " << virus << endl;
+        }
+        cout << endl;
+
+        linkedListStringNode *v = virusList;
+        do
+        {
+            if (v == NULL)
+            {
+                break;
+            }
+            if (length == 3)
+            {
+                v = virusList->search(virus);
+            }
+            skipList *l;
+            if (v != NULL)
+            {
+                l = skiplist->getVaccinated(v);
+                skipListNode *n = l->search(id, 't');
+                if (n == NULL)
+                {
+                    if (length == 2)
+                    {
+                        cout << v->getString() << " NO" << endl;
+                    }
+                    else
+                    {
+                        cout << "NOT VACCINATED" << endl;
+                    }
+                }
+                else
+                {
+                    if (length == 2)
+                    {
+                        cout << v->getString() << " YES ";
+                        n->getCitizen()->getStatus()->getVirusDate(v).print();
+                        cout << endl;
+                    }
+                    else
+                    {
+                        cout << "VACCINATED ON ";
+                        n->getCitizen()->getStatus()->getVirusDate(v).print();
+                        cout << endl;
+                    }
+                }
+            }
+            else
+            {
+                cout << "NOT VACCINATED" << endl;
+            }
+            if (length == 3)
+            {
+                break;
+            }
+            v = v->getNext();
+        } while (1);
+    }
+    else
+    {
+        cout << "ERROR 1 or 2 Arguments must be given" << endl;
+        cout << "ERROR Total arguments given was: " << length - 1 << endl;
+        return;
+    }
 }
 
 void vaccineMonitor::populationStatus(string *arguments, int length)

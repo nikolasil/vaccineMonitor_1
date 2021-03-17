@@ -9,19 +9,20 @@ int checkArguments(int argc, char *argv[], string &filepath, int &bloomSize)
     struct stat buffer;
     if (argc != 5)
     {
-        cout << "The number of arguments given must be 4" << endl;
+        cout << "ERROR The number of arguments given must be 4" << endl;
         return 0;
     }
     else if (string(argv[1]).compare("-c") == 0 && string(argv[3]).compare("-b") == 0)
     {
         if (stat(argv[2], &buffer) != 0)
         {
-            cout << "The file " << argv[1] << " don't exists" << endl;
+            cout << "ERROR The file " << argv[1] << " don't exists" << endl;
             return 0;
         }
         if (atoi(argv[4]) <= 0)
         {
-            cout << "The BloomSize must be positive" << endl;
+            cout << "ERROR The BloomSize must be unsigned integer" << endl;
+            cout << "ERROR BloomSize given was: " << argv[4] << endl;
             return 0;
         }
         filepath = string(argv[2]);
@@ -31,12 +32,13 @@ int checkArguments(int argc, char *argv[], string &filepath, int &bloomSize)
     {
         if (stat(argv[4], &buffer) != 0)
         {
-            cout << "The file " << argv[1] << " don't exists" << endl;
+            cout << "ERROR The file " << argv[1] << " don't exists" << endl;
             return 0;
         }
         if (atoi(argv[2]) <= 0)
         {
-            cout << "The BloomSize must be positive" << endl;
+            cout << "ERROR The BloomSize must be unsigned integer" << endl;
+            cout << "ERROR BloomSize given was: " << argv[2] << endl;
             return 0;
         }
         filepath = string(argv[4]);
@@ -44,7 +46,9 @@ int checkArguments(int argc, char *argv[], string &filepath, int &bloomSize)
     }
     else
     {
-        cout << "-c filepath -b BloomSize || -b BloomSize -c filepath" << endl;
+        cout << "ERROR The arguments must be like this: -c FilePath -b BloomSize" << endl;
+        cout << "ERROR OR" << endl;
+        cout << "ERROR The arguments must be like this: -b BloomSize -c FilePath " << endl;
         return 0;
     }
     return 1;
