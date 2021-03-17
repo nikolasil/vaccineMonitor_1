@@ -18,9 +18,10 @@ public:
 
     // GETTERS
     string getString();
-
+    linkedListStringNode *getNext();
     // SETTERS
     void setString(string s);
+    void setNext(linkedListStringNode *n);
 
     void printData(); // print only this node
     void print();     // print this and all the next nodes
