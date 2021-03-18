@@ -72,12 +72,13 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
         if (node->getCitizen()->getStatus()->getVirusStatus(citizen->getStatus()->getVirusName()) == '\0')
         {
             node->getCitizen()->getStatus()->mergeStatus(citizen->getStatus());
-            *merged = node->getCitizen();
         }
         else
         {
+
             *duplicate = 1;
         }
+        *merged = node->getCitizen();
         delete citizen;
         return node;
     }

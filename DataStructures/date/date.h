@@ -14,6 +14,7 @@ public:
 
     void print();
     int compare(date d);
+    bool isValid();
 
     // GETTERS
     string getDay();

@@ -47,18 +47,53 @@ void vaccineMonitor::addRecord(string input)
     int length;
     string *words = splitString(input, &length);
     citizenRecord *citizen;
-    if (length == 8 && (words[6].compare("NO") == 0))
+    if (length > 8)
+    {
+        cout << "ERROR IN RECORD";
+
+        for (int i = 0; i < length; i++)
+        {
+            cout << " " << words[i];
+        }
+        cout << endl;
+        return;
+    }
+    if (stoi(words[0]) > 9999 && stoi(words[0]) <= 0)
+    {
+        cout << input << endl;
+        cout << "ID ERROR" << endl;
+        delete[] words;
+        return;
+    }
+    else if (stoi(words[4]) > 120 && stoi(words[4]) <= 0)
+    {
+        cout << input << endl;
+        cout << "AGE ERROR" << endl;
+        delete[] words;
+        return;
+    }
+    if (words[6].compare("NO") != 0 && words[6].compare("YES") != 0)
+    {
+        cout << input << endl;
+        cout << "YES/NO ERROR" << endl;
+        delete[] words;
+        return;
+    }
+    else if (length == 8 && (words[6].compare("NO") == 0))
     {
         cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
+        cout << "NO WITH DATE ERROR" << endl;
         delete[] words;
         return;
     }
     else if (length == 7 && (words[6].compare("YES") == 0))
     {
         cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << endl;
+        cout << "YES WITHOUT DATE ERROR" << endl;
         delete[] words;
         return;
     }
+
     if (countryList->search(words[3]) == NULL)
     {
         countryList = countryList->add(words[3]);
@@ -79,11 +114,19 @@ void vaccineMonitor::addRecord(string input)
     if (length == 8) // YES
     {
         citizen = new citizenRecord(stoi(words[0]), words[1], words[2], country, stoi(words[4]), virus, status, words[7]);
+        if (!citizen->getStatus()->getDateVaccinated().isValid())
+        {
+            cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
+            cout << "DATE ERROR" << endl;
+            delete[] words;
+            return;
+        }
     }
     else // NO
     {
         citizen = new citizenRecord(stoi(words[0]), words[1], words[2], country, stoi(words[4]), virus, status, "");
     }
+
     int duplicate = 0;
     citizenRecord *merged = NULL;
     // insert in tree
@@ -128,6 +171,7 @@ void vaccineMonitor::addRecord(string input)
         {
             cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << endl;
         }
+        cout << "BAD DUPLICATE ERROR" << endl;
     }
     delete[] words;
 }
