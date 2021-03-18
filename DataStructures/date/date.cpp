@@ -120,26 +120,34 @@ void date::setAll(string dd, string mm, string yy)
 
 void date::setAll(string d)
 {
+    this->day = "";
+    this->month = "";
+    this->year = "";
     if (d.compare("") == 0)
     {
-        this->day = "";
-        this->month = "";
-        this->year = "";
         return;
     }
-    string delimiter = "-";
-    d.append(delimiter);
-    size_t pos = 0;
-    string token;
-    int i = 0;
-    string arr[3];
-    while ((pos = d.find(delimiter)) != string::npos)
+    if (isdigit(d.at(0)) && isdigit(d.at(d.length() - 1)))
     {
-        token = d.substr(0, pos);
-        arr[i++] = token;
-        d.erase(0, pos + delimiter.length());
+        string delimiter = "-";
+        d.append(delimiter);
+        size_t pos = 0;
+        string token;
+        int i = 0;
+        string arr[3];
+        while ((pos = d.find(delimiter)) != string::npos)
+        {
+            if (i == 3)
+            {
+                return;
+            }
+            token = d.substr(0, pos);
+            arr[i++] = token;
+            d.erase(0, pos + delimiter.length());
+        }
+
+        this->day = arr[0];
+        this->month = arr[1];
+        this->year = arr[2];
     }
-    this->day = arr[0];
-    this->month = arr[1];
-    this->year = arr[2];
 }

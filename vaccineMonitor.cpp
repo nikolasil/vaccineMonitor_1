@@ -47,7 +47,8 @@ void vaccineMonitor::addRecord(string input)
     int length;
     string *words = splitString(input, &length);
     citizenRecord *citizen;
-    if (length > 8)
+
+    if (length < 7 || length > 8)
     {
         cout << "ERROR IN RECORD";
 
@@ -56,9 +57,11 @@ void vaccineMonitor::addRecord(string input)
             cout << " " << words[i];
         }
         cout << endl;
+        cout << "ARGUMENT LENGTH ERROR" << endl;
+        delete[] words;
         return;
     }
-    if (stoi(words[0]) > 9999 && stoi(words[0]) <= 0)
+    else if (stoi(words[0]) > 9999 && stoi(words[0]) <= 0)
     {
         cout << input << endl;
         cout << "ID ERROR" << endl;
@@ -72,7 +75,7 @@ void vaccineMonitor::addRecord(string input)
         delete[] words;
         return;
     }
-    if (words[6].compare("NO") != 0 && words[6].compare("YES") != 0)
+    else if (words[6].compare("NO") != 0 && words[6].compare("YES") != 0)
     {
         cout << input << endl;
         cout << "YES/NO ERROR" << endl;
@@ -119,6 +122,7 @@ void vaccineMonitor::addRecord(string input)
             cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
             cout << "DATE ERROR" << endl;
             delete[] words;
+            delete citizen;
             return;
         }
     }
