@@ -53,7 +53,7 @@ treeNode *treeNode::leftRotation(treeNode *x)
     return y;
 }
 
-treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord **merged, int *duplicate)
+treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord **alreadyInTree, int *badDuplicate)
 {
     if (node == NULL)
     {
@@ -61,11 +61,11 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
     }
     if (citizen->getID() < node->getCitizen()->getID()) // smaller GO LEFT
     {
-        node->setLeft(insert(node->getLeft(), citizen, merged, duplicate));
+        node->setLeft(insert(node->getLeft(), citizen, alreadyInTree, badDuplicate));
     }
     else if (citizen->getID() > node->getCitizen()->getID()) // bigger GO RIGHT
     {
-        node->setRight(insert(node->getRight(), citizen, merged, duplicate));
+        node->setRight(insert(node->getRight(), citizen, alreadyInTree, badDuplicate));
     }
     else if (citizen->getID() == node->getCitizen()->getID()) // equal
     {
@@ -76,9 +76,9 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
         else
         {
 
-            *duplicate = 1;
+            *badDuplicate = 1;
         }
-        *merged = node->getCitizen();
+        *alreadyInTree = node->getCitizen();
         delete citizen;
         return node;
     }
