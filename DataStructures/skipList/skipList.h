@@ -11,7 +11,7 @@
 class skipListNode
 {
 public:
-    skipListNode(int id, citizenRecord *citizen);
+    skipListNode(citizenRecord *citizen);
     skipListNode(skipListNode *node);
     ~skipListNode();
     void destroy();
@@ -27,16 +27,14 @@ public:
     // SETTERS
     void setNext(skipListNode *temp);
     void setDown(skipListNode *temp);
-    void setId(int id);
     void setCitizen(citizenRecord *citizen);
 
     void print();
 
 private:
-    int id;
     citizenRecord *citizen;
-    skipListNode *down;
     skipListNode *next;
+    skipListNode *down;
 };
 
 class skipListLevel
@@ -64,7 +62,6 @@ private:
     int myLevel;
     skipListNode *list;
     skipListNode *pos_inf;
-
     skipListLevel *downLevel;
 };
 

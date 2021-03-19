@@ -6,7 +6,7 @@
 
 using namespace std;
 
-skipListNode::skipListNode(int id, citizenRecord *citizen) : id(id), citizen(citizen)
+skipListNode::skipListNode(citizenRecord *citizen) : citizen(citizen)
 {
     this->setNext(NULL);
     this->setDown(NULL);
@@ -14,7 +14,6 @@ skipListNode::skipListNode(int id, citizenRecord *citizen) : id(id), citizen(cit
 
 skipListNode::skipListNode(skipListNode *node)
 {
-    this->setId(node->getId());
     this->setCitizen(node->getCitizen());
     this->setNext(NULL);
     this->setDown(node);
@@ -62,7 +61,18 @@ skipListNode *skipListNode::getDown()
 
 int skipListNode::getId()
 {
-    return this->id;
+    if (this->citizen != NULL)
+    {
+        return this->citizen->getID();
+    }
+    else if (this->next == NULL)
+    {
+        return POS_INF;
+    }
+    else
+    {
+        return NEG_INF;
+    }
 }
 
 citizenRecord *skipListNode::getCitizen()
@@ -73,12 +83,12 @@ citizenRecord *skipListNode::getCitizen()
 void skipListNode::add(skipListNode *new_node)
 {
     skipListNode *curr = this;
-    while (curr->next != NULL && curr->next->id < new_node->id)
+    while (curr->getNext() != NULL && curr->getNext()->getId() < new_node->getId())
     {
-        curr = curr->next;
+        curr = curr->getNext();
     }
-    new_node->next = curr->next;
-    curr->next = new_node;
+    new_node->setNext(curr->getNext());
+    curr->setNext(new_node);
 }
 
 // SETTERS
@@ -92,11 +102,6 @@ void skipListNode::setDown(skipListNode *temp)
     this->down = temp;
 }
 
-void skipListNode::setId(int id)
-{
-    this->id = id;
-}
-
 void skipListNode::setCitizen(citizenRecord *citizen)
 {
     this->citizen = citizen;
@@ -108,8 +113,8 @@ skipListLevel::skipListLevel(skipListLevel *prevLevel, int l) : myLevel(l)
 /* when we make a new level we must make the negative and positive infinity points
 to the down levels negative and positive infinity  */
 {
-    this->setList(new skipListNode(NEG_INF, NULL));
-    this->setPosInf(new skipListNode(POS_INF, NULL));
+    this->setList(new skipListNode((citizenRecord *)NULL));
+    this->setPosInf(new skipListNode((citizenRecord *)NULL));
     this->getList()->setNext(this->getPosInf());
 
     this->getList()->setDown(prevLevel->getNegInf());
@@ -120,8 +125,8 @@ to the down levels negative and positive infinity  */
 
 skipListLevel::skipListLevel() : myLevel(0) /* this costructor in beeing called only for the 0 level */
 {
-    this->setList(new skipListNode(NEG_INF, NULL));
-    this->setPosInf(new skipListNode(POS_INF, NULL));
+    this->setList(new skipListNode((citizenRecord *)NULL));
+    this->setPosInf(new skipListNode((citizenRecord *)NULL));
     this->getList()->setNext(this->getPosInf());
 
     this->setDownLevel(NULL);
@@ -241,7 +246,7 @@ void skipList::add(int id, citizenRecord *citizen) /* add the id in the skip lis
             { // create a node
                 if (create)
                 {
-                    skipListNode *downNode = new skipListNode(id, citizen);
+                    skipListNode *downNode = new skipListNode(citizen);
                     prevCreated->setDown(downNode);
                     currNode->setNext(downNode);
                     downNode->setNext(nextNode);
@@ -249,7 +254,7 @@ void skipList::add(int id, citizenRecord *citizen) /* add the id in the skip lis
                 }
                 else if (!create) // if it is the first time
                 {
-                    prevCreated = new skipListNode(id, citizen);
+                    prevCreated = new skipListNode(citizen);
                     currNode->setNext(prevCreated);
                     prevCreated->setNext(nextNode);
                     if (currLevel == this->getCeiling() && heightOfNewNode == this->getCeiling()->getMyLevel() + 1)
@@ -273,7 +278,7 @@ void skipList::add(int id, citizenRecord *citizen) /* add the id in the skip lis
             {
                 if (!create)
                 {
-                    prevCreated = new skipListNode(id, citizen);
+                    prevCreated = new skipListNode(citizen);
                     currNode->setNext(prevCreated);
                     prevCreated->setNext(nextNode);
                 }
