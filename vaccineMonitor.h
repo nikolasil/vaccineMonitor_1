@@ -5,6 +5,7 @@
 #include "DataStructures/linkedList/linkedListString.h"
 #include "DataStructures/bloomFilter/bloomFilter.h"
 #include "DataStructures/skipList/skipList.h"
+#include "DataStructures/date/date.h"
 
 class vaccineMonitor
 {
@@ -23,7 +24,10 @@ private:
     // COMMANDS
     void vaccineStatusBloom(string *arguments, int length);
     void vaccineStatus(string *arguments, int length);
+    void treeInOrderPopulationGlobal(treeNode *tree);
+    void treeInOrderPopulationCountry(treeNode *tree, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2);
     void populationStatus(string *arguments, int length);
+    void treeInOrderPopulationByAge(treeNode *tree, int length);
     void popStatusByAge(string *arguments, int length);
     void insertCitizenRecord(string *arguments, int length);
     void vaccinateNow(string *arguments, int length);

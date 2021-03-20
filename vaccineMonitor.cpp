@@ -402,9 +402,132 @@ void vaccineMonitor::vaccineStatus(string *arguments, int length)
     }
 }
 
+void vaccineMonitor::treeInOrderPopulationCountry(treeNode *node, population **stat, string country, string virus, date date1, date date2);
+{
+    if (node == NULL)
+        return;
+    treeInOrderPopulationCountry(node->getLeft(), country, virus, date1, date2);
+
+    citizenRecord *citizen = node->getCitizen();
+    if (citizen->getCountry().compare(country) == 0)
+    {
+        char citizenStatus = citizen->getStatus()->getVirusStatus(virus);
+        date citizenDate = citizen->getStatus()->getVirusDate(virus);
+        if (citizenStatus == 'y')
+        {
+            if (citizenDate.compare(date1) == 1 && citizenDate.compare(date2) == -1)
+            {
+            }
+            else
+            {
+            }
+        }
+        else if (citizenStatus == 'n')
+        {
+            if (citizenDate.compare(date1) == 1 && citizenDate.compare(date2) == -1)
+            {
+            }
+            else
+            {
+            }
+        }
+    }
+
+    treeInOrderPopulationCountry(node->getRight(), country, virus, date1, date2);
+}
+
 void vaccineMonitor::populationStatus(string *arguments, int length)
 {
     cout << "Selected: populationStatus" << endl;
+    if (length == 4 || length == 5)
+    {
+        date date1("");
+        date date2("");
+        if (length == 5)
+        {
+            date1.setAll(arguments[3]);
+            date2.setAll(arguments[4]);
+        }
+        else
+        {
+            date1.setAll(arguments[2]);
+            date2.setAll(arguments[3]);
+        }
+        if (!date1.isValid() || !date2.isValid())
+        {
+            cout << "ERROR Dates are not in valid format" << endl;
+            return;
+        }
+        else if (date1.compare(date2) == 1)
+        {
+            cout << "ERROR date1 > date2" << endl;
+            return;
+        }
+        linkedListStringNode *country;
+        linkedListStringNode *virus;
+        if (length == 5)
+        {
+            cout << "- country: " << arguments[1] << endl;
+            cout << "- virusName: " << arguments[2] << endl;
+            cout << "- date1: " << arguments[3] << endl;
+            cout << "- date2: " << arguments[4] << endl;
+            cout << endl;
+
+            if (this->countryList->search(arguments[1]) == NULL)
+            { // not in countyList
+                cout << arguments[1] << " 0 0%" << endl;
+                return;
+            }
+            else
+            {
+                country = countryList->search(arguments[1]);
+                if (this->virusList->search(arguments[2]) == NULL)
+                {
+                    cout << arguments[1] << " 0 0%" << endl;
+                    return;
+                }
+                else
+                {
+                    virus = virusList->search(arguments[2]);
+
+                    population *stat = population(this->countryList->search(country), false);
+                    this->treeInOrderPopulation(tree, &stat, country, virus, date1, date2);
+                    stat->print();
+                    return;
+                }
+            }
+        }
+        else
+        {
+            cout << "- virusName: " << arguments[1] << endl;
+            cout << "- date1: " << arguments[2] << endl;
+            cout << "- date2: " << arguments[3] << endl;
+            cout << endl;
+
+            if (this->virusList->search(arguments[1]) == NULL)
+            { // not in virusList
+                linkedListStringNode *temp = countryList;
+                while (temp != NULL)
+                {
+                    cout << temp->getString() << " 0 0%" << endl;
+                    temp = temp->getNext();
+                }
+                return;
+            }
+            else
+            {
+                virus = virusList->search(arguments[1]);
+                // calculate
+                return;
+            }
+        }
+    }
+    else
+    {
+        cout << "ERROR 3 or 4 Arguments must be given" << endl;
+        cout << "ERROR Total arguments given was: " << length - 1 << endl;
+        return;
+    }
 }
 
 void vaccineMonitor::popStatusByAge(string *arguments, int length)

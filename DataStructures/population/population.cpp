@@ -13,7 +13,7 @@ yes_no::~yes_no()
     }
 }
 
-populationCountry::populationCountry(linkedListStringNode *c, bool byAge) : countryName(c)
+population::population(linkedListStringNode *c, bool byAge) : countryName(c)
 {
     this->setNext(NULL);
     this->inRange = new yes_no(0, 0);
@@ -30,13 +30,19 @@ populationCountry::populationCountry(linkedListStringNode *c, bool byAge) : coun
     }
 }
 
-populationCountry::~populationCountry()
+population::~population()
 {
     delete this->inRange;
     delete this->outRange;
 }
 
-void populationCountry::inYes(int pos)
+void population::add(population **start, population *n)
+{
+    n->setNext(*start);
+    n = (*start);
+}
+
+void population::inYes(int pos)
 {
     yes_no *temp = this->inRange;
     for (int i = 0; i < pos; i++)
@@ -46,7 +52,7 @@ void populationCountry::inYes(int pos)
     temp->yes++;
 }
 
-void populationCountry::inNo(int pos)
+void population::inNo(int pos)
 {
     yes_no *temp = this->inRange;
     for (int i = 0; i < pos; i++)
@@ -56,7 +62,7 @@ void populationCountry::inNo(int pos)
     temp->no++;
 }
 
-void populationCountry::outYes(int pos)
+void population::outYes(int pos)
 {
     yes_no *temp = this->outRange;
     for (int i = 0; i < pos; i++)
@@ -66,7 +72,7 @@ void populationCountry::outYes(int pos)
     temp->yes++;
 }
 
-void populationCountry::outNo(int pos)
+void population::outNo(int pos)
 {
     yes_no *temp = this->outRange;
     for (int i = 0; i < pos; i++)
@@ -77,23 +83,23 @@ void populationCountry::outNo(int pos)
 }
 
 // SETTERS
-void populationCountry::setNext(populationCountry *n)
+void population::setNext(population *n)
 {
     this->next = n;
 }
 
 // GETTERS
-populationCountry *populationCountry::getNext()
+population *population::getNext()
 {
     return this->next;
 }
 
-linkedListStringNode *populationCountry::getCountryName()
+linkedListStringNode *population::getCountryName()
 {
     return this->countryName;
 }
 
-unsigned int populationCountry::getInYes(int pos)
+unsigned int population::getInYes(int pos)
 {
     yes_no *temp = this->inRange;
     for (int i = 0; i < pos; i++)
@@ -103,7 +109,7 @@ unsigned int populationCountry::getInYes(int pos)
     return temp->yes;
 }
 
-unsigned int populationCountry::getInNo(int pos)
+unsigned int population::getInNo(int pos)
 {
     yes_no *temp = this->inRange;
     for (int i = 0; i < pos; i++)
@@ -113,7 +119,7 @@ unsigned int populationCountry::getInNo(int pos)
     return temp->no;
 }
 
-unsigned int populationCountry::getOutYes(int pos)
+unsigned int population::getOutYes(int pos)
 {
     yes_no *temp = this->outRange;
     for (int i = 0; i < pos; i++)
@@ -123,7 +129,7 @@ unsigned int populationCountry::getOutYes(int pos)
     return temp->yes;
 }
 
-unsigned int populationCountry::getOutNo(int pos)
+unsigned int population::getOutNo(int pos)
 {
     yes_no *temp = this->outRange;
     for (int i = 0; i < pos; i++)
@@ -133,9 +139,9 @@ unsigned int populationCountry::getOutNo(int pos)
     return temp->no;
 }
 
-void populationCountry::print()
+void population::print()
 {
-    populationCountry *temp = this;
+    population *temp = this;
     while (temp != NULL)
     {
         if (temp->inRange->next == NULL)

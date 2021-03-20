@@ -77,12 +77,41 @@ char listStatus::getVirusStatus(linkedListStringNode *virus)
     return '\0';
 }
 
+char listStatus::getVirusStatus(string virus)
+{
+    listStatus *temp = this;
+    do
+    {
+        if (temp->virusName->getString().compare(virus) == 0)
+        {
+            return temp->status;
+        }
+        temp = temp->next;
+    } while (temp != NULL);
+    return '\0';
+}
+
 date listStatus::getVirusDate(linkedListStringNode *virus)
 {
     listStatus *temp = this;
     do
     {
         if (temp->virusName->getString().compare(virus->getString()) == 0)
+        {
+            return temp->dateVaccinated;
+        }
+        temp = temp->next;
+    } while (temp != NULL);
+    date nullDate("", "", "");
+    return nullDate;
+}
+
+date listStatus::getVirusDate(string virus)
+{
+    listStatus *temp = this;
+    do
+    {
+        if (temp->virusName->getString().compare(virus) == 0)
         {
             return temp->dateVaccinated;
         }

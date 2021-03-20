@@ -16,22 +16,24 @@ public:
     yes_no *next;
 }
 
-class populationCountry
+class population
 {
 public:
-    populationCountry(linkedListStringNode *c, bool byAge);
-    ~populationCountry();
+    population(linkedListStringNode *c, bool byAge);
+    ~population();
+
+    void add(population **start, population *n);
 
     void inYes(int pos);  // +1 to yes
     void inNo(int pos);   // +1 to no
     void outYes(int pos); // +1 to yes
-    void outNo(int pos);  // +1 to no        // +1 to no
+    void outNo(int pos);  // +1 to no
 
     // SETTERS
-    void setNext(populationCountry *n);
+    void setNext(population *n);
 
     // GETTERS
-    populationCountry *getNext();
+    population *getNext();
     linkedListStringNode *getCountryName();
     unsigned int getInYes(int pos);
     unsigned int getInNo(int pos);
@@ -44,7 +46,7 @@ private:
     linkedListStringNode *countryName; // key
     yes_no *inRange;
     yes_no *outRange;
-    populationCountry *next;
+    population *next;
 };
 
 #endif

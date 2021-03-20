@@ -23,10 +23,12 @@ public:
                                                                         to the stat list that was given as an argument
                                                                         BE CAREFUL: there may be duplicates after */
 
-    char getVirusStatus(linkedListStringNode *virus); /*    given the virus name return the status of that virus.
-                                                            '\0' if that virus is not in that citizen list */
-    date getVirusDate(linkedListStringNode *virus);   /*    given the virus name return the date of that virus
-                                                            EMPTY DATE if that virus is not in that citizen list*/
+    char getVirusStatus(linkedListStringNode *virus); //   given the virus name return the status of that virus.
+    char getVirusStatus(string virus);                //   '\0' if that virus is not in that citizen list
+
+    date getVirusDate(linkedListStringNode *virus); //   given the virus name return the date of that virus
+    date getVirusDate(string virus);                //     EMPTY DATE if that virus is not in that citizen list
+
     // GETTERS
     linkedListStringNode *getVirusName();
     char getVirusStatus();
