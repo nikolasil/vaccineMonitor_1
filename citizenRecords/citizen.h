@@ -18,10 +18,7 @@ public:
     listStatus(linkedListStringNode *virus, char s, date d);
     ~listStatus();
 
-    void addStatus(linkedListStringNode *virus, char s, string d); /* add in the end of the list a new virus status */
-    void mergeStatus(listStatus *stat);                            /*   merges 2 list status into one. the list that the method was called will point
-                                                                        to the stat list that was given as an argument
-                                                                        BE CAREFUL: there may be duplicates after */
+    void addStatus(linkedListStringNode *virus, char s, date d); /* add in the end of the list a new virus status */
 
     char getVirusStatus(linkedListStringNode *virus); //   given the virus name return the status of that virus.
     char getVirusStatus(string virus);                //   '\0' if that virus is not in that citizen list

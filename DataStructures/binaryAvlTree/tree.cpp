@@ -71,7 +71,7 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
     {
         if (node->getCitizen()->getStatus()->getVirusStatus(citizen->getStatus()->getVirusName()) == '\0')
         {
-            node->getCitizen()->getStatus()->mergeStatus(citizen->getStatus());
+            node->getCitizen()->getStatus()->addStatus(citizen->getStatus()->getVirusName(), citizen->getStatus()->getVirusStatus(), citizen->getStatus()->getDateVaccinated());
         }
         else
         {

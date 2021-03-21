@@ -28,7 +28,7 @@ listStatus::~listStatus()
     }
 }
 
-void listStatus::addStatus(linkedListStringNode *virus, char s, string d)
+void listStatus::addStatus(linkedListStringNode *virus, char s, date d)
 {
     listStatus *temp = this;
     if (temp == NULL)
@@ -44,23 +44,6 @@ void listStatus::addStatus(linkedListStringNode *virus, char s, string d)
     }
     listStatus *new_node = new listStatus(virus, s, d);
     temp->next = new_node;
-}
-
-void listStatus::mergeStatus(listStatus *stat)
-{
-    listStatus *temp = this;
-    while (temp->next != NULL)
-    {
-        temp = temp->next;
-    }
-    listStatus *temp2 = stat;
-    while (temp2 != NULL)
-    {
-        listStatus *new_node = new listStatus(temp2->getVirusName(), temp2->getVirusStatus(), temp2->getDateVaccinated());
-        temp->next = new_node;
-        temp = temp->next;
-        temp2 = temp2->next;
-    }
 }
 
 char listStatus::getVirusStatus(linkedListStringNode *virus)
@@ -143,11 +126,11 @@ void listStatus::print()
     {
         cout << "[virusName: ";
         temp->virusName->printData();
-        if (this->status == 'y')
+        if (temp->status == 'y')
         {
             cout << ", status: YES";
         }
-        else
+        else if (temp->status == 'n')
         {
             cout << ", status: NO";
         }

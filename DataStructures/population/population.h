@@ -2,19 +2,39 @@
 #define POPULATION_H
 
 #include <string>
+#include "../linkedList/linkedListString.h"
 
 using namespace std;
 
-class yes_no
+class yes
 {
 public:
-    yes_no(unsigned int y, unsigned int n);
-    ~yes_no();
+    yes(unsigned int y);
+    ~yes();
 
-    unsigned int yes;
-    unsigned int no;
-    yes_no *next;
-}
+    unsigned int y;
+    yes *next;
+};
+
+class no
+{
+public:
+    no(unsigned int n);
+    ~no();
+
+    unsigned int n;
+    no *next;
+};
+
+class noneInfo
+{
+public:
+    noneInfo(unsigned int x);
+    ~noneInfo();
+
+    unsigned int noInfo;
+    noneInfo *next;
+};
 
 class population
 {
@@ -22,12 +42,12 @@ public:
     population(linkedListStringNode *c, bool byAge);
     ~population();
 
-    void add(population **start, population *n);
+    population *find(linkedListStringNode *country);
 
     void inYes(int pos);  // +1 to yes
-    void inNo(int pos);   // +1 to no
     void outYes(int pos); // +1 to yes
-    void outNo(int pos);  // +1 to no
+    void NO(int pos);     // +1 to no
+    void noInfo(int pos); // +1 to noInfo
 
     // SETTERS
     void setNext(population *n);
@@ -36,16 +56,18 @@ public:
     population *getNext();
     linkedListStringNode *getCountryName();
     unsigned int getInYes(int pos);
-    unsigned int getInNo(int pos);
     unsigned int getOutYes(int pos);
-    unsigned int getOutNo(int pos);
+    unsigned int getNO(int pos);
+    unsigned int getNoInfo(int pos);
 
     void print();
 
 private:
     linkedListStringNode *countryName; // key
-    yes_no *inRange;
-    yes_no *outRange;
+    yes *inRange;
+    yes *outRange;
+    no *No;
+    noneInfo *noInformation;
     population *next;
 };
 
