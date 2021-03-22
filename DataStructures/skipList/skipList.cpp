@@ -25,17 +25,14 @@ skipListNode::~skipListNode()
 
 void skipListNode::destroy()
 {
-    if (this != NULL)
+    skipListNode *temp = this->getNext();
+    while (temp != NULL)
     {
-        skipListNode *temp = this->getNext();
-        while (temp != NULL)
-        {
-            skipListNode *next = temp->getNext();
-            delete temp;
-            temp = next;
-        }
-        delete this;
+        skipListNode *next = temp->getNext();
+        delete temp;
+        temp = next;
     }
+    delete this;
 }
 
 void skipListNode::print()

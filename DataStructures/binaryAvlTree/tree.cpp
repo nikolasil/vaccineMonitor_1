@@ -122,7 +122,7 @@ treeNode *treeNode::search(treeNode *root, int key)
 
 int treeNode::getBalance()
 {
-    if (this == NULL)
+    if (!(this != NULL))
     {
         return 0;
     }
@@ -153,7 +153,7 @@ int treeNode::getKey()
 
 int treeNode::getBalanceHeight()
 {
-    if (this == NULL)
+    if (!(this != NULL))
     {
         return 0;
     }
