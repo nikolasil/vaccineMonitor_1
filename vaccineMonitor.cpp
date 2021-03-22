@@ -477,7 +477,7 @@ void vaccineMonitor::treeInOrderPopulationGlobal(treeNode *node, population **st
 
 void vaccineMonitor::populationStatus(string *arguments, int length)
 {
-    cout << "Selected: populationStatus" << endl;
+    cout << "Selected: /populationStatus" << endl;
     if (length == 4 || length == 5)
     {
         date date1("");
@@ -588,9 +588,223 @@ void vaccineMonitor::populationStatus(string *arguments, int length)
     }
 }
 
+void vaccineMonitor::treeInOrderPopulationByAgeCountry(treeNode *node, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2)
+{
+    if (node == NULL)
+        return;
+    treeInOrderPopulationByAgeCountry(node->getLeft(), stat, country, virus, date1, date2);
+
+    citizenRecord *citizen = node->getCitizen();
+    if (citizen->getCountry()->getString().compare(country->getString()) == 0)
+    {
+        int age = citizen->getAge();
+        int position;
+        if (age <= 19) // 0-20
+        {
+            position = 0;
+        }
+        else if (age <= 39) // 20-40
+        {
+            position = 1;
+        }
+        else if (age <= 59) // 40-60
+        {
+            position = 2;
+        }
+        else // 60+
+        {
+            position = 3;
+        }
+        char citizenStatus = citizen->getStatus()->getVirusStatus(virus);
+        date citizenDate = citizen->getStatus()->getVirusDate(virus);
+        if (citizenStatus == 'y')
+        {
+            if (citizenDate.compare(date1) == 1 && citizenDate.compare(date2) == -1)
+            {
+                (*stat)->inYes(position);
+            }
+            else
+            {
+                (*stat)->outYes(position);
+            }
+        }
+        else if (citizenStatus == 'n')
+        {
+            (*stat)->NO(position);
+        }
+        else if (citizenStatus == '\0')
+        {
+            (*stat)->noInfo(position);
+        }
+    }
+
+    treeInOrderPopulationByAgeCountry(node->getRight(), stat, country, virus, date1, date2);
+}
+
+void vaccineMonitor::treeInOrderPopulationByAgeGlobal(treeNode *node, population **stat, linkedListStringNode *virus, date date1, date date2)
+{
+    if (node == NULL)
+        return;
+    treeInOrderPopulationByAgeGlobal(node->getLeft(), stat, virus, date1, date2);
+
+    citizenRecord *citizen = node->getCitizen();
+    int age = citizen->getAge();
+    int position;
+    if (age <= 19) // 0-20
+    {
+        position = 0;
+    }
+    else if (age <= 39) // 20-40
+    {
+        position = 1;
+    }
+    else if (age <= 59) // 40-60
+    {
+        position = 2;
+    }
+    else // 60+
+    {
+        position = 3;
+    }
+    population *popCountry = (*stat)->find(citizen->getCountry());
+
+    char citizenStatus = citizen->getStatus()->getVirusStatus(virus);
+    date citizenDate = citizen->getStatus()->getVirusDate(virus);
+
+    if (citizenStatus == 'y')
+    {
+        if (citizenDate.compare(date1) == 1 && citizenDate.compare(date2) == -1)
+        {
+            popCountry->inYes(position);
+        }
+        else
+        {
+            popCountry->outYes(position);
+        }
+    }
+    else if (citizenStatus == 'n')
+    {
+        popCountry->NO(position);
+    }
+    else if (citizenStatus == '\0')
+    {
+        popCountry->noInfo(position);
+    }
+
+    treeInOrderPopulationByAgeGlobal(node->getRight(), stat, virus, date1, date2);
+}
+
 void vaccineMonitor::popStatusByAge(string *arguments, int length)
 {
-    cout << "Selected: popStatusByAge" << endl;
+    cout << "Selected: /popStatusByAge" << endl;
+    if (length == 4 || length == 5)
+    {
+        date date1("");
+        date date2("");
+        if (length == 5)
+        {
+            date1.setAll(arguments[3]);
+            date2.setAll(arguments[4]);
+        }
+        else
+        {
+            date1.setAll(arguments[2]);
+            date2.setAll(arguments[3]);
+        }
+        if (!date1.isValid() || !date2.isValid())
+        {
+            cout << "ERROR Dates are not in valid format" << endl;
+            return;
+        }
+        else if (date1.compare(date2) == 1)
+        {
+            cout << "ERROR date1 > date2" << endl;
+            return;
+        }
+        linkedListStringNode *country;
+        linkedListStringNode *virus;
+        if (length == 5)
+        {
+            cout << "- country: " << arguments[1] << endl;
+            cout << "- virusName: " << arguments[2] << endl;
+            cout << "- date1: " << arguments[3] << endl;
+            cout << "- date2: " << arguments[4] << endl;
+            cout << endl;
+
+            if (this->countryList->search(arguments[1]) == NULL)
+            { // not in countyList
+                // cout << "1" << endl;
+                cout << arguments[1] << " 0 0%" << endl;
+                return;
+            }
+            else
+            {
+                country = countryList->search(arguments[1]);
+                if (this->virusList->search(arguments[2]) == NULL)
+                {
+                    // cout << "2" << endl;
+                    cout << arguments[1] << " 0 0%" << endl;
+                    return;
+                }
+                else
+                {
+                    // cout << "3" << endl;
+                    virus = virusList->search(arguments[2]);
+
+                    population *stat = new population(country, true);
+                    this->treeInOrderPopulationByAgeCountry(tree, &stat, country, virus, date1, date2);
+                    stat->print();
+                    delete stat;
+                    return;
+                }
+            }
+        }
+        else
+        {
+            cout << "- virusName: " << arguments[1] << endl;
+            cout << "- date1: " << arguments[2] << endl;
+            cout << "- date2: " << arguments[3] << endl;
+            cout << endl;
+
+            if (this->virusList->search(arguments[1]) == NULL)
+            { // not in virusList
+                linkedListStringNode *temp = countryList;
+                while (temp != NULL)
+                {
+                    cout << temp->getString() << " 0 0%" << endl;
+                    temp = temp->getNext();
+                }
+                return;
+            }
+            else
+            {
+                virus = virusList->search(arguments[1]);
+
+                linkedListStringNode *temp = countryList;
+                population *stat = new population(temp, true);
+                temp = temp->getNext();
+                while (temp != NULL)
+                {
+                    population *newNode = new population(temp, true);
+                    newNode->setNext(stat);
+                    stat = newNode;
+                    temp = temp->getNext();
+                }
+
+                this->treeInOrderPopulationByAgeGlobal(tree, &stat, virus, date1, date2);
+                stat->print();
+                delete stat;
+                return;
+                return;
+            }
+        }
+    }
+    else
+    {
+        cout << "ERROR 3 or 4 Arguments must be given" << endl;
+        cout << "ERROR Total arguments given was: " << length - 1 << endl;
+        return;
+    }
 }
 
 void vaccineMonitor::insertCitizenRecord(string *arguments, int length)

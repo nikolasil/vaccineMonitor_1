@@ -25,11 +25,11 @@ private:
     // COMMANDS
     void vaccineStatusBloom(string *arguments, int length);
     void vaccineStatus(string *arguments, int length);
-    void treeInOrderPopulationGlobal(treeNode *tree, population **stat, linkedListStringNode *virus, date date1, date date2);
-    void treeInOrderPopulationCountry(treeNode *tree, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2);
+    void treeInOrderPopulationCountry(treeNode *node, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2);
+    void treeInOrderPopulationGlobal(treeNode *node, population **stat, linkedListStringNode *virus, date date1, date date2);
     void populationStatus(string *arguments, int length);
-    void treeInOrderPopulationByAgeGlobal(treeNode *tree, population **stat, linkedListStringNode *virus, date date1, date date2);
-    void treeInOrderPopulationByAgeCountry(treeNode *tree, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2);
+    void treeInOrderPopulationByAgeCountry(treeNode *node, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2);
+    void treeInOrderPopulationByAgeGlobal(treeNode *node, population **stat, linkedListStringNode *virus, date date1, date date2);
     void popStatusByAge(string *arguments, int length);
     void insertCitizenRecord(string *arguments, int length);
     void vaccinateNow(string *arguments, int length);
