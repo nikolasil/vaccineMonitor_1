@@ -21,7 +21,7 @@ public:
 private:
     void addNewVirus(string virusName);
     void addNewCountry(string countryName);
-    int checkSyntaxRecord(int length, string *words, string input);
+    int checkSyntaxRecord(string errorMessage, int length, string *words, string input);
     // COMMANDS
     void vaccineStatusBloom(string *arguments, int length);
     void vaccineStatus(string *arguments, int length);

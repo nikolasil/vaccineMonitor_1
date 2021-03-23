@@ -19,13 +19,18 @@ public:
     ~listStatus();
 
     void addStatus(linkedListStringNode *virus, char s, date d); /* add in the end of the list a new virus status */
+    listStatus *getNode(linkedListStringNode *virus);
+    listStatus *getNode(string virus);
 
     char getVirusStatus(linkedListStringNode *virus); //   given the virus name return the status of that virus.
     char getVirusStatus(string virus);                //   '\0' if that virus is not in that citizen list
 
     date getVirusDate(linkedListStringNode *virus); //   given the virus name return the date of that virus
     date getVirusDate(string virus);                //     EMPTY DATE if that virus is not in that citizen list
-
+    // SETTERS
+    void setStatus(char status);
+    void setDate(date d);
+    void setDate(string d);
     // GETTERS
     linkedListStringNode *getVirusName();
     char getVirusStatus();

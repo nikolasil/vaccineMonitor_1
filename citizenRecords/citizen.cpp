@@ -46,6 +46,49 @@ void listStatus::addStatus(linkedListStringNode *virus, char s, date d)
     temp->next = new_node;
 }
 
+void listStatus::setStatus(char status)
+{
+    this->status = status;
+}
+
+void listStatus::setDate(date d)
+{
+    this->dateVaccinated = d;
+}
+
+void listStatus::setDate(string d)
+{
+    this->dateVaccinated.setAll(d);
+}
+
+listStatus *listStatus::getNode(linkedListStringNode *virus)
+{
+    listStatus *temp = this;
+    do
+    {
+        if (temp->virusName->getString().compare(virus->getString()) == 0)
+        {
+            return temp;
+        }
+        temp = temp->next;
+    } while (temp != NULL);
+    return NULL;
+}
+
+listStatus *listStatus::getNode(string virus)
+{
+    listStatus *temp = this;
+    do
+    {
+        if (temp->virusName->getString().compare(virus) == 0)
+        {
+            return temp;
+        }
+        temp = temp->next;
+    } while (temp != NULL);
+    return NULL;
+}
+
 char listStatus::getVirusStatus(linkedListStringNode *virus)
 {
     listStatus *temp = this;

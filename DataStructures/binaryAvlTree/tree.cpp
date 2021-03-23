@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "tree.h"
+#include "../../citizenRecords/citizen.h"
 #include "../../util.h"
 
 treeNode::treeNode()
@@ -57,7 +58,7 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
 {
     if (node == NULL)
     {
-        *result = "NEW CITIZEN ADDED";
+        *result = "NEW CITIZEN";
         return (newTreeNode(citizen));
     }
     if (citizen->getID() < node->getCitizen()->getID()) // smaller GO LEFT
@@ -73,7 +74,7 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
         *alreadyInTree = node->getCitizen();
         if (!node->getCitizen()->credentialsMatches(citizen))
         {
-            *result = "CREDENTIALS MISSMATCH";
+            *result = "WRONG CREDENTIALS";
             delete citizen;
             return node;
         }
@@ -84,7 +85,7 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
             if (oldStatus == '\0')
             {
                 node->getCitizen()->getStatus()->addStatus(citizen->getStatus()->getVirusName(), citizen->getStatus()->getVirusStatus(), citizen->getStatus()->getDateVaccinated());
-                *result = "NEW VIRUS INFO ADDED TO CITIZEN";
+                *result = "VIRUS ADDED TO CITIZEN";
             }
             else if (oldStatus == 'n' && newStatus == 'n')
             {
@@ -92,6 +93,9 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
             }
             else if (oldStatus == 'n' && newStatus == 'y')
             {
+                listStatus *virusStatusNode = node->getCitizen()->getStatus()->getNode(citizen->getStatus()->getVirusName());
+                virusStatusNode->setStatus(citizen->getStatus()->getVirusStatus());
+                virusStatusNode->setDate(citizen->getStatus()->getDateVaccinated());
                 *result = "OLD NO NEW YES";
             }
             else if (oldStatus == 'y' && newStatus == 'n')
@@ -108,11 +112,11 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
             if (oldStatus == '\0')
             {
                 node->getCitizen()->getStatus()->addStatus(citizen->getStatus()->getVirusName(), citizen->getStatus()->getVirusStatus(), citizen->getStatus()->getDateVaccinated());
-                *result = "NEW VIRUS INFO ADDED TO CITIZEN";
+                *result = "VIRUS ADDED TO CITIZEN";
             }
             else
             {
-                *result = "VIRUS INFO DUPLICATE";
+                *result = "VIRUS DUPLICATE";
             }
         }
         delete citizen;

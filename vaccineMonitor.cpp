@@ -48,9 +48,10 @@ void vaccineMonitor::addFromFile(string filepath)
 
 void vaccineMonitor::addRecord(int length, string *words, string line)
 {
+
     citizenRecord *citizen;
 
-    if (this->checkSyntaxRecord(length, words, line)) // the record had syntax errors
+    if (this->checkSyntaxRecord("ERROR IN RECORD ", length, words, line)) // the record had syntax errors
     {
         return;
     }
@@ -75,11 +76,11 @@ void vaccineMonitor::addRecord(int length, string *words, string line)
 
     tree = tree->insert(tree, citizen, &alreadyInTree, &result, false); // insert in tree
 
-    if (result.compare("NEW CITIZEN ADDED") == 0)
+    if (result.compare("NEW CITIZEN") == 0)
     {
-        bloomList->getBloom(virus)->add(citizen->getID());
         if (status == 'y')
         {
+            bloomList->getBloom(virus)->add(citizen->getID());
             skiplist->getVaccinated(virus)->add(citizen->getID(), citizen);
         }
         else if (status == 'n')
@@ -87,7 +88,19 @@ void vaccineMonitor::addRecord(int length, string *words, string line)
             skiplist->getNotVaccinated(virus)->add(citizen->getID(), citizen);
         }
     }
-    else if (result.compare("CREDENTIALS MISSMATCH") == 0)
+    else if (result.compare("VIRUS ADDED TO CITIZEN") == 0)
+    {
+        if (status == 'y')
+        {
+            bloomList->getBloom(virus)->add(alreadyInTree->getID());
+            skiplist->getVaccinated(virus)->add(alreadyInTree->getID(), alreadyInTree);
+        }
+        else if (status == 'n')
+        {
+            skiplist->getNotVaccinated(virus)->add(alreadyInTree->getID(), alreadyInTree);
+        }
+    }
+    else if (result.compare("WRONG CREDENTIALS") == 0)
     {
         if (length == 8)
         {
@@ -97,9 +110,9 @@ void vaccineMonitor::addRecord(int length, string *words, string line)
         {
             cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << endl;
         }
-        cout << "CREDENTIALS MISSMATCH" << endl;
+        cout << "ERROR= " << result << endl;
     }
-    else if (result.compare("VIRUS INFO DUPLICATE") == 0)
+    else if (result.compare("VIRUS DUPLICATE") == 0)
     {
         if (length == 8)
         {
@@ -109,11 +122,7 @@ void vaccineMonitor::addRecord(int length, string *words, string line)
         {
             cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << endl;
         }
-        cout << "VIRUS INFO DUPLICATE" << endl;
-    }
-    else if (result.compare("NEW VIRUS INFO ADDED TO CITIZEN") == 0)
-    {
-        cout << "NEW VIRUS INFO ADDED TO CITIZEN" << endl;
+        cout << "ERROR= " << result << endl;
     }
 }
 
@@ -184,54 +193,49 @@ void vaccineMonitor::startMenu()
     } while (1);
 }
 
-int vaccineMonitor::checkSyntaxRecord(int length, string *words, string input)
+int vaccineMonitor::checkSyntaxRecord(string errorMessage, int length, string *words, string input)
 {
     if (length < 7 || length > 8) // record must be only 7 or 8 words
     {
-        cout << "ERROR IN RECORD";
+        errorMessage.pop_back();
+        cout << errorMessage;
 
         for (int i = 0; i < length; i++)
         {
             cout << " " << words[i];
         }
         cout << endl;
-        cout << "ARGUMENT LENGTH ERROR" << endl;
-        delete[] words;
+        cout << "ERROR= ARGUMENT LENGTH ERROR" << endl;
         return 1;
     }
     if (stoi(words[0]) > 9999 && stoi(words[0]) <= 0) // id is 4 digits
     {
-        cout << input << endl;
-        cout << "ID ERROR" << endl;
-        delete[] words;
+        cout << errorMessage << input << endl;
+        cout << "ERROR= ID ERROR" << endl;
         return 1;
     }
     if (stoi(words[4]) > 120 && stoi(words[4]) <= 0) // age is from 1 to 120
     {
-        cout << input << endl;
-        cout << "AGE ERROR" << endl;
-        delete[] words;
+        cout << errorMessage << input << endl;
+        cout << "ERROR= AGE ERROR" << endl;
         return 1;
     }
     if (words[6].compare("NO") != 0 && words[6].compare("YES") != 0) // the 6 word must only be NO or YES
     {
-        cout << input << endl;
-        cout << "YES/NO ERROR" << endl;
-        delete[] words;
+        cout << errorMessage << input << endl;
+        cout << "ERROR= YES/NO ERROR" << endl;
         return 1;
     }
     if (length == 8 && (words[6].compare("NO") == 0)) // when we have 8 words the word must be YES
     {
-        cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
-        cout << "NO WITH DATE ERROR" << endl;
-        delete[] words;
+        cout << errorMessage << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
+        cout << "ERROR= NO WITH DATE ERROR" << endl;
         return 1;
     }
     if (length == 7 && (words[6].compare("YES") == 0)) // when we have 7 words the word must be NO
     {
-        cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << endl;
-        cout << "YES WITHOUT DATE ERROR" << endl;
-        delete[] words;
+        cout << errorMessage << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << endl;
+        cout << "ERROR= YES WITHOUT DATE ERROR" << endl;
         return 1;
     }
     if (length == 8)
@@ -239,9 +243,8 @@ int vaccineMonitor::checkSyntaxRecord(int length, string *words, string input)
         date checker(words[7]);
         if (!checker.isValid())
         {
-            cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
-            cout << "DATE ERROR" << endl;
-            delete[] words;
+            cout << errorMessage << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
+            cout << "ERROR= DATE FORMAT" << endl;
             return 1;
         }
     }
@@ -822,14 +825,13 @@ void vaccineMonitor::insertCitizenRecord(string line)
 {
     cout << "Selected: /insertCitizenRecord" << endl;
     line.erase(0, 21);
-    cout << line << endl;
 
     int length;
     string *words = splitString(line, &length);
 
     citizenRecord *citizen;
 
-    if (this->checkSyntaxRecord(length, words, line)) // the record had syntax errors
+    if (this->checkSyntaxRecord("SYNTAX ERROR: ", length, words, line)) // the record had syntax errors
     {
         return;
     }
@@ -852,9 +854,15 @@ void vaccineMonitor::insertCitizenRecord(string line)
     string result = "";
     citizenRecord *alreadyInTree = NULL;
 
-    tree = tree->insert(tree, citizen, &alreadyInTree, &result, false); // insert in tree
-
-    if (result.compare("NEW CITIZEN ADDED") == 0)
+    tree = tree->insert(tree, citizen, &alreadyInTree, &result, true); // insert in tree
+    // cout << "RESULT=" << result << endl;
+    // if (alreadyInTree)
+    // {
+    //     cout << "ALREADY IN TREE=";
+    //     alreadyInTree->print();
+    //     cout << endl;
+    // }
+    if (result.compare("NEW CITIZEN") == 0)
     {
         bloomList->getBloom(virus)->add(citizen->getID());
         if (status == 'y')
@@ -865,33 +873,63 @@ void vaccineMonitor::insertCitizenRecord(string line)
         {
             skiplist->getNotVaccinated(virus)->add(citizen->getID(), citizen);
         }
+        cout << "CITIZEN " << words[0] << " ADDED" << endl;
     }
-    else if (result.compare("CREDENTIALS MISSMATCH") == 0)
+    else if (result.compare("WRONG CREDENTIALS") == 0)
     {
-        if (length == 8)
-        {
-            cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
-        }
-        else
-        {
-            cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << endl;
-        }
-        cout << "CREDENTIALS MISSMATCH" << endl;
+        cout << "ERROR: CITIZEN ID " << words[0] << " HAS CREDENTIALS";
+        cout << " Firstname=" << alreadyInTree->getFirstName();
+        cout << " Lastname=" << alreadyInTree->getLastName();
+        cout << " Country=" << alreadyInTree->getCountry()->getString();
+        cout << " Age=" << alreadyInTree->getAge();
+        cout << endl;
+        cout << "ERROR= " << result << endl;
     }
-    else if (result.compare("NEW VIRUS INFO ADDED TO CITIZEN") == 0)
+    else if (result.compare("VIRUS ADDED TO CITIZEN") == 0)
     {
+        if (status == 'y')
+        {
+            bloomList->getBloom(virus)->add(alreadyInTree->getID());
+            skiplist->getVaccinated(virus)->add(alreadyInTree->getID(), alreadyInTree);
+        }
+        else if (status == 'n')
+        {
+            skiplist->getNotVaccinated(virus)->add(alreadyInTree->getID(), alreadyInTree);
+        }
+        cout << "THE NEW VIRUS INFORMATION ADDED TO CITIZEN " << words[0] << endl;
     }
     else if (result.compare("OLD NO NEW NO") == 0)
     {
+        cout << "ERROR: CITIZEN " << words[0] << " HAD ALREADY THAT INFORMATION ABOUT THAT VIRUS" << endl;
     }
     else if (result.compare("OLD NO NEW YES") == 0)
     {
+
+        bloomList->getBloom(virus)->add(alreadyInTree->getID());
+        // skiplist->getVaccinated(virus)->print();
+        // cout << endl;
+        // skiplist->getNotVaccinated(virus)->print();
+        // cout << endl;
+        skiplist->getVaccinated(virus)->add(alreadyInTree->getID(), alreadyInTree);
+        skiplist->getNotVaccinated(virus)->remove(alreadyInTree->getID());
+        // cout << endl;
+        // skiplist->getVaccinated(virus)->print();
+        // cout << endl;
+        // skiplist->getNotVaccinated(virus)->print();
+
+        cout << "CITIZEN " << words[0] << " STATUS CHANGED FROM [" << virus->getString() << " NO] TO [" << virus->getString() << " YES " << date << "]" << endl;
     }
     else if (result.compare("OLD YES NEW NO") == 0)
     {
+        cout << "ERROR: CITIZEN " << words[0] << " HAS MADE THE VACCINE FOR " << virus->getString() << " ON ";
+        alreadyInTree->getStatus()->getVirusDate(virus).print();
+        cout << endl;
     }
     else if (result.compare("OLD YES NEW YES") == 0)
     {
+        cout << "ERROR: CITIZEN " << words[0] << " ALREADY VACCINATED ON ";
+        alreadyInTree->getStatus()->getVirusDate(virus).print();
+        cout << endl;
     }
     delete[] words;
 }

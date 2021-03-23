@@ -3,7 +3,7 @@
 8865 dPyu DpPZ Bhutan 15 Smallpox YES 20-4-2005
 8865 RWZSSjCIPMFzo oUoaOLZ Germany 98 Hantavirus NO
 1 syGC NZjjHJIE Estonia 58 Smallpox NO
-2 syGC NZjjHJIE Estonia 2 Smallpox YES 20-4-2005
+1 syGC NZjjHJIE Estonia 58 Hantavirus NO
 526 otCoKvtuctX jTKMVwzavtmOu Kazakhstan 49 Rabies NO
 5670 axPXrmcmAz jgMxQE Mexico 14 HIV NO
 2478 MukpHCNOzqC zXnS SaudiArabia 101 Smallpox NO
