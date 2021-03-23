@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 #include "population.h"
 
 yes::yes(unsigned int y) : y(y)
@@ -211,7 +210,7 @@ void population::print()
             {
                 percentage = (arithmitis / paranomastis) * 100;
             }
-            cout << fixed << setprecision(2) << temp->countryName->getString() << " " << temp->inRange->y << " " << percentage << "%" << endl;
+            cout << fixed << temp->countryName->getString() << " " << temp->inRange->y << " " << percentage << "%" << endl;
         }
         else // byAge
         {
@@ -227,7 +226,7 @@ void population::print()
             {
                 percentage = (arithmitis / paranomastis) * 100;
             }
-            cout << fixed << setprecision(2) << "0-20 " << temp->inRange->y << " " << percentage << "%" << endl;
+            cout << fixed << "0-20 " << temp->inRange->y << " " << percentage << "%" << endl;
             arithmitis = temp->inRange->next->y;
             paranomastis = (temp->inRange->next->y + temp->outRange->next->y + temp->No->next->n + temp->noInformation->next->noInfo);
             if (paranomastis == 0)
@@ -238,7 +237,7 @@ void population::print()
             {
                 percentage = (arithmitis / paranomastis) * 100;
             }
-            cout << fixed << setprecision(2) << "20-40 " << temp->inRange->next->y << " " << percentage << "%" << endl;
+            cout << fixed << "20-40 " << temp->inRange->next->y << " " << percentage << "%" << endl;
             arithmitis = temp->inRange->next->next->y;
             paranomastis = (temp->inRange->next->next->y + temp->outRange->next->next->y + temp->No->next->next->n + temp->noInformation->next->next->noInfo);
             if (paranomastis == 0)
@@ -249,7 +248,7 @@ void population::print()
             {
                 percentage = (arithmitis / paranomastis) * 100;
             }
-            cout << fixed << setprecision(2) << "40-60 " << temp->inRange->next->next->y << " " << percentage << "%" << endl;
+            cout << fixed << "40-60 " << temp->inRange->next->next->y << " " << percentage << "%" << endl;
             arithmitis = temp->inRange->next->next->next->y;
             paranomastis = (temp->inRange->next->next->next->y + temp->outRange->next->next->next->y + temp->No->next->next->next->n + temp->noInformation->next->next->next->noInfo);
             if (paranomastis == 0)
@@ -260,7 +259,7 @@ void population::print()
             {
                 percentage = (arithmitis / paranomastis) * 100;
             }
-            cout << fixed << setprecision(2) << "60+ " << temp->inRange->next->next->next->y << " " << percentage << "%" << endl;
+            cout << fixed << "60+ " << temp->inRange->next->next->next->y << " " << percentage << "%" << endl;
             cout << endl;
         }
         temp = temp->getNext();

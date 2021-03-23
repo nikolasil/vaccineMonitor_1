@@ -224,6 +224,17 @@ void citizenRecord::print()
     cout << endl;
 }
 
+void citizenRecord::printCredentials()
+{
+    cout << "citizenID: " << this->citizenID;
+    cout << ", firstName: " << this->firstName;
+    cout << ", lastName: " << this->lastName;
+    cout << ", country: ";
+    this->country->printData();
+    cout << ", age: " << this->age << " ";
+    cout << endl;
+}
+
 int citizenRecord::getID()
 {
     return this->citizenID;

@@ -956,6 +956,23 @@ void vaccineMonitor::vaccinateNow(string line)
 void vaccineMonitor::listNonVaccinatedPersons(string *arguments, int length)
 {
     cout << "Selected: /list-nonVaccinated-Persons" << endl;
+    if (length != 2)
+    {
+        cout << "THERE MUST BE ONLY ONE 1 ARGUMENT" << endl;
+    }
+    else
+    {
+        linkedListStringNode *virus = virusList->search(arguments[1]);
+        // cout << virus->getString() << endl;
+        if (virus == NULL)
+        {
+            cout << "0 RECORDS FOUND THAT ARE NOT VACCINATED FOR " << arguments[1] << endl;
+        }
+        else
+        {
+            skiplist->getNotVaccinated(virus)->printFloor();
+        }
+    }
 }
 
 void vaccineMonitor::teminate()

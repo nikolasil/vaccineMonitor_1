@@ -63,6 +63,7 @@ public:
     listStatus *getStatus();
 
     void print();
+    void printCredentials();
 
 private:
     int citizenID;

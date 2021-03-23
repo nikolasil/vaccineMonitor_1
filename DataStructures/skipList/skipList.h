@@ -29,7 +29,8 @@ public:
     void setDown(skipListNode *temp);
     void setCitizen(citizenRecord *citizen);
 
-    void print();
+    void printIds();
+    void printCitizens();
 
 private:
     citizenRecord *citizen;
@@ -56,7 +57,8 @@ public:
     void setNegInf(skipListNode *n);
     void setMyLevel(int l);
 
-    void print();
+    void printIds();
+    void printCitizens();
 
 private:
     int myLevel;
@@ -82,7 +84,8 @@ public:
     void setCeiling(skipListLevel *c);
     void setFloor(skipListLevel *f);
 
-    void print();
+    void printIds();
+    void printFloor();
     int coinFlip();
 
 private:

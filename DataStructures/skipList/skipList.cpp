@@ -35,16 +35,36 @@ void skipListNode::destroy()
     delete this;
 }
 
-void skipListNode::print()
+void skipListNode::printIds()
 {
-    skipListNode *temp = this;
+    skipListNode *temp = this->getNext();
     while (temp != NULL)
     {
         cout << temp->getId() << " ";
         temp = temp->getNext();
+        if (temp->getNext() == NULL)
+        {
+            break;
+        }
     }
     cout << endl;
 }
+
+void skipListNode::printCitizens()
+{
+    skipListNode *temp = this->getNext();
+    while (temp != NULL)
+    {
+        cout << temp->getId() << " ";
+        temp = temp->getNext();
+        if (temp->getNext() == NULL)
+        {
+            break;
+        }
+    }
+    cout << endl;
+}
+
 // GETTERS
 skipListNode *skipListNode::getNext()
 {
@@ -185,9 +205,14 @@ void skipListLevel::setMyLevel(int l)
     this->myLevel = l;
 }
 
-void skipListLevel::print() /* print only the list of the level */
+void skipListLevel::printIds() /* print only the list of the level */
 {
-    this->getList()->print();
+    this->getList()->printIds();
+}
+
+void skipListLevel::printCitizens() /* print only the list of the level */
+{
+    this->getList()->printCitizens();
 }
 
 // skipList methods implemantation
@@ -426,14 +451,19 @@ void skipList::setFloor(skipListLevel *f)
     this->floor = f;
 }
 
-void skipList::print() /* print all the levels one by one */
+void skipList::printIds() /* print all the levels one by one */
 {
     skipListLevel *temp = this->getCeiling();
     while (temp != NULL)
     {
-        temp->print();
+        temp->printIds();
         temp = temp->getDownLevel();
     }
+}
+
+void skipList::printFloor() /* print all the levels one by one */
+{
+    this->getFloor()->printCitizens();
 }
 
 // skipList methods implemantation
