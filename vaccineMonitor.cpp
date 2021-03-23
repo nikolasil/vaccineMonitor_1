@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 
 #include "vaccineMonitor.h"
 #include "util.h"
@@ -165,11 +166,11 @@ void vaccineMonitor::startMenu()
             }
             else if (command[0].compare("/insertCitizenRecord") == 0)
             {
-                insertCitizenRecord(input);
+                insertCitizenRecord(input, true);
             }
             else if (command[0].compare("/vaccinateNow") == 0)
             {
-                vaccinateNow(command, length);
+                vaccinateNow(input);
             }
             else if (command[0].compare("/list-nonVaccinated-Persons") == 0)
             {
@@ -821,11 +822,17 @@ void vaccineMonitor::popStatusByAge(string *arguments, int length)
     }
 }
 
-void vaccineMonitor::insertCitizenRecord(string line)
+void vaccineMonitor::insertCitizenRecord(string line, bool selected)
 {
-    cout << "Selected: /insertCitizenRecord" << endl;
-    line.erase(0, 21);
-
+    if (selected)
+    {
+        cout << "Selected: /insertCitizenRecord" << endl;
+        line.erase(0, 21);
+    }
+    else
+    {
+        line.erase(0, 13);
+    }
     int length;
     string *words = splitString(line, &length);
 
@@ -855,13 +862,7 @@ void vaccineMonitor::insertCitizenRecord(string line)
     citizenRecord *alreadyInTree = NULL;
 
     tree = tree->insert(tree, citizen, &alreadyInTree, &result, true); // insert in tree
-    // cout << "RESULT=" << result << endl;
-    // if (alreadyInTree)
-    // {
-    //     cout << "ALREADY IN TREE=";
-    //     alreadyInTree->print();
-    //     cout << endl;
-    // }
+
     if (result.compare("NEW CITIZEN") == 0)
     {
         bloomList->getBloom(virus)->add(citizen->getID());
@@ -934,9 +935,22 @@ void vaccineMonitor::insertCitizenRecord(string line)
     delete[] words;
 }
 
-void vaccineMonitor::vaccinateNow(string *arguments, int length)
+void vaccineMonitor::vaccinateNow(string line)
 {
     cout << "Selected: /vaccinateNow" << endl;
+    line = line + " YES ";
+    time_t t = time(0); // get time now
+    tm *now = localtime(&t);
+    string day = to_string(now->tm_mday);
+    string month = to_string(now->tm_mon + 1);
+    string year = to_string(now->tm_year + 1900);
+    line = line + day;
+    line = line + "-";
+    line = line + month;
+    line = line + "-";
+    line = line + year;
+    cout << line << endl;
+    this->insertCitizenRecord(line, false);
 }
 
 void vaccineMonitor::listNonVaccinatedPersons(string *arguments, int length)

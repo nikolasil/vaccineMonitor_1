@@ -31,8 +31,8 @@ private:
     void treeInOrderPopulationByAgeCountry(treeNode *node, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2);
     void treeInOrderPopulationByAgeGlobal(treeNode *node, population **stat, linkedListStringNode *virus, date date1, date date2);
     void popStatusByAge(string *arguments, int length);
-    void insertCitizenRecord(string line);
-    void vaccinateNow(string *arguments, int length);
+    void insertCitizenRecord(string line, bool selected);
+    void vaccinateNow(string line);
     void listNonVaccinatedPersons(string *arguments, int length);
     void teminate();
 
