@@ -47,6 +47,8 @@ public:
     citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, linkedListStringNode *virus, char stat, string d);
     ~citizenRecord();
 
+    int credentialsMatches(citizenRecord *citizen);
+
     // GETTERS
     int getID();
     string getFirstName();

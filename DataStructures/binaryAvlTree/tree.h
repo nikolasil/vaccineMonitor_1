@@ -17,7 +17,7 @@ public:
     So we return the old citizen in the merged pointer.
     But if the status of the old citizen is in the status of the new citizen then the duplicate is set to 1 to indicate that there was an error
     */
-    treeNode *insert(treeNode *node, citizenRecord *citizen, citizenRecord **alreadyInTree, int *badDuplicate);
+    treeNode *insert(treeNode *node, citizenRecord *citizen, citizenRecord **alreadyInTree, string *result, bool checkNO);
     treeNode *search(treeNode *root, int id);
     treeNode *newTreeNode(citizenRecord *citizen);
     treeNode *rightRotation(treeNode *y);

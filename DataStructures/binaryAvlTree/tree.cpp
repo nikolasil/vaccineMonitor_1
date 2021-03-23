@@ -53,32 +53,68 @@ treeNode *treeNode::leftRotation(treeNode *x)
     return y;
 }
 
-treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord **alreadyInTree, int *badDuplicate)
+treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord **alreadyInTree, string *result, bool checkNO)
 {
     if (node == NULL)
     {
+        *result = "NEW CITIZEN ADDED";
         return (newTreeNode(citizen));
     }
     if (citizen->getID() < node->getCitizen()->getID()) // smaller GO LEFT
     {
-        node->setLeft(insert(node->getLeft(), citizen, alreadyInTree, badDuplicate));
+        node->setLeft(insert(node->getLeft(), citizen, alreadyInTree, result, checkNO));
     }
     else if (citizen->getID() > node->getCitizen()->getID()) // bigger GO RIGHT
     {
-        node->setRight(insert(node->getRight(), citizen, alreadyInTree, badDuplicate));
+        node->setRight(insert(node->getRight(), citizen, alreadyInTree, result, checkNO));
     }
     else if (citizen->getID() == node->getCitizen()->getID()) // equal
     {
-        if (node->getCitizen()->getStatus()->getVirusStatus(citizen->getStatus()->getVirusName()) == '\0')
+        *alreadyInTree = node->getCitizen();
+        if (!node->getCitizen()->credentialsMatches(citizen))
         {
-            node->getCitizen()->getStatus()->addStatus(citizen->getStatus()->getVirusName(), citizen->getStatus()->getVirusStatus(), citizen->getStatus()->getDateVaccinated());
+            *result = "CREDENTIALS MISSMATCH";
+            delete citizen;
+            return node;
+        }
+        char oldStatus = node->getCitizen()->getStatus()->getVirusStatus(citizen->getStatus()->getVirusName());
+        if (checkNO)
+        {
+            char newStatus = citizen->getStatus()->getVirusStatus();
+            if (oldStatus == '\0')
+            {
+                node->getCitizen()->getStatus()->addStatus(citizen->getStatus()->getVirusName(), citizen->getStatus()->getVirusStatus(), citizen->getStatus()->getDateVaccinated());
+                *result = "NEW VIRUS INFO ADDED TO CITIZEN";
+            }
+            else if (oldStatus == 'n' && newStatus == 'n')
+            {
+                *result = "OLD NO NEW NO";
+            }
+            else if (oldStatus == 'n' && newStatus == 'y')
+            {
+                *result = "OLD NO NEW YES";
+            }
+            else if (oldStatus == 'y' && newStatus == 'n')
+            {
+                *result = "OLD YES NEW NO";
+            }
+            else if (oldStatus == 'y' && newStatus == 'y')
+            {
+                *result = "OLD YES NEW YES";
+            }
         }
         else
         {
-
-            *badDuplicate = 1;
+            if (oldStatus == '\0')
+            {
+                node->getCitizen()->getStatus()->addStatus(citizen->getStatus()->getVirusName(), citizen->getStatus()->getVirusStatus(), citizen->getStatus()->getDateVaccinated());
+                *result = "NEW VIRUS INFO ADDED TO CITIZEN";
+            }
+            else
+            {
+                *result = "VIRUS INFO DUPLICATE";
+            }
         }
-        *alreadyInTree = node->getCitizen();
         delete citizen;
         return node;
     }

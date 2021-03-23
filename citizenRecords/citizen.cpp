@@ -160,6 +160,15 @@ citizenRecord::~citizenRecord()
     delete this->status;
 }
 
+int citizenRecord::credentialsMatches(citizenRecord *citizen)
+{
+    if (this->getID() == citizen->getID() && this->getFirstName().compare(citizen->getFirstName()) == 0 && this->getLastName().compare(citizen->getLastName()) == 0 && this->getCountry()->getString().compare(citizen->getCountry()->getString()) == 0 && this->getAge() == citizen->getAge())
+    {
+        return 1;
+    }
+    return 0;
+}
+
 void citizenRecord::print()
 {
     cout << "citizenID: " << this->citizenID;

@@ -15,7 +15,7 @@ public:
     ~vaccineMonitor();
 
     void addFromFile(string filePath);
-    void addRecord(string input);
+    void addRecord(int length, string *words, string line);
     void startMenu();
 
 private:
@@ -31,7 +31,7 @@ private:
     void treeInOrderPopulationByAgeCountry(treeNode *node, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2);
     void treeInOrderPopulationByAgeGlobal(treeNode *node, population **stat, linkedListStringNode *virus, date date1, date date2);
     void popStatusByAge(string *arguments, int length);
-    void insertCitizenRecord(string *arguments, int length);
+    void insertCitizenRecord(string line);
     void vaccinateNow(string *arguments, int length);
     void listNonVaccinatedPersons(string *arguments, int length);
     void teminate();
