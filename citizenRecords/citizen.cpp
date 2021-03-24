@@ -43,6 +43,7 @@ void listStatus::addStatus(linkedListStringNode *virus, char s, date d)
         temp = temp->next;
     }
     listStatus *new_node = new listStatus(virus, s, d);
+    checkNew(new_node);
     temp->next = new_node;
 }
 
@@ -196,6 +197,7 @@ citizenRecord::citizenRecord(int id, string name, string lastn, linkedListString
 citizenRecord::citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, linkedListStringNode *virus, char stat, string d) : citizenID(id), firstName(name), lastName(lastn), country(count), age(ag)
 {
     this->status = new listStatus(virus, stat, d);
+    checkNew(this->status);
 }
 
 citizenRecord::~citizenRecord()

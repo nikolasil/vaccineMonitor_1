@@ -1,6 +1,8 @@
 #include <iostream>
 #include <sstream>
 #include <sys/stat.h>
+#include <stdlib.h>
+#include <errno.h>
 
 #include "util.h"
 
@@ -54,6 +56,16 @@ int checkArguments(int argc, char *argv[], string &filepath, int &bloomSize)
     return 1;
 }
 
+void checkNew(void *ptr)
+{
+    if (ptr == NULL)
+    {
+        cout << "errno = " << errno << endl;
+        perror("errno");
+        exit(EXIT_FAILURE);
+    }
+}
+
 string getInput(string prompt)
 {
     string value;
@@ -76,6 +88,12 @@ string *splitString(string input, int *length)
     *length = i - 1;
     istringstream str2(input);
     string *arguments = new string[i - 1];
+    if (arguments == NULL)
+    {
+        cout << "errno = " << errno << endl;
+        perror("errno");
+        exit(EXIT_FAILURE);
+    }
     i = 0;
     while (str2 >> arg)
     {

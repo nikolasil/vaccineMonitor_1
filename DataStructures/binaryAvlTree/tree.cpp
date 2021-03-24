@@ -18,6 +18,7 @@ treeNode::~treeNode()
 treeNode *treeNode::newTreeNode(citizenRecord *citizen)
 {
     treeNode *node = new treeNode();
+    checkNew(node);
     node->setCitizen(citizen);
     node->setLeft(NULL);
     node->setRight(NULL);

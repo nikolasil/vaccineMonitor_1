@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include "../../util.h"
 #include "linkedListString.h"
 
 linkedListStringNode::linkedListStringNode() : data("")
@@ -26,6 +26,7 @@ linkedListStringNode *linkedListStringNode::add(string d)
         return this;
     }
     linkedListStringNode *new_node = new linkedListStringNode(d);
+    checkNew(new_node);
     new_node->setNext(this);
     return new_node;
 }

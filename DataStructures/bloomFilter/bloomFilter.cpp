@@ -2,13 +2,14 @@
 
 #include "bloomFilter.h"
 #include "../linkedList/linkedListString.h"
-
+#include "../../util.h"
 using namespace std;
 
 bloomFilter::bloomFilter(int bloomSize)
 {
     this->bloomSize = bloomSize / sizeof(char) + (bloomSize % sizeof(char) != 0);
     this->array = new char[this->bloomSize];
+    checkNew(this->array);
     for (int i = 0; i < bloomSize; i++)
     {
         this->array[i] = 0;
@@ -119,6 +120,7 @@ bloomFilterList::bloomFilterList(int bloomSize) : bloomSize(bloomSize)
 bloomFilterList::bloomFilterList(linkedListStringNode *virus, int bloomSize) : bloomSize(bloomSize), virus(virus)
 {
     this->bloom = new bloomFilter(this->bloomSize);
+    checkNew(this->bloom);
     this->next = NULL;
 }
 
@@ -140,9 +142,11 @@ bloomFilterList *bloomFilterList::add(linkedListStringNode *virus)
     {
         this->virus = virus;
         this->bloom = new bloomFilter(this->bloomSize);
+        checkNew(this->bloom);
         return this;
     }
     bloomFilterList *new_node = new bloomFilterList(virus, this->bloomSize);
+    checkNew(new_node);
     new_node->next = this;
     return new_node;
 }

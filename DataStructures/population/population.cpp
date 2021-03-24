@@ -1,6 +1,8 @@
 #include <iostream>
 #include "population.h"
 
+#include "../../util.h"
+
 yes::yes(unsigned int y) : y(y)
 {
     this->next = NULL;
@@ -44,27 +46,43 @@ population::population(linkedListStringNode *c, bool byAge) : countryName(c)
 {
     this->setNext(NULL);
     this->inRange = new yes(0);
+    checkNew(this->inRange);
     this->outRange = new yes(0);
+    checkNew(this->outRange);
     this->No = new no(0);
+    checkNew(this->No);
     this->noInformation = new noneInfo(0);
+    checkNew(this->noInformation);
     if (byAge)
     {
 
         this->inRange->next = new yes(0);
+        checkNew(this->inRange->next);
         this->inRange->next->next = new yes(0);
+        checkNew(this->inRange->next->next);
         this->inRange->next->next->next = new yes(0);
+        checkNew(this->inRange->next->next->next);
 
         this->outRange->next = new yes(0);
+        checkNew(this->outRange->next);
         this->outRange->next->next = new yes(0);
+        checkNew(this->outRange->next->next);
         this->outRange->next->next->next = new yes(0);
+        checkNew(this->outRange->next->next->next);
 
         this->No->next = new no(0);
+        checkNew(this->No->next);
         this->No->next->next = new no(0);
+        checkNew(this->No->next->next);
         this->No->next->next->next = new no(0);
+        checkNew(this->No->next->next->next);
 
         this->noInformation->next = new noneInfo(0);
+        checkNew(this->noInformation->next);
         this->noInformation->next->next = new noneInfo(0);
+        checkNew(this->noInformation->next->next);
         this->noInformation->next->next->next = new noneInfo(0);
+        checkNew(this->noInformation->next->next->next);
     }
 }
 

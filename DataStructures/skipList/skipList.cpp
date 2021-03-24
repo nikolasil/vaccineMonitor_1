@@ -3,6 +3,7 @@
 #include "skipList.h"
 #include "../../citizenRecords/citizen.h"
 #include "../linkedList/linkedListString.h"
+#include "../../util.h"
 
 using namespace std;
 
@@ -131,7 +132,9 @@ skipListLevel::skipListLevel(skipListLevel *prevLevel, int l) : myLevel(l)
 to the down levels negative and positive infinity  */
 {
     this->setList(new skipListNode((citizenRecord *)NULL));
+    checkNew(this->getList());
     this->setPosInf(new skipListNode((citizenRecord *)NULL));
+    checkNew(this->getPosInf());
     this->getList()->setNext(this->getPosInf());
 
     this->getList()->setDown(prevLevel->getNegInf());
@@ -143,7 +146,9 @@ to the down levels negative and positive infinity  */
 skipListLevel::skipListLevel() : myLevel(0) /* this costructor in beeing called only for the 0 level */
 {
     this->setList(new skipListNode((citizenRecord *)NULL));
+    checkNew(this->getList());
     this->setPosInf(new skipListNode((citizenRecord *)NULL));
+    checkNew(this->getPosInf());
     this->getList()->setNext(this->getPosInf());
 
     this->setDownLevel(NULL);
@@ -230,6 +235,7 @@ skipList::skipList() /* create the skip list with level 0 that has negative infi
                         and posotive infinty nodes */
 {
     this->setFloor(new skipListLevel());
+    checkNew(this->getFloor());
     this->setCeiling(this->floor);
 }
 
@@ -269,6 +275,7 @@ void skipList::add(int id, citizenRecord *citizen) /* add the id in the skip lis
                 if (create)
                 {
                     skipListNode *downNode = new skipListNode(citizen);
+                    checkNew(downNode);
                     prevCreated->setDown(downNode);
                     currNode->setNext(downNode);
                     downNode->setNext(nextNode);
@@ -277,13 +284,17 @@ void skipList::add(int id, citizenRecord *citizen) /* add the id in the skip lis
                 else if (!create) // if it is the first time
                 {
                     prevCreated = new skipListNode(citizen);
+                    checkNew(prevCreated);
                     currNode->setNext(prevCreated);
                     prevCreated->setNext(nextNode);
                     if (currLevel == this->getCeiling() && heightOfNewNode == this->getCeiling()->getMyLevel() + 1)
                     { // make a new level
                         skipListLevel *newLevel = new skipListLevel(this->getCeiling(), this->getCeiling()->getMyLevel() + 1);
+                        checkNew(newLevel);
                         this->setCeiling(newLevel);
-                        this->getCeiling()->getList()->add(new skipListNode(prevCreated));
+                        skipListNode *newN = new skipListNode(prevCreated);
+                        checkNew(newN);
+                        this->getCeiling()->getList()->add(newN);
                     }
                     create = 1;
                 }
@@ -301,6 +312,7 @@ void skipList::add(int id, citizenRecord *citizen) /* add the id in the skip lis
                 if (!create)
                 {
                     prevCreated = new skipListNode(citizen);
+                    checkNew(prevCreated);
                     currNode->setNext(prevCreated);
                     prevCreated->setNext(nextNode);
                 }
@@ -480,7 +492,9 @@ skipList_Lists::skipList_Lists(linkedListStringNode *virus)
 {
     this->setVirus(virus);
     this->setVaccinated(new skipList());
+    checkNew(this->getVaccinated());
     this->setNotVaccinated(new skipList());
+    checkNew(this->getNotVaccinated());
     this->setNext(NULL);
 }
 
@@ -506,10 +520,13 @@ skipList_Lists *skipList_Lists::add(linkedListStringNode *virus)
     {
         this->setVirus(virus);
         this->setVaccinated(new skipList());
+        checkNew(this->getVaccinated());
         this->setNotVaccinated(new skipList());
+        checkNew(this->getNotVaccinated());
         return this;
     }
     skipList_Lists *new_node = new skipList_Lists(virus);
+    checkNew(new_node);
     new_node->setNext(this);
     return new_node;
 }

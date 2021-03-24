@@ -19,9 +19,16 @@ vaccineMonitor::vaccineMonitor(int bloomSize)
 {
     this->tree = NULL;
     this->countryList = new linkedListStringNode();
+    checkNew(this->countryList);
+
     this->virusList = new linkedListStringNode();
+    checkNew(this->virusList);
+
     this->bloomList = new bloomFilterList(bloomSize);
+    checkNew(this->bloomList);
+
     this->skiplist = new skipList_Lists();
+    checkNew(this->skiplist);
 }
 
 vaccineMonitor::~vaccineMonitor()
@@ -71,6 +78,7 @@ void vaccineMonitor::addRecord(int length, string *words, string line)
     }
 
     citizen = new citizenRecord(stoi(words[0]), words[1], words[2], country, stoi(words[4]), virus, status, date);
+    checkNew(citizen);
 
     string result = "";
     citizenRecord *alreadyInTree = NULL;
@@ -178,7 +186,7 @@ void vaccineMonitor::startMenu()
             }
             else if (command[0].compare("/exit") == 0)
             {
-                cout << "exit" << endl;
+                cout << "/exit" << endl;
                 delete[] command;
                 break;
             }
@@ -548,6 +556,7 @@ void vaccineMonitor::populationStatus(string *arguments, int length)
                     virus = virusList->search(arguments[2]);
 
                     population *stat = new population(country, false);
+                    checkNew(stat);
                     this->treeInOrderPopulationCountry(tree, &stat, country, virus, date1, date2);
                     stat->print();
                     delete stat;
@@ -578,10 +587,12 @@ void vaccineMonitor::populationStatus(string *arguments, int length)
 
                 linkedListStringNode *temp = countryList;
                 population *stat = new population(temp, false);
+                checkNew(stat);
                 temp = temp->getNext();
                 while (temp != NULL)
                 {
                     population *newNode = new population(temp, false);
+                    checkNew(newNode);
                     newNode->setNext(stat);
                     stat = newNode;
                     temp = temp->getNext();
@@ -767,6 +778,7 @@ void vaccineMonitor::popStatusByAge(string *arguments, int length)
                     virus = virusList->search(arguments[2]);
 
                     population *stat = new population(country, true);
+                    checkNew(stat);
                     this->treeInOrderPopulationByAgeCountry(tree, &stat, country, virus, date1, date2);
                     stat->print();
                     delete stat;
@@ -797,10 +809,12 @@ void vaccineMonitor::popStatusByAge(string *arguments, int length)
 
                 linkedListStringNode *temp = countryList;
                 population *stat = new population(temp, true);
+                checkNew(stat);
                 temp = temp->getNext();
                 while (temp != NULL)
                 {
                     population *newNode = new population(temp, true);
+                    checkNew(newNode);
                     newNode->setNext(stat);
                     stat = newNode;
                     temp = temp->getNext();
@@ -857,7 +871,7 @@ void vaccineMonitor::insertCitizenRecord(string line, bool selected)
     }
 
     citizen = new citizenRecord(stoi(words[0]), words[1], words[2], country, stoi(words[4]), virus, status, date);
-
+    checkNew(citizen);
     string result = "";
     citizenRecord *alreadyInTree = NULL;
 
