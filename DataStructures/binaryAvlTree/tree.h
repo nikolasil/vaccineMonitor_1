@@ -35,7 +35,6 @@ public:
     void setCitizen(citizenRecord *citizen);
     void setLeft(treeNode *l);
     void setRight(treeNode *r);
-    void setKey(int id);
     void setBalanceHeight(int b);
 
     void print(treeNode *node);
@@ -43,7 +42,6 @@ public:
 private:
     treeNode *left;
     treeNode *right;
-    int key;
     citizenRecord *citizen;
     int balanceHeight;
 };

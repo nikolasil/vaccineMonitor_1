@@ -23,7 +23,6 @@ treeNode *treeNode::newTreeNode(citizenRecord *citizen)
     node->setLeft(NULL);
     node->setRight(NULL);
     node->setBalanceHeight(1);
-    node->setKey(node->getCitizen()->getID());
     return node;
 }
 
@@ -189,7 +188,7 @@ treeNode *treeNode::getRight()
 
 int treeNode::getKey()
 {
-    return this->key;
+    return this->citizen->getID();
 }
 
 int treeNode::getBalanceHeight()
@@ -216,11 +215,6 @@ void treeNode::setLeft(treeNode *l)
 void treeNode::setRight(treeNode *r)
 {
     this->right = r;
-}
-
-void treeNode::setKey(int id)
-{
-    this->key = id;
 }
 
 void treeNode::setBalanceHeight(int b)

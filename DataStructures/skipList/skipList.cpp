@@ -56,7 +56,7 @@ void skipListNode::printCitizens()
     skipListNode *temp = this->getNext();
     while (temp != NULL)
     {
-        cout << temp->getId() << " ";
+        temp->getCitizen()->printCredentials();
         temp = temp->getNext();
         if (temp->getNext() == NULL)
         {

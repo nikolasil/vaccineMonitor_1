@@ -51,7 +51,7 @@ int bloomFilter::getSize()
     return this->bloomSize * sizeof(char) * 8;
 }
 
-unsigned long djb2(char *str)
+unsigned long bloomFilter::djb2(unsigned char *str)
 {
     unsigned long hash = 5381;
     int c;
@@ -62,7 +62,7 @@ unsigned long djb2(char *str)
     return hash;
 }
 
-unsigned long sdbm(char *str)
+unsigned long bloomFilter::sdbm(unsigned char *str)
 {
     unsigned long hash = 0;
     int c;
@@ -75,19 +75,24 @@ unsigned long sdbm(char *str)
     return hash;
 }
 
-unsigned long hash_i(char *str, int i)
+unsigned long bloomFilter::hash_i(unsigned char *str, int i)
 {
-    return djb2(str) + i * sdbm(str) + i * i;
+    return this->djb2(str) + i * this->sdbm(str) + i * i;
 }
 
 void bloomFilter::add(int number)
 {
     char numberstring[4];
     sprintf(numberstring, "%d", number);
+    unsigned char numberString[4];
+    numberString[0] = numberstring[0];
+    numberString[1] = numberstring[1];
+    numberString[2] = numberstring[2];
+    numberString[3] = numberstring[3];
     int K = 16;
     for (int i = 0; i < K; i++)
     {
-        int bit = hash_i(numberstring, i) % this->getSize();
+        int bit = this->hash_i(numberString, i) % this->getSize();
         this->setBit(bit, 1);
     }
 }
@@ -96,11 +101,16 @@ int bloomFilter::check(int number)
 {
     char numberstring[4];
     sprintf(numberstring, "%d", number);
+    unsigned char numberString[4];
+    numberString[0] = numberstring[0];
+    numberString[1] = numberstring[1];
+    numberString[2] = numberstring[2];
+    numberString[3] = numberstring[3];
     int K = 16;
     int flag = 1;
     for (int i = 0; i < K; i++)
     {
-        int bit = hash_i(numberstring, i) % this->getSize();
+        int bit = this->hash_i(numberString, i) % this->getSize();
         if (!this->getBit(bit))
         {
             flag = 0;
