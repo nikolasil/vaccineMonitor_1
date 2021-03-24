@@ -7,7 +7,7 @@ duplicates=$4
 
 declare -a arrCountries;
 declare -a arrViruses;
-declare -A arrayAlreadyCreated;
+declare -a arrId;
 
 while IFS= read -r line; do
     arrCountries+=("$line")
@@ -21,22 +21,22 @@ lengthOfCountries=${#arrCountries[@]}
 lengthOfViruses=${#arrViruses[@]}
 
 for (( i=0; i<$num; i++ )) do
-    lengthOfarrayAlreadyCreated=${#arrayAlreadyCreated[@]}
+    lengthOfarrId=${#arrId[@]}
     id=0
     if [ $duplicates -eq 1 ]    
     then
-        if [ $lengthOfarrayAlreadyCreated -eq 0 ]
+        if [ $lengthOfarrId -eq 0 ]
         then
             id=$((1 + $RANDOM % 9999))
         else
             possibility=4
             if [ $((1 + $RANDOM % 10)) -lt $possibility ]
             then
-                indexarrayAlreadyCreated=$((0 + $RANDOM % $lengthOfarrayAlreadyCreated))
-                id=${arrayAlreadyCreated[indexarrayAlreadyCreated]}
+                indexarrId=$((0 + $RANDOM % $lengthOfarrId))
+                id=${arrId[indexarrId]}
                 if [ $((1 + $RANDOM % 10)) -lt $possibility ]
                 then
-                    id=${arrayAlreadyCreated[lengthOfarrayAlreadyCreated-1]}
+                    id=${arrId[lengthOfarrId-1]}
                 fi
             fi
             
@@ -50,8 +50,8 @@ for (( i=0; i<$num; i++ )) do
         do
             id=$((1 + $RANDOM % 9999))
             flag=0
-            for (( j=0; j<$lengthOfarrayAlreadyCreated; j++ )) do
-                if [ ${arrayAlreadyCreated[j]} -eq $id ]
+            for (( j=0; j<$lengthOfarrId; j++ )) do
+                if [ ${arrId[j]} -eq $id ]
                 then
                     flag=1
                     break
@@ -75,14 +75,11 @@ for (( i=0; i<$num; i++ )) do
     if [ $(($RANDOM % 2)) -eq 1 ]
     then
         status='YES'
-        echo $id $firstName $lastName ${arrCountries[indexCountry]} $age ${arrViruses[indexVirus]} $status  $date
+        echo $id $firstName $lastName ${arrCountries[indexCountry]} $age ${arrViruses[indexVirus]} $status  $date >> ../citizenRecords/inputFile.txt
     else
         status='NO'
-        echo $id $firstName $lastName ${arrCountries[indexCountry]} $age ${arrViruses[indexVirus]} $status
+        echo $id $firstName $lastName ${arrCountries[indexCountry]} $age ${arrViruses[indexVirus]} $status  >> ../citizenRecords/inputFile.txt
     fi
-
-    if [ "${arrayAlreadyCreated[$id]}" -eq "" ]
-    then
-        arrayAlreadyCreated[$id]="$id $firstName $lastName ${arrCountries[indexCountry]} $age"
-    fi
+    
+    arrId+=("$id")
 done
