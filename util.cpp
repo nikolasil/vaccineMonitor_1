@@ -6,7 +6,7 @@
 
 #include "util.h"
 
-int checkArguments(int argc, char *argv[], string &filepath, int &bloomSize)
+int checkArguments(int argc, char* argv[], string& filepath, int& bloomSize)
 {
     struct stat buffer;
     if (argc != 5)
@@ -56,7 +56,7 @@ int checkArguments(int argc, char *argv[], string &filepath, int &bloomSize)
     return 1;
 }
 
-void checkNew(void *ptr)
+void checkNew(void* ptr)
 {
     if (ptr == NULL)
     {
@@ -74,7 +74,7 @@ string getInput(string prompt)
     return value;
 }
 
-string *splitString(string input, int *length)
+string* splitString(string input, int* length)
 {
     int i = 1;
     string arg;
@@ -87,7 +87,7 @@ string *splitString(string input, int *length)
     }
     *length = i - 1;
     istringstream str2(input);
-    string *arguments = new string[i - 1];
+    string* arguments = new string[i - 1];
     if (arguments == NULL)
     {
         cout << "errno = " << errno << endl;

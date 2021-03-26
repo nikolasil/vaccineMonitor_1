@@ -12,23 +12,23 @@ public:
     linkedListStringNode(string d);
     ~linkedListStringNode();
 
-    linkedListStringNode *add(string d);
-    linkedListStringNode *remove(string d);
-    linkedListStringNode *search(string d);
+    linkedListStringNode* add(string d);
+    linkedListStringNode* remove(string d);
+    linkedListStringNode* search(string d);
 
     // GETTERS
     string getString();
-    linkedListStringNode *getNext();
+    linkedListStringNode* getNext();
     // SETTERS
     void setString(string s);
-    void setNext(linkedListStringNode *n);
+    void setNext(linkedListStringNode* n);
 
     void printData(); // print only this node
     void print();     // print this and all the next nodes
 
 private:
     string data;
-    linkedListStringNode *next;
+    linkedListStringNode* next;
 };
 
 #endif

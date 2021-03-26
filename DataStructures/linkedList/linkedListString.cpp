@@ -18,27 +18,27 @@ linkedListStringNode::~linkedListStringNode()
     }
 }
 
-linkedListStringNode *linkedListStringNode::add(string d)
+linkedListStringNode* linkedListStringNode::add(string d)
 {
     if (this->getString().compare("") == 0)
     {
         this->setString(d);
         return this;
     }
-    linkedListStringNode *new_node = new linkedListStringNode(d);
+    linkedListStringNode* new_node = new linkedListStringNode(d);
     checkNew(new_node);
     new_node->setNext(this);
     return new_node;
 }
 
-linkedListStringNode *linkedListStringNode::remove(string d)
+linkedListStringNode* linkedListStringNode::remove(string d)
 {
-    linkedListStringNode *temp = this;
-    linkedListStringNode *prev = NULL;
+    linkedListStringNode* temp = this;
+    linkedListStringNode* prev = NULL;
 
     if (temp != NULL && temp->getString() == d)
     {
-        linkedListStringNode *temp2 = temp->getNext();
+        linkedListStringNode* temp2 = temp->getNext();
         delete temp;
         return temp2;
     }
@@ -57,9 +57,9 @@ linkedListStringNode *linkedListStringNode::remove(string d)
     }
 }
 
-linkedListStringNode *linkedListStringNode::search(string d)
+linkedListStringNode* linkedListStringNode::search(string d)
 {
-    linkedListStringNode *temp = this;
+    linkedListStringNode* temp = this;
     while (temp != NULL)
     {
         if (temp->getString().compare(d) == 0)
@@ -78,7 +78,7 @@ string linkedListStringNode::getString()
     return this->data;
 }
 
-linkedListStringNode *linkedListStringNode::getNext()
+linkedListStringNode* linkedListStringNode::getNext()
 {
     return this->next;
 }
@@ -89,7 +89,7 @@ void linkedListStringNode::setString(string s)
     this->data = s;
 }
 
-void linkedListStringNode::setNext(linkedListStringNode *n)
+void linkedListStringNode::setNext(linkedListStringNode* n)
 {
     this->next = n;
 }
@@ -101,7 +101,7 @@ void linkedListStringNode::printData()
 
 void linkedListStringNode::print()
 {
-    linkedListStringNode *temp = this;
+    linkedListStringNode* temp = this;
     while (temp != NULL)
     {
         temp->printData();
