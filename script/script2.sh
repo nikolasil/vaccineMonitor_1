@@ -9,6 +9,10 @@ declare -a arrCountries;
 declare -a arrViruses;
 declare -a arrId;
 
+# check length arguments
+# kena arxeia
+# pinakes me -A gia idia onomata epitheta
+
 while IFS= read -r line; do
     arrCountries+=("$line")
 done < $counrtyFile

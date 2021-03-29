@@ -19,4 +19,103 @@
 2352 ujQOaSMyUw byqDKEIErppz Niger 65 SARS-CoV YES 27-7-2012
 991 qwcJFsXeNdN Pbl Germany 120 Dengue YES 6-2-1975
 6403 fcpAaEajwlj depiHcGLTc Malawi 22 Dengue YES 6-12-1983
-6569 Sdbwr HdEyTay SolomonIslands 50 HIV YES 11-10-1950
+6569 Sdbwr HdEyTay SolomonIslands 50 HIV YES 11-10-19505414 qQJnPgFl UuhkT Dengue 67 Germany YES 27-6-1997
+5481 GTbJCI CoxDkSPHyhJCuu Marburg 15 Cuba YES 6-7-2019
+6165 urFygrZwaTVDM wYdKsOTkMEskg Rotavirus 91 Samoa YES 23-6-1981
+4266 AnqL pfajAFRNSEWFr Smallpox 3 Japan NO
+4266 qVDsNEZHgK JmkioaDcI Dengue 69 Libya YES 23-10-1967
+2662 fqOxjRWuJTftBQ LiAGe Hantavirus 13 Georgia YES 27-6-1970
+6165 SorhWZbOMPn TIulmv HIV 9 India YES 30-8-1977
+2662 NjJAUljSydEX dYjws SARS-CoV-2 56 Croatia YES 8-1-2012
+432 lRqLnTcdxwuV ofbqkKfCBWf SARS-CoV-2 74 Lebanon YES 26-6-2005
+7328 pDvkhFHr Rmg Rotavirus 5 CapeVerde NO
+5062 nQv krecCV Dengue 112 EastTimor YES 27-7-1990
+5062 HUR kEKHNtxu Rotavirus 74 Malta YES 8-10-1958
+7630 yypNIS nEIPkeHQzAomv SARS-CoV 32 Botswana YES 22-8-1990
+5062 RZRNRwSOKpu SOjCDoChG Rotavirus 118 Samoa NO
+2662 ZFWJCPC UdCiYw Hantavirus 113 Bangladesh NO
+1618 Kir FpABq SARS-CoV 70 StKitts&Nevis YES 21-6-1960
+4244 qjLeqfirqEk QqqfPHzdLA SARS-CoV-2 87 SaintVincent&theGrenadines NO
+6165 jXDHFGXFyTxjJ tORRcRxBg Ebola 119 Chad YES 12-8-2016
+5911 rMnhMrllDBWE LLAVyyfOLUwC Rotavirus 6 Samoa YES 27-3-1969
+9316 MKrbF UhbRScoxu HIV 89 Slovenia NO
+4225 PzZKdv JBdxOhvoTXiJ HIV 5 IvoryCoast YES 5-7-2006
+4429 mEPTFaMabdYC IbSBgzaQ Influenza 59 Chad NO
+9325 ATDyH vSnXQOfMNGK SARS-CoV-2 76 GuineaBissau YES 1-8-1969
+5120 bEAmtjwGh HUBudQG Marburg 20 UnitedKingdom YES 3-9-2009
+5322 PzcDNaL vGyQOE SARS-CoV-2 7 Mexico NO
+3428 HdFqhDGmvp SWnex Rotavirus 120 Jamaica NO
+3452 IIyBzi mjvoJNh Rotavirus 45 Mexico YES 29-5-1984
+406 wLcazIdHZkmTQD dsAiC Smallpox 74 Portugal YES 30-4-1961
+3595 BmpyB lVKkHxfLckWfnj Rotavirus 88 Albania NO
+5061 FVRP AUavEaxbVVAGf Rabies 66 Bahrain NO
+7381 GXI oREaa Marburg 17 SriLanka NO
+7169 NGfzChZ EQBeHaKplWzjM Rabies 55 CostaRica NO
+7169 nTo udtAz Ebola 92 SaoTome&Principe NO
+1026 ybQpL VyDzo HIV 78 Nicaragua NO
+7471 AuACuIxWZB nzfz SARS-CoV 107 Seychelles YES 18-9-1988
+3779 DEnhqRVmRbKUZh usTESHXES Dengue 52 Singapore NO
+3823 RlZolf blOCpIQerR Rabies 96 Slovakia YES 11-4-1964
+815 HDOjCggYyarf ETPajLif SARS-CoV 34 Belgium NO
+1440 QBVqYKnjJj lYuIsryv SARS-CoV 54 Haiti NO
+5062 DafzR nkpFZ SARS-CoV 85 Lesotho YES 10-7-1975
+304 CoPnYuFLlEuO ARMgBFOX SARS-CoV-2 79 Ecuador YES 3-6-1965
+4679 EOiYKfooAdS FazmU SARS-CoV-2 92 Antigua&Deps NO
+2115 YjSyCyvdsv UNNX Ebola 38 Bahamas NO
+2115 xDGkOLHtTtCPK JdAwVd Dengue 60 Tajikistan YES 18-10-1985
+8809 NgIvRaK cfYuVTbvu Dengue 120 Nigeria YES 29-7-2006
+1326 ZvbSNsvPFFebXK TDDZVpGXmOYhp Hantavirus 5 Tonga YES 9-8-2007
+8809 HksHyADBgG tEWDf Hantavirus 20 Philippines NO
+4075 kugo hlKiBGc HIV 63 Syria NO
+6462 fSkRCVGds zdbXfDmx HIV 61 Latvia NO
+3595 cCS EdJj Rotavirus 18 Myanmar NO
+2794 NvhikkLZpSr jrdKmsm Dengue 19 Ethiopia NO
+2885 slXQGcpsbp ASZZr Smallpox 116 Portugal NO
+7407 hkDhogxQuB aQCGjmERkW Rabies 12 Qatar YES 10-4-1988
+7532 UlSHu noAsXpNHbhkzF Dengue 19 Armenia NO
+844 nOekhS SBzxGOTiK HIV 96 KoreaNorth NO
+5152 BugIRiR xydmiuiQ Rabies 69 Swaziland NO
+6009 NadheIAYkxBPm AnjksQ Smallpox 34 Pakistan NO
+2145 OiDGL jRtiiwiizydaxo SARS-CoV-2 77 Jordan NO
+1132 hnmWCteXMWZTVH gvkamrPrXFS HIV 106 Cyprus NO
+4670 GchLRBtUavYoC pqxSEUdXZXW Ebola 83 Togo YES 19-9-2004
+6101 nKLFEbqxaYBbul mldGjHgmUhce Ebola 85 Norway NO
+918 agHYRcrFvzVm BzjKSaWBkTAwkF Influenza 35 Morocco YES 6-6-1991
+3985 OWhKGEwiiMpMl PTDfudRc Rotavirus 90 KoreaNorth NO
+3985 eZm RmOonKDLcBGZrW Influenza 10 Guatemala YES 25-1-1958
+8016 sHNsVOvRW oKcFPIsWvGbdt Rotavirus 49 CzechRepublic YES 30-7-1958
+9489 LCCQ tZrv Smallpox 84 Morocco NO
+6074 HipMbjW ZZHkABodNxUZcY Rabies 74 Georgia NO
+5288 lMJywskznqrC BdOuVcn Marburg 62 Ukraine YES 17-9-2010
+805 JTCVsNOnbc YQmnYiPEOvRRfS SARS-CoV-2 81 Djibouti YES 16-9-2014
+501 FxOskYsMWJpcK XqTfyOJxrna Influenza 78 MarshallIslands YES 18-12-1979
+8440 snlzltkh VPAqKRKNdIenBH Ebola 85 Cuba NO
+9842 wHXxSRayZq UEMmQgB Dengue 67 Angola NO
+4266 aldockctxXBWH fRxkajyUSJgK Influenza 45 Bolivia NO
+9209 xGr nYBbYYajs SARS-CoV-2 63 Myanmar NO
+5414 RrNlcaE bkdC SARS-CoV-2 117 Gambia NO
+6165 gSEgNfqd rVcehZDQbuuC Ebola 96 Senegal YES 16-4-1985
+3372 lFxvRcaxZGeBsL xemY Dengue 87 Fiji NO
+3372 zOhzkGtYIgT vIcQkHWGfJCI Smallpox 35 Germany YES 23-12-1992
+3372 MUm BSPRbHydlO Rotavirus 38 Sweden YES 29-10-1987
+3372 EnWSMB VGukj HIV 3 Ethiopia NO
+2490 lhXy EKQdSCNoNMWVNs Hantavirus 22 Kyrgyzstan NO
+2928 bQzLWfRYqdNIRP uCsWdFZSOIy Smallpox 57 Suriname YES 27-11-1973
+1155 yNIgEslDQB YEyDAbXqnAf Influenza 2 UnitedStates YES 23-4-2015
+4134 gdoBDwRVdpMj SBziUXWWunY Ebola 68 SanMarino YES 17-2-2015
+1826 qwGIy gLhKytViUcLfXW Smallpox 34 Congo NO
+1826 uAOqhQDQKzpYgp srYtSbF Rabies 112 Seychelles YES 27-4-1961
+2222 ilxUulbdEf eTNcixNjyqNwB Rabies 57 Singapore YES 17-10-1979
+8446 iCqmgGpaGaV vGCpdmadBo Dengue 23 Bahrain NO
+18 AhqqvF NuXuFveJCcpq Smallpox 58 Cambodia NO
+5911 Nmpz nvvHW Smallpox 28 Bulgaria NO
+787 QWmBFbDfFsAi srJg Rotavirus 64 Colombia YES 28-6-1971
+1440 Vftq kdeRbc HIV 77 Ethiopia YES 7-6-2019
+9335 QAyuyJx mvgHFwPR Rotavirus 8 VaticanCity NO
+5975 POiceISUq DGF SARS-CoV 89 Barbados NO
+4266 FiIJghk PwOJZQdoF Dengue 110 Lesotho NO
+1384 tOBPjHtqYVL yvpempADa Ebola 70 Kiribati NO
+4027 CLkfl MlA SARS-CoV-2 111 Moldova YES 15-7-1970
+3404 TRfsMgc kzfSsuHUH SARS-CoV-2 14 Croatia YES 21-11-1987
+3404 OuxiAJBsigK RuLaAhFrmdPnI Smallpox 109 India NO
+6175 qlesSLtmxxsj fvaJZNAd Marburg 78 Vanuatu NO
