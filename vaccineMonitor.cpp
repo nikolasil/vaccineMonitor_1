@@ -160,35 +160,35 @@ void vaccineMonitor::startMenu()
         {
             if (command[0].compare("/vaccineStatusBloom") == 0)
             {
-                vaccineStatusBloom(command, length);
+                this->vaccineStatusBloom(command, length);
             }
             else if (command[0].compare("/vaccineStatus") == 0)
             {
-                vaccineStatus(command, length);
+                this->vaccineStatus(command, length);
             }
             else if (command[0].compare("/populationStatus") == 0)
             {
-                populationStatus(command, length);
+                this->populationStatus(command, length);
             }
             else if (command[0].compare("/popStatusByAge") == 0)
             {
-                popStatusByAge(command, length);
+                this->popStatusByAge(command, length);
             }
             else if (command[0].compare("/insertCitizenRecord") == 0)
             {
-                insertCitizenRecord(input, true);
+                this->insertCitizenRecord(input, true);
             }
             else if (command[0].compare("/vaccinateNow") == 0)
             {
-                vaccinateNow(input);
+                this->vaccinateNow(input);
             }
             else if (command[0].compare("/list-nonVaccinated-Persons") == 0)
             {
-                listNonVaccinatedPersons(command, length);
+                this->listNonVaccinatedPersons(command, length);
             }
             else if (command[0].compare("/exit") == 0)
             {
-                terminate();
+                this->terminate();
                 delete[] command;
                 break;
             }
@@ -999,7 +999,7 @@ void vaccineMonitor::listNonVaccinatedPersons(string* arguments, int length)
     }
 }
 
-void vaccineMonitor::teminate()
+void vaccineMonitor::terminate()
 {
     cout << "- Selected: /exit" << endl;
 }

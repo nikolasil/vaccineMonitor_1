@@ -15,32 +15,32 @@ public:
     ~vaccineMonitor();
 
     void addFromFile(string filePath);
-    void addRecord(int length, string *words, string line);
+    void addRecord(int length, string* words, string line);
     void startMenu();
 
 private:
     void addNewVirus(string virusName);
     void addNewCountry(string countryName);
-    int checkSyntaxRecord(string errorMessage, int length, string *words, string input);
+    int checkSyntaxRecord(string errorMessage, int length, string* words, string input);
     // COMMANDS
-    void vaccineStatusBloom(string *arguments, int length);
-    void vaccineStatus(string *arguments, int length);
-    void treeInOrderPopulationCountry(treeNode *node, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2);
-    void treeInOrderPopulationGlobal(treeNode *node, population **stat, linkedListStringNode *virus, date date1, date date2);
-    void populationStatus(string *arguments, int length);
-    void treeInOrderPopulationByAgeCountry(treeNode *node, population **stat, linkedListStringNode *country, linkedListStringNode *virus, date date1, date date2);
-    void treeInOrderPopulationByAgeGlobal(treeNode *node, population **stat, linkedListStringNode *virus, date date1, date date2);
-    void popStatusByAge(string *arguments, int length);
+    void vaccineStatusBloom(string* arguments, int length);
+    void vaccineStatus(string* arguments, int length);
+    void treeInOrderPopulationCountry(treeNode* node, population** stat, linkedListStringNode* country, linkedListStringNode* virus, date date1, date date2);
+    void treeInOrderPopulationGlobal(treeNode* node, population** stat, linkedListStringNode* virus, date date1, date date2);
+    void populationStatus(string* arguments, int length);
+    void treeInOrderPopulationByAgeCountry(treeNode* node, population** stat, linkedListStringNode* country, linkedListStringNode* virus, date date1, date date2);
+    void treeInOrderPopulationByAgeGlobal(treeNode* node, population** stat, linkedListStringNode* virus, date date1, date date2);
+    void popStatusByAge(string* arguments, int length);
     void insertCitizenRecord(string line, bool selected);
     void vaccinateNow(string line);
-    void listNonVaccinatedPersons(string *arguments, int length);
-    void teminate();
+    void listNonVaccinatedPersons(string* arguments, int length);
+    void terminate();
 
-    treeNode *tree;
-    linkedListStringNode *countryList;
-    linkedListStringNode *virusList;
-    bloomFilterList *bloomList;
-    skipList_Lists *skiplist;
+    treeNode* tree;
+    linkedListStringNode* countryList;
+    linkedListStringNode* virusList;
+    bloomFilterList* bloomList;
+    skipList_Lists* skiplist;
 };
 
 #endif
