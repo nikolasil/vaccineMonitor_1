@@ -1,4 +1,4 @@
-4582 vCGNrYDEQMZJAB HkVIedqJm Croatia 90 SARS-CoV-2 YES 7-7-1991
+4582 vCGNrYDEQMZJAB HkVIedqJm Croatia 90 SARS-CoV-2 NO 5 df df gdf g
 8865 syGC NZjjHJIE Estonia 58 Smallpox YES 6-12-1952
 8865 dPyu DpPZ Bhutan 15 Smallpox YES 20-4-2005
 8865 RWZSSjCIPMFzo oUoaOLZ Germany 98 Hantavirus NO
@@ -19,7 +19,8 @@
 2352 ujQOaSMyUw byqDKEIErppz Niger 65 SARS-CoV YES 27-7-2012
 991 qwcJFsXeNdN Pbl Germany 120 Dengue YES 6-2-1975
 6403 fcpAaEajwlj depiHcGLTc Malawi 22 Dengue YES 6-12-1983
-6569 Sdbwr HdEyTay SolomonIslands 50 HIV YES 11-10-19505414 qQJnPgFl UuhkT Dengue 67 Germany YES 27-6-1997
+6569 Sdbwr HdEyTay SolomonIslands 50 HIV YES 11-10-1950
+5414 qQJnPgFl UuhkT Dengue 67 Germany YES 27-6-1997
 5481 GTbJCI CoxDkSPHyhJCuu Marburg 15 Cuba YES 6-7-2019
 6165 urFygrZwaTVDM wYdKsOTkMEskg Rotavirus 91 Samoa YES 23-6-1981
 4266 AnqL pfajAFRNSEWFr Smallpox 3 Japan NO

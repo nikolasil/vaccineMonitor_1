@@ -11,50 +11,50 @@
 class skipListNode
 {
 public:
-    skipListNode(citizenRecord *citizen);
-    skipListNode(skipListNode *node);
+    skipListNode(citizenRecord* citizen);
+    skipListNode(skipListNode* node);
     ~skipListNode();
     void destroy();
 
-    void add(skipListNode *new_node);
+    void add(skipListNode* new_node);
 
     // GETTERS
-    skipListNode *getNext();
-    skipListNode *getDown();
+    skipListNode* getNext();
+    skipListNode* getDown();
     int getId();
-    citizenRecord *getCitizen();
+    citizenRecord* getCitizen();
 
     // SETTERS
-    void setNext(skipListNode *temp);
-    void setDown(skipListNode *temp);
-    void setCitizen(citizenRecord *citizen);
+    void setNext(skipListNode* temp);
+    void setDown(skipListNode* temp);
+    void setCitizen(citizenRecord* citizen);
 
     void printIds();
     void printCitizens();
 
 private:
-    citizenRecord *citizen;
-    skipListNode *next;
-    skipListNode *down;
+    citizenRecord* citizen;
+    skipListNode* next;
+    skipListNode* down;
 };
 
 class skipListLevel
 {
 public:
-    skipListLevel(skipListLevel *prevLevel, int l);
+    skipListLevel(skipListLevel* prevLevel, int l);
     skipListLevel();
     ~skipListLevel();
 
-    skipListLevel *getDownLevel();
-    skipListNode *getList();
-    skipListNode *getPosInf();
-    skipListNode *getNegInf();
+    skipListLevel* getDownLevel();
+    skipListNode* getList();
+    skipListNode* getPosInf();
+    skipListNode* getNegInf();
     int getMyLevel();
 
-    void setDownLevel(skipListLevel *down);
-    void setList(skipListNode *l);
-    void setPosInf(skipListNode *p);
-    void setNegInf(skipListNode *n);
+    void setDownLevel(skipListLevel* down);
+    void setList(skipListNode* l);
+    void setPosInf(skipListNode* p);
+    void setNegInf(skipListNode* n);
     void setMyLevel(int l);
 
     void printIds();
@@ -62,9 +62,9 @@ public:
 
 private:
     int myLevel;
-    skipListNode *list;
-    skipListNode *pos_inf;
-    skipListLevel *downLevel;
+    skipListNode* list;
+    skipListNode* pos_inf;
+    skipListLevel* downLevel;
 };
 
 class skipList
@@ -73,55 +73,55 @@ public:
     skipList();
     ~skipList();
 
-    void add(int id, citizenRecord *citizen);
+    void add(int id, citizenRecord* citizen);
     void remove(int id);
-    skipListNode *search(int id, char top_bottom);
+    skipListNode* search(int id, char top_bottom);
 
     // GETTERS
-    skipListLevel *getCeiling();
-    skipListLevel *getFloor();
+    skipListLevel* getCeiling();
+    skipListLevel* getFloor();
     // SETTERS
-    void setCeiling(skipListLevel *c);
-    void setFloor(skipListLevel *f);
-
+    void setCeiling(skipListLevel* c);
+    void setFloor(skipListLevel* f);
+    bool isEmpty();
     void printIds();
     void printFloor();
     int coinFlip();
 
 private:
-    skipListLevel *ceiling;
-    skipListLevel *floor;
+    skipListLevel* ceiling;
+    skipListLevel* floor;
 };
 
 class skipList_Lists
 {
 public:
     skipList_Lists();
-    skipList_Lists(linkedListStringNode *virus);
+    skipList_Lists(linkedListStringNode* virus);
     ~skipList_Lists();
 
-    skipList_Lists *add(linkedListStringNode *virus);
+    skipList_Lists* add(linkedListStringNode* virus);
 
     // GETTERS
-    linkedListStringNode *getVirus();
-    skipList *getVaccinated(linkedListStringNode *virus);
-    skipList *getVaccinated();
-    skipList *getNotVaccinated(linkedListStringNode *virus);
-    skipList *getNotVaccinated();
-    skipList_Lists *getNext();
+    linkedListStringNode* getVirus();
+    skipList* getVaccinated(linkedListStringNode* virus);
+    skipList* getVaccinated();
+    skipList* getNotVaccinated(linkedListStringNode* virus);
+    skipList* getNotVaccinated();
+    skipList_Lists* getNext();
     // SETTERS
-    void setVirus(linkedListStringNode *v);
-    void setVaccinated(skipList *l, linkedListStringNode *virus);
-    void setVaccinated(skipList *l);
-    void setNotVaccinated(skipList *l, linkedListStringNode *virus);
-    void setNotVaccinated(skipList *l);
-    void setNext(skipList_Lists *n);
+    void setVirus(linkedListStringNode* v);
+    void setVaccinated(skipList* l, linkedListStringNode* virus);
+    void setVaccinated(skipList* l);
+    void setNotVaccinated(skipList* l, linkedListStringNode* virus);
+    void setNotVaccinated(skipList* l);
+    void setNext(skipList_Lists* n);
 
 private:
-    linkedListStringNode *virus;
-    skipList *vaccinated;
-    skipList *notVaccinated;
-    skipList_Lists *next;
+    linkedListStringNode* virus;
+    skipList* vaccinated;
+    skipList* notVaccinated;
+    skipList_Lists* next;
 };
 
 #endif

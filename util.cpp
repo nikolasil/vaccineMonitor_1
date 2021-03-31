@@ -74,7 +74,27 @@ string getInput(string prompt)
     return value;
 }
 
-string* splitString(string input, int* length)
+void splitString(string** words, string input, int* length)
+{
+    string arg;
+    istringstream str(input);
+
+    int i = 0;
+    while (str >> arg)
+    {
+        if (i == 8) {
+            *length = 9;
+            return;
+        }
+        (*words)[i++] = arg;
+    }
+    if (i == 7) {
+        (*words)[7] = "";
+    }
+    *length = i;
+}
+
+string* readString(string input, int* length)
 {
     int i = 1;
     string arg;
