@@ -188,7 +188,7 @@ void vaccineMonitor::startMenu()
             }
             else if (command[0].compare("/exit") == 0)
             {
-                cout << "/exit" << endl;
+                terminate();
                 delete[] command;
                 break;
             }
@@ -1001,5 +1001,5 @@ void vaccineMonitor::listNonVaccinatedPersons(string* arguments, int length)
 
 void vaccineMonitor::teminate()
 {
-    cout << "Selected: exit" << endl;
+    cout << "- Selected: /exit" << endl;
 }
