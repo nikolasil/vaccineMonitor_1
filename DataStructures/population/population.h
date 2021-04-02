@@ -13,7 +13,7 @@ public:
     ~yes();
 
     unsigned int y;
-    yes *next;
+    yes* next;
 };
 
 class no
@@ -23,7 +23,7 @@ public:
     ~no();
 
     unsigned int n;
-    no *next;
+    no* next;
 };
 
 class noneInfo
@@ -33,16 +33,16 @@ public:
     ~noneInfo();
 
     unsigned int noInfo;
-    noneInfo *next;
+    noneInfo* next;
 };
 
 class population
 {
 public:
-    population(linkedListStringNode *c, bool byAge);
+    population(linkedListStringNode* c, bool byAge);
     ~population();
 
-    population *find(linkedListStringNode *country);
+    population* find(linkedListStringNode* country);
 
     void inYes(int pos);  // +1 to yes
     void outYes(int pos); // +1 to yes
@@ -50,11 +50,11 @@ public:
     void noInfo(int pos); // +1 to noInfo
 
     // SETTERS
-    void setNext(population *n);
+    void setNext(population* n);
 
     // GETTERS
-    population *getNext();
-    linkedListStringNode *getCountryName();
+    population* getNext();
+    linkedListStringNode* getCountryName();
     unsigned int getInYes(int pos);
     unsigned int getOutYes(int pos);
     unsigned int getNO(int pos);
@@ -63,12 +63,12 @@ public:
     void print();
 
 private:
-    linkedListStringNode *countryName; // key
-    yes *inRange;
-    yes *outRange;
-    no *No;
-    noneInfo *noInformation;
-    population *next;
+    linkedListStringNode* countryName; // key
+    yes* inRange;
+    yes* outRange;
+    no* No;
+    noneInfo* noInformation;
+    population* next;
 };
 
 #endif
