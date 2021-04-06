@@ -42,6 +42,8 @@ public:
     population(stringList* c, bool byAge);
     ~population();
 
+    void print();
+
     population* find(stringList* country);
 
     void inYes(int pos);  // +1 to yes
@@ -49,18 +51,16 @@ public:
     void NO(int pos);     // +1 to no
     void noInfo(int pos); // +1 to noInfo
 
-    // SETTERS
-    void setNext(population* n);
-
-    // GETTERS
-    population* getNext();
-    stringList* getCountryName();
     unsigned int getInYes(int pos);
     unsigned int getOutYes(int pos);
     unsigned int getNO(int pos);
     unsigned int getNoInfo(int pos);
 
-    void print();
+    // SETTERS
+    void setNext(population* n) { this->next = n; }
+    // GETTERS
+    population* getNext() { return this->next; }
+    stringList* getCountryName() { return this->countryName; }
 
 private:
     stringList* countryName; // key

@@ -2,9 +2,8 @@
     This file contains the treeNode class.
 
     Is a self balanded tree that holds a pointer to a citizenRecord as data.
-
-
 */
+
 #ifndef TREE_H
 #define TREE_H
 
@@ -18,6 +17,8 @@ public:
     treeNode();
     ~treeNode();
 
+    void print(treeNode* node);
+
     treeNode* insert(treeNode* node, citizenRecord* citizen, citizenRecord** alreadyInTree, string* result, bool checkNO);
     treeNode* search(treeNode* root, int id);
     treeNode* newTreeNode(citizenRecord* citizen);
@@ -26,19 +27,17 @@ public:
     int getBalance();
 
     // GETTERS
-    citizenRecord* getCitizen();
-    treeNode* getLeft();
-    treeNode* getRight();
-    int getKey();
-    int getBalanceHeight();
+    citizenRecord* getCitizen() { return this->citizen; }
+    treeNode* getLeft() { return this->left; }
+    treeNode* getRight() { return this->right; }
+    int getKey() { return this->citizen->getID(); }
+    int getBalanceHeight() { if (this == NULL) return 0; return this->balanceHeight; }
 
     // SETTERS
-    void setCitizen(citizenRecord* citizen);
-    void setLeft(treeNode* l);
-    void setRight(treeNode* r);
-    void setBalanceHeight(int b);
-
-    void print(treeNode* node);
+    void setCitizen(citizenRecord* citizen) { this->citizen = citizen; }
+    void setLeft(treeNode* l) { this->left = l; }
+    void setRight(treeNode* r) { this->right = r; }
+    void setBalanceHeight(int b) { this->balanceHeight = b; }
 
 private:
     treeNode* left;

@@ -83,45 +83,6 @@ bool date::isValid()
     return false;
 }
 
-// GETTERS
-string date::getDay()
-{
-    return this->day;
-}
-
-string date::getMonth()
-{
-    return this->month;
-}
-
-string date::getYear()
-{
-    return this->year;
-}
-
-// SETTERS
-void date::setDay(string d)
-{
-    this->day = d;
-}
-
-void date::setMonth(string m)
-{
-    this->month = m;
-}
-
-void date::setYear(string y)
-{
-    this->year = y;
-}
-
-void date::setAll(string dd, string mm, string yy)
-{
-    this->day = dd;
-    this->month = mm;
-    this->year = yy;
-}
-
 void date::setAll(string d)
 {
     this->day = "";

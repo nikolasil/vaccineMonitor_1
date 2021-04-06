@@ -153,23 +153,6 @@ void population::noInfo(int pos)
     temp->noInfo++;
 }
 
-// SETTERS
-void population::setNext(population* n)
-{
-    this->next = n;
-}
-
-// GETTERS
-population* population::getNext()
-{
-    return this->next;
-}
-
-stringList* population::getCountryName()
-{
-    return this->countryName;
-}
-
 unsigned int population::getInYes(int pos)
 {
     yes* temp = this->inRange;

@@ -19,7 +19,7 @@ public:
 
     void setBit(int k, int value);
     int getBit(int k);
-    int getSize();
+    int getSize() { return this->bloomSize * sizeof(char) * 8; }
     void add(int number);
     int check(int number);
 

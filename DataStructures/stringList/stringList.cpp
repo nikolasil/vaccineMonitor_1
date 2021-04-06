@@ -75,28 +75,6 @@ stringList* stringList::search(string d)
     return temp;
 }
 
-// GETTERS
-string stringList::getString()
-{
-    return this->data;
-}
-
-stringList* stringList::getNext()
-{
-    return this->next;
-}
-
-// SETTERS
-void stringList::setString(string s)
-{
-    this->data = s;
-}
-
-void stringList::setNext(stringList* n)
-{
-    this->next = n;
-}
-
 void stringList::printData()
 {
     cout << this->getString();

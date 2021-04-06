@@ -16,19 +16,19 @@ public:
     stringList(string d);
     ~stringList();
 
+    void printData(); // print only this node
+    void print();     // print this and all the next nodes
+
     stringList* add(string d);
     stringList* remove(string d);
     stringList* search(string d);
 
     // GETTERS
-    string getString();
-    stringList* getNext();
+    string getString() { return this->data; }
+    stringList* getNext() { return this->next; }
     // SETTERS
-    void setString(string s);
-    void setNext(stringList* n);
-
-    void printData(); // print only this node
-    void print();     // print this and all the next nodes
+    void setString(string s) { this->data = s; }
+    void setNext(stringList* n) { this->next = n; }
 
 private:
     string data;

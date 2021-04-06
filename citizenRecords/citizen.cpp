@@ -52,21 +52,6 @@ void listStatus::addStatus(stringList* virus, char s, date d)
     temp->next = new_node;
 }
 
-void listStatus::setStatus(char status)
-{
-    this->status = status;
-}
-
-void listStatus::setDate(date d)
-{
-    this->dateVaccinated = d;
-}
-
-void listStatus::setDate(string d)
-{
-    this->dateVaccinated.setAll(d);
-}
-
 listStatus* listStatus::getNode(stringList* virus)
 {
     listStatus* temp = this;
@@ -153,21 +138,6 @@ date listStatus::getVirusDate(string virus)
     return nullDate;
 }
 
-stringList* listStatus::getVirusName()
-{
-    return this->virusName;
-}
-
-char listStatus::getVirusStatus()
-{
-    return this->status;
-}
-
-date listStatus::getDateVaccinated()
-{
-    return this->dateVaccinated;
-}
-
 void listStatus::print()
 {
     listStatus* temp = this;
@@ -244,34 +214,4 @@ void citizenRecord::printCredentials()
     this->country->printData();
     cout << ", age: " << this->age << " ";
     cout << endl;
-}
-
-int citizenRecord::getID()
-{
-    return this->citizenID;
-}
-
-string citizenRecord::getFirstName()
-{
-    return this->firstName;
-}
-
-string citizenRecord::getLastName()
-{
-    return this->lastName;
-}
-
-stringList* citizenRecord::getCountry()
-{
-    return this->country;
-}
-
-int citizenRecord::getAge()
-{
-    return this->age;
-}
-
-listStatus* citizenRecord::getStatus()
-{
-    return this->status;
 }

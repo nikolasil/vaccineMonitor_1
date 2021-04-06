@@ -66,38 +66,6 @@ void skipListNode::printCitizens()
     cout << endl;
 }
 
-// GETTERS
-skipListNode* skipListNode::getNext()
-{
-    return this->next;
-}
-
-skipListNode* skipListNode::getDown()
-{
-    return this->down;
-}
-
-int skipListNode::getId()
-{
-    if (this->citizen != NULL)
-    {
-        return this->citizen->getID();
-    }
-    else if (this->next == NULL)
-    {
-        return POS_INF;
-    }
-    else
-    {
-        return NEG_INF;
-    }
-}
-
-citizenRecord* skipListNode::getCitizen()
-{
-    return this->citizen;
-}
-
 void skipListNode::add(skipListNode* new_node)
 {
     skipListNode* curr = this;
@@ -107,22 +75,6 @@ void skipListNode::add(skipListNode* new_node)
     }
     new_node->setNext(curr->getNext());
     curr->setNext(new_node);
-}
-
-// SETTERS
-void skipListNode::setNext(skipListNode* temp)
-{
-    this->next = temp;
-}
-
-void skipListNode::setDown(skipListNode* temp)
-{
-    this->down = temp;
-}
-
-void skipListNode::setCitizen(citizenRecord* citizen)
-{
-    this->citizen = citizen;
 }
 
 // -- skipListLevel methods implemantation --
@@ -156,58 +108,6 @@ skipListLevel::skipListLevel() : myLevel(0) /* this costructor in beeing called 
 
 skipListLevel::~skipListLevel()
 {
-}
-
-// GETTERS
-skipListLevel* skipListLevel::getDownLevel()
-{
-    return this->downLevel;
-}
-
-int skipListLevel::getMyLevel()
-{
-    return this->myLevel;
-}
-
-skipListNode* skipListLevel::getList()
-{
-    return this->list;
-}
-
-skipListNode* skipListLevel::getPosInf()
-{
-    return this->pos_inf;
-}
-
-skipListNode* skipListLevel::getNegInf()
-{
-    return this->list;
-}
-
-// SETTERS
-void skipListLevel::setDownLevel(skipListLevel* down)
-{
-    this->downLevel = down;
-}
-
-void skipListLevel::setList(skipListNode* l)
-{
-    this->list = l;
-}
-
-void skipListLevel::setPosInf(skipListNode* p)
-{
-    this->pos_inf = p;
-}
-
-void skipListLevel::setNegInf(skipListNode* n)
-{
-    this->list = n;
-}
-
-void skipListLevel::setMyLevel(int l)
-{
-    this->myLevel = l;
 }
 
 void skipListLevel::printIds() /* print only the list of the level */
@@ -442,27 +342,6 @@ skipListNode* skipList::search(int id, char top_bottom = 't')
     }
 }
 
-// GETTERS
-skipListLevel* skipList::getCeiling()
-{
-    return this->ceiling;
-}
-
-skipListLevel* skipList::getFloor()
-{
-    return this->floor;
-}
-
-// SETTERS
-void skipList::setCeiling(skipListLevel* c)
-{
-    this->ceiling = c;
-}
-void skipList::setFloor(skipListLevel* f)
-{
-    this->floor = f;
-}
-
 bool skipList::isEmpty()
 {
     if (this->floor->getNegInf() == this->floor->getPosInf())
@@ -540,12 +419,6 @@ skipList_Lists* skipList_Lists::add(stringList* virus)
     return new_node;
 }
 
-// GETTERS
-stringList* skipList_Lists::getVirus()
-{
-    return this->virus;
-}
-
 skipList* skipList_Lists::getVaccinated(stringList* virus)
 {
     skipList_Lists* temp = this;
@@ -560,11 +433,6 @@ skipList* skipList_Lists::getVaccinated(stringList* virus)
     return NULL;
 }
 
-skipList* skipList_Lists::getVaccinated()
-{
-    return this->vaccinated;
-}
-
 skipList* skipList_Lists::getNotVaccinated(stringList* virus)
 {
     skipList_Lists* temp = this;
@@ -577,22 +445,6 @@ skipList* skipList_Lists::getNotVaccinated(stringList* virus)
         temp = temp->getNext();
     }
     return NULL;
-}
-
-skipList* skipList_Lists::getNotVaccinated()
-{
-    return this->notVaccinated;
-}
-
-skipList_Lists* skipList_Lists::getNext()
-{
-    return this->next;
-}
-
-// SETTERS
-void skipList_Lists::setVirus(stringList* v)
-{
-    this->virus = v;
 }
 
 void skipList_Lists::setVaccinated(skipList* l, stringList* virus)
@@ -610,11 +462,6 @@ void skipList_Lists::setVaccinated(skipList* l, stringList* virus)
     return;
 }
 
-void skipList_Lists::setVaccinated(skipList* l)
-{
-    this->vaccinated = l;
-}
-
 void skipList_Lists::setNotVaccinated(skipList* l, stringList* virus)
 {
     skipList_Lists* temp = this;
@@ -628,14 +475,4 @@ void skipList_Lists::setNotVaccinated(skipList* l, stringList* virus)
         temp = temp->getNext();
     }
     return;
-}
-
-void skipList_Lists::setNotVaccinated(skipList* l)
-{
-    this->notVaccinated = l;
-}
-
-void skipList_Lists::setNext(skipList_Lists* n)
-{
-    this->next = n;
 }

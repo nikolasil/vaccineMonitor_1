@@ -51,11 +51,6 @@ int bloomFilter::getBit(int k)
     return 0;
 }
 
-int bloomFilter::getSize()
-{
-    return this->bloomSize * sizeof(char) * 8;
-}
-
 unsigned long bloomFilter::djb2(unsigned char* str)
 {
     unsigned long hash = 5381;

@@ -16,21 +16,22 @@ public:
     ~skipListNode();
     void destroy();
 
+    void printIds();
+    void printCitizens();
+
     void add(skipListNode* new_node);
 
     // GETTERS
-    skipListNode* getNext();
-    skipListNode* getDown();
-    int getId();
-    citizenRecord* getCitizen();
+    skipListNode* getNext() { return this->next; }
+    skipListNode* getDown() { return this->down; }
+    int getId() { if (this->citizen != NULL) return this->citizen->getID(); else if (this->next == NULL) return POS_INF; return NEG_INF; }
+    citizenRecord* getCitizen() { return this->citizen; }
 
     // SETTERS
-    void setNext(skipListNode* temp);
-    void setDown(skipListNode* temp);
-    void setCitizen(citizenRecord* citizen);
+    void setNext(skipListNode* temp) { this->next = temp; }
+    void setDown(skipListNode* temp) { this->down = temp; }
+    void setCitizen(citizenRecord* citizen) { this->citizen = citizen; }
 
-    void printIds();
-    void printCitizens();
 
 private:
     citizenRecord* citizen;
@@ -45,20 +46,20 @@ public:
     skipListLevel();
     ~skipListLevel();
 
-    skipListLevel* getDownLevel();
-    skipListNode* getList();
-    skipListNode* getPosInf();
-    skipListNode* getNegInf();
-    int getMyLevel();
-
-    void setDownLevel(skipListLevel* down);
-    void setList(skipListNode* l);
-    void setPosInf(skipListNode* p);
-    void setNegInf(skipListNode* n);
-    void setMyLevel(int l);
-
     void printIds();
     void printCitizens();
+
+    skipListLevel* getDownLevel() { return this->downLevel; }
+    int getMyLevel() { return this->myLevel; }
+    skipListNode* getList() { return this->list; }
+    skipListNode* getPosInf() { return this->pos_inf; }
+    skipListNode* getNegInf() { return this->list; }
+
+    void setDownLevel(skipListLevel* down) { this->downLevel = down; }
+    void setList(skipListNode* l) { this->list = l; }
+    void setPosInf(skipListNode* p) { this->pos_inf = p; }
+    void setNegInf(skipListNode* n) { this->list = n; }
+    void setMyLevel(int l) { this->myLevel = l; }
 
 private:
     int myLevel;
@@ -73,20 +74,22 @@ public:
     skipList();
     ~skipList();
 
+    void printIds();
+    void printFloor();
+
+    bool isEmpty();
+    int coinFlip();
+
     void add(int id, citizenRecord* citizen);
     void remove(int id);
     skipListNode* search(int id, char top_bottom);
 
     // GETTERS
-    skipListLevel* getCeiling();
-    skipListLevel* getFloor();
+    skipListLevel* getCeiling() { return this->ceiling; }
+    skipListLevel* getFloor() { return this->floor; }
     // SETTERS
-    void setCeiling(skipListLevel* c);
-    void setFloor(skipListLevel* f);
-    bool isEmpty();
-    void printIds();
-    void printFloor();
-    int coinFlip();
+    void setCeiling(skipListLevel* c) { this->ceiling = c; }
+    void setFloor(skipListLevel* f) { this->floor = f; }
 
 private:
     skipListLevel* ceiling;
@@ -102,20 +105,21 @@ public:
 
     skipList_Lists* add(stringList* virus);
 
-    // GETTERS
-    stringList* getVirus();
     skipList* getVaccinated(stringList* virus);
-    skipList* getVaccinated();
     skipList* getNotVaccinated(stringList* virus);
-    skipList* getNotVaccinated();
-    skipList_Lists* getNext();
-    // SETTERS
-    void setVirus(stringList* v);
-    void setVaccinated(skipList* l, stringList* virus);
-    void setVaccinated(skipList* l);
     void setNotVaccinated(skipList* l, stringList* virus);
-    void setNotVaccinated(skipList* l);
-    void setNext(skipList_Lists* n);
+    void setVaccinated(skipList* l, stringList* virus);
+
+    // GETTERS
+    stringList* getVirus() { return this->virus; }
+    skipList* getVaccinated() { return this->vaccinated; }
+    skipList* getNotVaccinated() { return this->notVaccinated; }
+    skipList_Lists* getNext() { return this->next; }
+    // SETTERS
+    void setVirus(stringList* v) { this->virus = v; }
+    void setVaccinated(skipList* l) { this->vaccinated = l; }
+    void setNotVaccinated(skipList* l) { this->notVaccinated = l; }
+    void setNext(skipList_Lists* n) { this->next = n; }
 
 private:
     stringList* virus;
