@@ -42,7 +42,7 @@ noneInfo ::~noneInfo()
     }
 }
 
-population::population(linkedListStringNode *c, bool byAge) : countryName(c)
+population::population(stringList* c, bool byAge) : countryName(c)
 {
     this->setNext(NULL);
     this->inRange = new yes(0);
@@ -98,9 +98,9 @@ population::~population()
     }
 }
 
-population *population::find(linkedListStringNode *country)
+population* population::find(stringList* country)
 {
-    population *temp = this;
+    population* temp = this;
     string countryName = country->getString();
     while (temp != NULL)
     {
@@ -115,7 +115,7 @@ population *population::find(linkedListStringNode *country)
 
 void population::inYes(int pos)
 {
-    yes *temp = this->inRange;
+    yes* temp = this->inRange;
     for (int i = 0; i < pos; i++)
     {
         temp = temp->next;
@@ -125,7 +125,7 @@ void population::inYes(int pos)
 
 void population::outYes(int pos)
 {
-    yes *temp = this->outRange;
+    yes* temp = this->outRange;
     for (int i = 0; i < pos; i++)
     {
         temp = temp->next;
@@ -135,7 +135,7 @@ void population::outYes(int pos)
 
 void population::NO(int pos)
 {
-    no *temp = this->No;
+    no* temp = this->No;
     for (int i = 0; i < pos; i++)
     {
         temp = temp->next;
@@ -145,7 +145,7 @@ void population::NO(int pos)
 
 void population::noInfo(int pos)
 {
-    noneInfo *temp = this->noInformation;
+    noneInfo* temp = this->noInformation;
     for (int i = 0; i < pos; i++)
     {
         temp = temp->next;
@@ -154,25 +154,25 @@ void population::noInfo(int pos)
 }
 
 // SETTERS
-void population::setNext(population *n)
+void population::setNext(population* n)
 {
     this->next = n;
 }
 
 // GETTERS
-population *population::getNext()
+population* population::getNext()
 {
     return this->next;
 }
 
-linkedListStringNode *population::getCountryName()
+stringList* population::getCountryName()
 {
     return this->countryName;
 }
 
 unsigned int population::getInYes(int pos)
 {
-    yes *temp = this->inRange;
+    yes* temp = this->inRange;
     for (int i = 0; i < pos; i++)
     {
         temp = temp->next;
@@ -182,7 +182,7 @@ unsigned int population::getInYes(int pos)
 
 unsigned int population::getOutYes(int pos)
 {
-    yes *temp = this->outRange;
+    yes* temp = this->outRange;
     for (int i = 0; i < pos; i++)
     {
         temp = temp->next;
@@ -192,7 +192,7 @@ unsigned int population::getOutYes(int pos)
 
 unsigned int population::getNO(int pos)
 {
-    no *temp = this->No;
+    no* temp = this->No;
     for (int i = 0; i < pos; i++)
     {
         temp = temp->next;
@@ -202,7 +202,7 @@ unsigned int population::getNO(int pos)
 
 unsigned int population::getNoInfo(int pos)
 {
-    noneInfo *temp = this->noInformation;
+    noneInfo* temp = this->noInformation;
     for (int i = 0; i < pos; i++)
     {
         temp = temp->next;
@@ -212,7 +212,7 @@ unsigned int population::getNoInfo(int pos)
 
 void population::print()
 {
-    population *temp = this;
+    population* temp = this;
     while (temp != NULL)
     {
         if (temp->inRange->next == NULL)

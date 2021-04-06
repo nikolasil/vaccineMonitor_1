@@ -1,7 +1,7 @@
 CC = g++ -std=c++11 -O3
 CFLAFS = -Wall -g
 
-FILES = main.o vaccineMonitor.o util.o citizen.o date.o tree.o linkedListString.o bloomFilter.o skipList.o population.o
+FILES = main.o vaccineMonitor.o util.o citizen.o date.o tree.o stringList.o bloomFilter.o skipList.o population.o
 
 vaccineMonitor: clean $(FILES)
 	$(CC) $(CFLAFS) -o vaccineMonitor $(FILES)
@@ -24,8 +24,8 @@ date.o:
 tree.o:
 	$(CC) $(CFLAFS) -c DataStructures/binaryAvlTree/tree.cpp
 
-linkedListString.o:
-	$(CC) $(CFLAFS) -c DataStructures/linkedList/linkedListString.cpp
+stringList.o:
+	$(CC) $(CFLAFS) -c DataStructures/stringList/stringList.cpp
 
 bloomFilter.o:
 	$(CC) $(CFLAFS) -c DataStructures/bloomFilter/bloomFilter.cpp

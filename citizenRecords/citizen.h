@@ -1,66 +1,74 @@
+/*
+    This file contains the citizenRecord class together with the listStatus class.
+
+    Each citizen has his own listStatus that holds vaccination informations.
+*/
+
 #ifndef CITIZEN_H
 #define CITIZEN_H
 
 #include <string>
 
 #include "../DataStructures/date/date.h"
-#include "../DataStructures/linkedList/linkedListString.h"
+#include "../DataStructures/stringList/stringList.h"
 
 using namespace std;
 
 class listStatus
-/* this class is a linked list that holds the
-the viruses statuses that a citizen can have */
+    /* this class is a linked list that holds the
+    the viruses statuses that a citizen can have */
 {
 public:
     // 2 different constructors where the date is string or class date
-    listStatus(linkedListStringNode *virus, char s, string d);
-    listStatus(linkedListStringNode *virus, char s, date d);
+    listStatus(stringList* virus, char s, string d);
+    listStatus(stringList* virus, char s, date d);
     ~listStatus();
 
-    void addStatus(linkedListStringNode *virus, char s, date d); /* add in the end of the list a new virus status */
-    listStatus *getNode(linkedListStringNode *virus);
-    listStatus *getNode(string virus);
+    void addStatus(stringList* virus, char s, date d); /* add in the end of the list a new virus status */
+    listStatus* getNode(stringList* virus);
+    listStatus* getNode(string virus);
 
-    char getVirusStatus(linkedListStringNode *virus); //   given the virus name return the status of that virus.
+    char getVirusStatus(stringList* virus); //   given the virus name return the status of that virus.
     char getVirusStatus(string virus);                //   '\0' if that virus is not in that citizen list
 
-    date getVirusDate(linkedListStringNode *virus); //   given the virus name return the date of that virus
+    date getVirusDate(stringList* virus); //   given the virus name return the date of that virus
     date getVirusDate(string virus);                //     EMPTY DATE if that virus is not in that citizen list
     // SETTERS
     void setStatus(char status);
     void setDate(date d);
     void setDate(string d);
     // GETTERS
-    linkedListStringNode *getVirusName();
+    stringList* getVirusName();
     char getVirusStatus();
     date getDateVaccinated();
 
     void print();
 
 private:
-    linkedListStringNode *virusName;
+    stringList* virusName;
     char status; // 'y' stands for "YES", 'n' for "NO"
     date dateVaccinated;
-    listStatus *next;
+    listStatus* next;
 };
 
 class citizenRecord
+    /* This class contains the credentials of a citizen together
+    with a header for listStatus list*/
 {
 public:
-    citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, listStatus *stat);
-    citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, linkedListStringNode *virus, char stat, string d);
+    citizenRecord(int id, string name, string lastn, stringList* count, int ag, listStatus* stat);
+    citizenRecord(int id, string name, string lastn, stringList* count, int ag, stringList* virus, char stat, string d);
     ~citizenRecord();
 
-    int credentialsMatches(citizenRecord *citizen);
+    int credentialsMatches(citizenRecord* citizen);
 
     // GETTERS
     int getID();
     string getFirstName();
     string getLastName();
-    linkedListStringNode *getCountry();
+    stringList* getCountry();
     int getAge();
-    listStatus *getStatus();
+    listStatus* getStatus();
 
     void print();
     void printCredentials();
@@ -69,9 +77,9 @@ private:
     int citizenID;
     string firstName;
     string lastName;
-    linkedListStringNode *country;
+    stringList* country;
     int age;
-    listStatus *status;
+    listStatus* status;
 };
 
 #endif

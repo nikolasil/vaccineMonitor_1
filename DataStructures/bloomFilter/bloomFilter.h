@@ -1,7 +1,15 @@
+/*
+    This file conatins the bloomFilter together with a list of bloomFilters.
+
+    BloomFilter is just a class that has an array of chars.
+    In order to manupulate the array as array of bits bitwise shifting is used
+    to access the spesific bit and set it (1) or clear it (0).
+*/
+
 #ifndef BLOOMFILTER_H
 #define BLOOMFILTER_H
 
-#include "../linkedList/linkedListString.h"
+#include "../stringList/stringList.h"
 
 class bloomFilter
 {
@@ -16,28 +24,28 @@ public:
     int check(int number);
 
 private:
-    unsigned long djb2(unsigned char *str);
-    unsigned long sdbm(unsigned char *str);
-    unsigned long hash_i(unsigned char *str, int i);
+    unsigned long djb2(unsigned char* str);
+    unsigned long sdbm(unsigned char* str);
+    unsigned long hash_i(unsigned char* str, int i);
     int bloomSize;
-    char *array;
+    char* array;
 };
 
 class bloomFilterList
 {
 public:
     bloomFilterList(int bloomSize);
-    bloomFilterList(linkedListStringNode *virus, int bloomSize);
+    bloomFilterList(stringList* virus, int bloomSize);
     ~bloomFilterList();
 
-    bloomFilterList *add(linkedListStringNode *virus);
-    bloomFilter *getBloom(linkedListStringNode *virus);
+    bloomFilterList* add(stringList* virus);
+    bloomFilter* getBloom(stringList* virus);
 
 private:
     int bloomSize;
-    linkedListStringNode *virus;
-    bloomFilter *bloom;
-    bloomFilterList *next;
+    stringList* virus;
+    bloomFilter* bloom;
+    bloomFilterList* next;
 };
 
 #endif

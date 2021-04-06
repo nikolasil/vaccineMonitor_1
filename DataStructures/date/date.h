@@ -1,3 +1,7 @@
+/*
+    This file contains the date class that is used in the citizenRecord class.
+*/
+
 #ifndef DATE_H
 #define DATE_H
 
@@ -14,7 +18,7 @@ public:
 
     void print();
     int compare(date d);
-    bool isValid();
+    bool isValid(); // return true if the date is in correct format (dd-mm-yyyy)
 
     // GETTERS
     string getDay();

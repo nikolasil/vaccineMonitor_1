@@ -7,7 +7,7 @@
 #include "util.h"
 #include "DataStructures/date/date.h"
 #include "DataStructures/binaryAvlTree/tree.h"
-#include "DataStructures/linkedList/linkedListString.h"
+#include "DataStructures/stringList/stringList.h"
 #include "DataStructures/bloomFilter/bloomFilter.h"
 #include "DataStructures/skipList/skipList.h"
 #include "citizenRecords/citizen.h"
@@ -18,10 +18,10 @@ using namespace std;
 vaccineMonitor::vaccineMonitor(int bloomSize)
 {
     this->tree = NULL;
-    this->countryList = new linkedListStringNode();
+    this->countryList = new stringList();
     checkNew(this->countryList);
 
-    this->virusList = new linkedListStringNode();
+    this->virusList = new stringList();
     checkNew(this->virusList);
 
     this->bloomList = new bloomFilterList(bloomSize);
@@ -67,9 +67,9 @@ void vaccineMonitor::addRecord(int length, string* words, string line)
     }
 
     addNewVirus(words[5]);
-    linkedListStringNode* virus = virusList->search(words[5]);
+    stringList* virus = virusList->search(words[5]);
     addNewCountry(words[3]);
-    linkedListStringNode* country = countryList->search(words[3]);
+    stringList* country = countryList->search(words[3]);
 
     char status = 'n';
     string date = "";
@@ -299,7 +299,7 @@ void vaccineMonitor::vaccineStatusBloom(string* arguments, int length)
         cout << "- virusName: " << virus << endl;
         cout << endl;
         int res;
-        linkedListStringNode* v = virusList->search(virus);
+        stringList* v = virusList->search(virus);
         if (v != NULL)
         {
             res = bloomList->getBloom(v)->check(id);
@@ -361,7 +361,7 @@ void vaccineMonitor::vaccineStatus(string* arguments, int length)
         }
         cout << endl;
 
-        linkedListStringNode* v = virusList;
+        stringList* v = virusList;
         do
         {
             if (v == NULL)
@@ -423,7 +423,7 @@ void vaccineMonitor::vaccineStatus(string* arguments, int length)
     }
 }
 
-void vaccineMonitor::treeInOrderPopulationCountry(treeNode* node, population** stat, linkedListStringNode* country, linkedListStringNode* virus, date date1, date date2)
+void vaccineMonitor::treeInOrderPopulationCountry(treeNode* node, population** stat, stringList* country, stringList* virus, date date1, date date2)
 {
     if (node == NULL)
         return;
@@ -458,7 +458,7 @@ void vaccineMonitor::treeInOrderPopulationCountry(treeNode* node, population** s
     treeInOrderPopulationCountry(node->getRight(), stat, country, virus, date1, date2);
 }
 
-void vaccineMonitor::treeInOrderPopulationGlobal(treeNode* node, population** stat, linkedListStringNode* virus, date date1, date date2)
+void vaccineMonitor::treeInOrderPopulationGlobal(treeNode* node, population** stat, stringList* virus, date date1, date date2)
 {
     if (node == NULL)
         return;
@@ -521,8 +521,8 @@ void vaccineMonitor::populationStatus(string* arguments, int length)
             cout << "ERROR date1 > date2" << endl;
             return;
         }
-        linkedListStringNode* country;
-        linkedListStringNode* virus;
+        stringList* country;
+        stringList* virus;
         if (length == 5)
         {
             cout << "- country: " << arguments[1] << endl;
@@ -569,7 +569,7 @@ void vaccineMonitor::populationStatus(string* arguments, int length)
 
             if (this->virusList->search(arguments[1]) == NULL)
             { // not in virusList
-                linkedListStringNode* temp = countryList;
+                stringList* temp = countryList;
                 while (temp != NULL)
                 {
                     cout << temp->getString() << " 0 0%" << endl;
@@ -581,7 +581,7 @@ void vaccineMonitor::populationStatus(string* arguments, int length)
             {
                 virus = virusList->search(arguments[1]);
 
-                linkedListStringNode* temp = countryList;
+                stringList* temp = countryList;
                 population* stat = new population(temp, false);
                 checkNew(stat);
                 temp = temp->getNext();
@@ -610,7 +610,7 @@ void vaccineMonitor::populationStatus(string* arguments, int length)
     }
 }
 
-void vaccineMonitor::treeInOrderPopulationByAgeCountry(treeNode* node, population** stat, linkedListStringNode* country, linkedListStringNode* virus, date date1, date date2)
+void vaccineMonitor::treeInOrderPopulationByAgeCountry(treeNode* node, population** stat, stringList* country, stringList* virus, date date1, date date2)
 {
     if (node == NULL)
         return;
@@ -663,7 +663,7 @@ void vaccineMonitor::treeInOrderPopulationByAgeCountry(treeNode* node, populatio
     treeInOrderPopulationByAgeCountry(node->getRight(), stat, country, virus, date1, date2);
 }
 
-void vaccineMonitor::treeInOrderPopulationByAgeGlobal(treeNode* node, population** stat, linkedListStringNode* virus, date date1, date date2)
+void vaccineMonitor::treeInOrderPopulationByAgeGlobal(treeNode* node, population** stat, stringList* virus, date date1, date date2)
 {
     if (node == NULL)
         return;
@@ -743,8 +743,8 @@ void vaccineMonitor::popStatusByAge(string* arguments, int length)
             cout << "ERROR date1 > date2" << endl;
             return;
         }
-        linkedListStringNode* country;
-        linkedListStringNode* virus;
+        stringList* country;
+        stringList* virus;
         if (length == 5)
         {
             cout << "- country: " << arguments[1] << endl;
@@ -791,7 +791,7 @@ void vaccineMonitor::popStatusByAge(string* arguments, int length)
 
             if (this->virusList->search(arguments[1]) == NULL)
             { // not in virusList
-                linkedListStringNode* temp = countryList;
+                stringList* temp = countryList;
                 while (temp != NULL)
                 {
                     cout << temp->getString() << " 0 0%" << endl;
@@ -803,7 +803,7 @@ void vaccineMonitor::popStatusByAge(string* arguments, int length)
             {
                 virus = virusList->search(arguments[1]);
 
-                linkedListStringNode* temp = countryList;
+                stringList* temp = countryList;
                 population* stat = new population(temp, true);
                 checkNew(stat);
                 temp = temp->getNext();
@@ -866,9 +866,9 @@ void vaccineMonitor::insertCitizenRecord(string line, bool selected)
     }
     cout << endl;
     addNewVirus(words[5]);
-    linkedListStringNode* virus = virusList->search(words[5]);
+    stringList* virus = virusList->search(words[5]);
     addNewCountry(words[3]);
-    linkedListStringNode* country = countryList->search(words[3]);
+    stringList* country = countryList->search(words[3]);
 
     char status = 'n';
     string date = "";
@@ -978,7 +978,7 @@ void vaccineMonitor::listNonVaccinatedPersons(string* arguments, int length)
     {
         cout << "- virusName: " << arguments[1] << endl;
         cout << endl;
-        linkedListStringNode* virus = virusList->search(arguments[1]);
+        stringList* virus = virusList->search(arguments[1]);
         // cout << virus->getString() << endl;
         if (virus == NULL)
         {

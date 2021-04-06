@@ -4,16 +4,21 @@
 #include "citizen.h"
 #include "../util.h"
 #include "../DataStructures/date/date.h"
-#include "../DataStructures/linkedList/linkedListString.h"
+#include "../DataStructures/stringList/stringList.h"
 
-listStatus::listStatus(linkedListStringNode *virus, char s, string d) : dateVaccinated(d)
+
+/*
+- - - listStatus Methods Iimplemantation - - -
+*/
+
+listStatus::listStatus(stringList* virus, char s, string d) : dateVaccinated(d)
 {
     this->virusName = virus;
     this->status = s;
     this->next = NULL;
 }
 
-listStatus::listStatus(linkedListStringNode *virus, char s, date d) : dateVaccinated(d)
+listStatus::listStatus(stringList* virus, char s, date d) : dateVaccinated(d)
 {
     this->virusName = virus;
     this->status = s;
@@ -28,9 +33,9 @@ listStatus::~listStatus()
     }
 }
 
-void listStatus::addStatus(linkedListStringNode *virus, char s, date d)
+void listStatus::addStatus(stringList* virus, char s, date d)
 {
-    listStatus *temp = this;
+    listStatus* temp = this;
     if (temp == NULL)
     {
         this->virusName = virus;
@@ -42,7 +47,7 @@ void listStatus::addStatus(linkedListStringNode *virus, char s, date d)
     {
         temp = temp->next;
     }
-    listStatus *new_node = new listStatus(virus, s, d);
+    listStatus* new_node = new listStatus(virus, s, d);
     checkNew(new_node);
     temp->next = new_node;
 }
@@ -62,9 +67,9 @@ void listStatus::setDate(string d)
     this->dateVaccinated.setAll(d);
 }
 
-listStatus *listStatus::getNode(linkedListStringNode *virus)
+listStatus* listStatus::getNode(stringList* virus)
 {
-    listStatus *temp = this;
+    listStatus* temp = this;
     do
     {
         if (temp->virusName->getString().compare(virus->getString()) == 0)
@@ -76,9 +81,9 @@ listStatus *listStatus::getNode(linkedListStringNode *virus)
     return NULL;
 }
 
-listStatus *listStatus::getNode(string virus)
+listStatus* listStatus::getNode(string virus)
 {
-    listStatus *temp = this;
+    listStatus* temp = this;
     do
     {
         if (temp->virusName->getString().compare(virus) == 0)
@@ -90,9 +95,9 @@ listStatus *listStatus::getNode(string virus)
     return NULL;
 }
 
-char listStatus::getVirusStatus(linkedListStringNode *virus)
+char listStatus::getVirusStatus(stringList* virus)
 {
-    listStatus *temp = this;
+    listStatus* temp = this;
     do
     {
         if (temp->virusName->getString().compare(virus->getString()) == 0)
@@ -106,7 +111,7 @@ char listStatus::getVirusStatus(linkedListStringNode *virus)
 
 char listStatus::getVirusStatus(string virus)
 {
-    listStatus *temp = this;
+    listStatus* temp = this;
     do
     {
         if (temp->virusName->getString().compare(virus) == 0)
@@ -118,9 +123,9 @@ char listStatus::getVirusStatus(string virus)
     return '\0';
 }
 
-date listStatus::getVirusDate(linkedListStringNode *virus)
+date listStatus::getVirusDate(stringList* virus)
 {
-    listStatus *temp = this;
+    listStatus* temp = this;
     do
     {
         if (temp->virusName->getString().compare(virus->getString()) == 0)
@@ -135,7 +140,7 @@ date listStatus::getVirusDate(linkedListStringNode *virus)
 
 date listStatus::getVirusDate(string virus)
 {
-    listStatus *temp = this;
+    listStatus* temp = this;
     do
     {
         if (temp->virusName->getString().compare(virus) == 0)
@@ -148,7 +153,7 @@ date listStatus::getVirusDate(string virus)
     return nullDate;
 }
 
-linkedListStringNode *listStatus::getVirusName()
+stringList* listStatus::getVirusName()
 {
     return this->virusName;
 }
@@ -165,7 +170,7 @@ date listStatus::getDateVaccinated()
 
 void listStatus::print()
 {
-    listStatus *temp = this;
+    listStatus* temp = this;
     do
     {
         cout << "[virusName: ";
@@ -190,11 +195,15 @@ void listStatus::print()
     } while (temp != NULL);
 }
 
-citizenRecord::citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, listStatus *stat) : citizenID(id), firstName(name), lastName(lastn), country(count), age(ag), status(stat)
+/*
+- - - citizenRecord Methods Iimplemantation - - -
+*/
+
+citizenRecord::citizenRecord(int id, string name, string lastn, stringList* count, int ag, listStatus* stat) : citizenID(id), firstName(name), lastName(lastn), country(count), age(ag), status(stat)
 {
 }
 
-citizenRecord::citizenRecord(int id, string name, string lastn, linkedListStringNode *count, int ag, linkedListStringNode *virus, char stat, string d) : citizenID(id), firstName(name), lastName(lastn), country(count), age(ag)
+citizenRecord::citizenRecord(int id, string name, string lastn, stringList* count, int ag, stringList* virus, char stat, string d) : citizenID(id), firstName(name), lastName(lastn), country(count), age(ag)
 {
     this->status = new listStatus(virus, stat, d);
     checkNew(this->status);
@@ -205,7 +214,7 @@ citizenRecord::~citizenRecord()
     delete this->status;
 }
 
-int citizenRecord::credentialsMatches(citizenRecord *citizen)
+int citizenRecord::credentialsMatches(citizenRecord* citizen)
 {
     if (this->getID() == citizen->getID() && this->getFirstName().compare(citizen->getFirstName()) == 0 && this->getLastName().compare(citizen->getLastName()) == 0 && this->getCountry()->getString().compare(citizen->getCountry()->getString()) == 0 && this->getAge() == citizen->getAge())
     {
@@ -252,7 +261,7 @@ string citizenRecord::getLastName()
     return this->lastName;
 }
 
-linkedListStringNode *citizenRecord::getCountry()
+stringList* citizenRecord::getCountry()
 {
     return this->country;
 }
@@ -262,7 +271,7 @@ int citizenRecord::getAge()
     return this->age;
 }
 
-listStatus *citizenRecord::getStatus()
+listStatus* citizenRecord::getStatus()
 {
     return this->status;
 }

@@ -2,7 +2,7 @@
 #define SKIPLIST_H
 #include <limits>
 #include "../../citizenRecords/citizen.h"
-#include "../linkedList/linkedListString.h"
+#include "../stringList/stringList.h"
 
 #define POS_INF std ::numeric_limits<int>::max()
 #define NEG_INF std ::numeric_limits<int>::min()
@@ -97,28 +97,28 @@ class skipList_Lists
 {
 public:
     skipList_Lists();
-    skipList_Lists(linkedListStringNode* virus);
+    skipList_Lists(stringList* virus);
     ~skipList_Lists();
 
-    skipList_Lists* add(linkedListStringNode* virus);
+    skipList_Lists* add(stringList* virus);
 
     // GETTERS
-    linkedListStringNode* getVirus();
-    skipList* getVaccinated(linkedListStringNode* virus);
+    stringList* getVirus();
+    skipList* getVaccinated(stringList* virus);
     skipList* getVaccinated();
-    skipList* getNotVaccinated(linkedListStringNode* virus);
+    skipList* getNotVaccinated(stringList* virus);
     skipList* getNotVaccinated();
     skipList_Lists* getNext();
     // SETTERS
-    void setVirus(linkedListStringNode* v);
-    void setVaccinated(skipList* l, linkedListStringNode* virus);
+    void setVirus(stringList* v);
+    void setVaccinated(skipList* l, stringList* virus);
     void setVaccinated(skipList* l);
-    void setNotVaccinated(skipList* l, linkedListStringNode* virus);
+    void setNotVaccinated(skipList* l, stringList* virus);
     void setNotVaccinated(skipList* l);
     void setNext(skipList_Lists* n);
 
 private:
-    linkedListStringNode* virus;
+    stringList* virus;
     skipList* vaccinated;
     skipList* notVaccinated;
     skipList_Lists* next;

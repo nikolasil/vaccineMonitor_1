@@ -2,7 +2,7 @@
 #define POPULATION_H
 
 #include <string>
-#include "../linkedList/linkedListString.h"
+#include "../stringList/stringList.h"
 
 using namespace std;
 
@@ -39,10 +39,10 @@ public:
 class population
 {
 public:
-    population(linkedListStringNode* c, bool byAge);
+    population(stringList* c, bool byAge);
     ~population();
 
-    population* find(linkedListStringNode* country);
+    population* find(stringList* country);
 
     void inYes(int pos);  // +1 to yes
     void outYes(int pos); // +1 to yes
@@ -54,7 +54,7 @@ public:
 
     // GETTERS
     population* getNext();
-    linkedListStringNode* getCountryName();
+    stringList* getCountryName();
     unsigned int getInYes(int pos);
     unsigned int getOutYes(int pos);
     unsigned int getNO(int pos);
@@ -63,7 +63,7 @@ public:
     void print();
 
 private:
-    linkedListStringNode* countryName; // key
+    stringList* countryName; // key
     yes* inRange;
     yes* outRange;
     no* No;

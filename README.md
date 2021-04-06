@@ -268,7 +268,7 @@ private:
   - 7 word must be either YES or NO
   - If there are 7 words total the seventh word must be NO
   - If there are 8 words total the seventh word must be YES
-  - The date if exists must have the format dd-mm-yyy
+  - The date if exists must have the format dd-mm-yyyy
   - 1 <= dd <= 30 & 1 <= mm <= 12 & 1950 <= yyyy <= 2050
 
 - Bad dupicates

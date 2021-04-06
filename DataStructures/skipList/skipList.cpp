@@ -2,7 +2,7 @@
 
 #include "skipList.h"
 #include "../../citizenRecords/citizen.h"
-#include "../linkedList/linkedListString.h"
+#include "../stringList/stringList.h"
 #include "../../util.h"
 
 using namespace std;
@@ -497,7 +497,7 @@ skipList_Lists::skipList_Lists()
     this->setNext(NULL);
 }
 
-skipList_Lists::skipList_Lists(linkedListStringNode* virus)
+skipList_Lists::skipList_Lists(stringList* virus)
 {
     this->setVirus(virus);
     this->setVaccinated(new skipList());
@@ -523,7 +523,7 @@ skipList_Lists::~skipList_Lists()
     }
 }
 
-skipList_Lists* skipList_Lists::add(linkedListStringNode* virus)
+skipList_Lists* skipList_Lists::add(stringList* virus)
 {
     if (this->getVirus() == NULL)
     {
@@ -541,12 +541,12 @@ skipList_Lists* skipList_Lists::add(linkedListStringNode* virus)
 }
 
 // GETTERS
-linkedListStringNode* skipList_Lists::getVirus()
+stringList* skipList_Lists::getVirus()
 {
     return this->virus;
 }
 
-skipList* skipList_Lists::getVaccinated(linkedListStringNode* virus)
+skipList* skipList_Lists::getVaccinated(stringList* virus)
 {
     skipList_Lists* temp = this;
     while (temp != NULL)
@@ -565,7 +565,7 @@ skipList* skipList_Lists::getVaccinated()
     return this->vaccinated;
 }
 
-skipList* skipList_Lists::getNotVaccinated(linkedListStringNode* virus)
+skipList* skipList_Lists::getNotVaccinated(stringList* virus)
 {
     skipList_Lists* temp = this;
     while (temp != NULL)
@@ -590,12 +590,12 @@ skipList_Lists* skipList_Lists::getNext()
 }
 
 // SETTERS
-void skipList_Lists::setVirus(linkedListStringNode* v)
+void skipList_Lists::setVirus(stringList* v)
 {
     this->virus = v;
 }
 
-void skipList_Lists::setVaccinated(skipList* l, linkedListStringNode* virus)
+void skipList_Lists::setVaccinated(skipList* l, stringList* virus)
 {
     skipList_Lists* temp = this;
     while (temp != NULL)
@@ -615,7 +615,7 @@ void skipList_Lists::setVaccinated(skipList* l)
     this->vaccinated = l;
 }
 
-void skipList_Lists::setNotVaccinated(skipList* l, linkedListStringNode* virus)
+void skipList_Lists::setNotVaccinated(skipList* l, stringList* virus)
 {
     skipList_Lists* temp = this;
     while (temp != NULL)

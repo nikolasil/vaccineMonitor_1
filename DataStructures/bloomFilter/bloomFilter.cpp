@@ -1,9 +1,14 @@
 #include <iostream>
 
 #include "bloomFilter.h"
-#include "../linkedList/linkedListString.h"
+#include "../stringList/stringList.h"
 #include "../../util.h"
+
 using namespace std;
+
+/*
+- - - bloomFilter Methods Iimplemantation - - -
+*/
 
 bloomFilter::bloomFilter(int bloomSize)
 {
@@ -120,6 +125,10 @@ int bloomFilter::check(int number)
     return flag;
 }
 
+/*
+- - - bloomFilterList Methods Iimplemantation - - -
+*/
+
 bloomFilterList::bloomFilterList(int bloomSize) : bloomSize(bloomSize)
 {
     this->next = NULL;
@@ -127,7 +136,7 @@ bloomFilterList::bloomFilterList(int bloomSize) : bloomSize(bloomSize)
     this->virus = NULL;
 }
 
-bloomFilterList::bloomFilterList(linkedListStringNode* virus, int bloomSize) : bloomSize(bloomSize), virus(virus)
+bloomFilterList::bloomFilterList(stringList* virus, int bloomSize) : bloomSize(bloomSize), virus(virus)
 {
     this->bloom = new bloomFilter(this->bloomSize);
     checkNew(this->bloom);
@@ -146,7 +155,7 @@ bloomFilterList::~bloomFilterList()
     }
 }
 
-bloomFilterList* bloomFilterList::add(linkedListStringNode* virus)
+bloomFilterList* bloomFilterList::add(stringList* virus)
 {
     if (this->virus == NULL)
     {
@@ -161,7 +170,7 @@ bloomFilterList* bloomFilterList::add(linkedListStringNode* virus)
     return new_node;
 }
 
-bloomFilter* bloomFilterList::getBloom(linkedListStringNode* virus)
+bloomFilter* bloomFilterList::getBloom(stringList* virus)
 {
     bloomFilterList* temp = this;
     while (temp != NULL)

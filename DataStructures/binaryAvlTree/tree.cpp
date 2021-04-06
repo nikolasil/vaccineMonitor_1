@@ -4,6 +4,11 @@
 #include "../../citizenRecords/citizen.h"
 #include "../../util.h"
 
+
+/*
+- - - treeNode Methods Iimplemantation - - -
+*/
+
 treeNode::treeNode()
 {
 }
@@ -15,9 +20,9 @@ treeNode::~treeNode()
     delete this->getRight();
 }
 
-treeNode *treeNode::newTreeNode(citizenRecord *citizen)
+treeNode* treeNode::newTreeNode(citizenRecord* citizen)
 {
-    treeNode *node = new treeNode();
+    treeNode* node = new treeNode();
     checkNew(node);
     node->setCitizen(citizen);
     node->setLeft(NULL);
@@ -26,10 +31,10 @@ treeNode *treeNode::newTreeNode(citizenRecord *citizen)
     return node;
 }
 
-treeNode *treeNode::rightRotation(treeNode *y)
+treeNode* treeNode::rightRotation(treeNode* y)
 {
-    treeNode *x = y->getLeft();
-    treeNode *z = x->getRight();
+    treeNode* x = y->getLeft();
+    treeNode* z = x->getRight();
 
     x->setRight(y);
     y->setLeft(z);
@@ -40,10 +45,10 @@ treeNode *treeNode::rightRotation(treeNode *y)
     return x;
 }
 
-treeNode *treeNode::leftRotation(treeNode *x)
+treeNode* treeNode::leftRotation(treeNode* x)
 {
-    treeNode *y = x->getRight();
-    treeNode *z = y->getLeft();
+    treeNode* y = x->getRight();
+    treeNode* z = y->getLeft();
 
     y->setLeft(x);
     x->setRight(z);
@@ -54,7 +59,7 @@ treeNode *treeNode::leftRotation(treeNode *x)
     return y;
 }
 
-treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord **alreadyInTree, string *result, bool checkNO)
+treeNode* treeNode::insert(treeNode* node, citizenRecord* citizen, citizenRecord** alreadyInTree, string* result, bool checkNO)
 {
     if (node == NULL)
     {
@@ -93,7 +98,7 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
             }
             else if (oldStatus == 'n' && newStatus == 'y')
             {
-                listStatus *virusStatusNode = node->getCitizen()->getStatus()->getNode(citizen->getStatus()->getVirusName());
+                listStatus* virusStatusNode = node->getCitizen()->getStatus()->getNode(citizen->getStatus()->getVirusName());
                 virusStatusNode->setStatus(citizen->getStatus()->getVirusStatus());
                 virusStatusNode->setDate(citizen->getStatus()->getDateVaccinated());
                 *result = "OLD NO NEW YES";
@@ -147,7 +152,7 @@ treeNode *treeNode::insert(treeNode *node, citizenRecord *citizen, citizenRecord
     return node;
 }
 
-treeNode *treeNode::search(treeNode *root, int key)
+treeNode* treeNode::search(treeNode* root, int key)
 {
     if (root == NULL || root->getKey() == key)
     {
@@ -171,17 +176,17 @@ int treeNode::getBalance()
 
 // GETTERS
 
-citizenRecord *treeNode::getCitizen()
+citizenRecord* treeNode::getCitizen()
 {
     return this->citizen;
 }
 
-treeNode *treeNode::getLeft()
+treeNode* treeNode::getLeft()
 {
     return this->left;
 }
 
-treeNode *treeNode::getRight()
+treeNode* treeNode::getRight()
 {
     return this->right;
 }
@@ -202,17 +207,17 @@ int treeNode::getBalanceHeight()
 
 // SETTERS
 
-void treeNode::setCitizen(citizenRecord *citizen)
+void treeNode::setCitizen(citizenRecord* citizen)
 {
     this->citizen = citizen;
 }
 
-void treeNode::setLeft(treeNode *l)
+void treeNode::setLeft(treeNode* l)
 {
     this->left = l;
 }
 
-void treeNode::setRight(treeNode *r)
+void treeNode::setRight(treeNode* r)
 {
     this->right = r;
 }
