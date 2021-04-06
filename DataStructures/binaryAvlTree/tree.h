@@ -14,16 +14,17 @@ using namespace std;
 class treeNode
 {
 public:
-    treeNode();
+    treeNode(citizenRecord* citizen);
     ~treeNode();
 
     void print(treeNode* node);
 
-    treeNode* insert(treeNode* node, citizenRecord* citizen, citizenRecord** alreadyInTree, string* result, bool checkNO);
-    treeNode* search(treeNode* root, int id);
-    treeNode* newTreeNode(citizenRecord* citizen);
     treeNode* rightRotation(treeNode* y);
     treeNode* leftRotation(treeNode* x);
+
+    treeNode* insert(treeNode* node, citizenRecord* citizen, citizenRecord** alreadyInTree, string* result, bool checkNO);
+    treeNode* search(treeNode* root, int id);
+
     int getBalance();
 
     // GETTERS

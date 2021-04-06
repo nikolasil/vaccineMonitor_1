@@ -1,7 +1,7 @@
-4582 vCGNrYDEQMZJAB HkVIedqJm Croatia 90 SARS-CoV-2 NO 5 df df gdf g
+4582 vCGNrYDEQMZJAB HkVIedqJm Croatia 90 SARS-CoV-2 NO
 8865 syGC NZjjHJIE Estonia 58 Smallpox YES 6-12-1952
 8865 dPyu DpPZ Bhutan 15 Smallpox YES 20-4-2005
-8865 RWZSSjCIPMFzo oUoaOLZ Germany 98 Hantavirus NO
+865 RWZSSjCIPMFzo oUoaOLZ Germany 98 Hantavirus NO
 1 syGC NZjjHJIE Estonia 58 Smallpox NO
 1 syGC NZjjHJIE Estonia 58 Hantavirus NO
 526 otCoKvtuctX jTKMVwzavtmOu Kazakhstan 49 Rabies NO

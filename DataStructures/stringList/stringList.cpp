@@ -5,20 +5,14 @@
 
 
 
-stringList::stringList() : data("")
-{
-}
+stringList::stringList() : data("") {}
 
-stringList::stringList(string d) : data(d)
-{
-}
+stringList::stringList(string d) : data(d) {}
 
 stringList::~stringList()
 {
     if (this->getNext() != NULL)
-    {
         delete this->getNext();
-    }
 }
 
 stringList* stringList::add(string d)
@@ -54,6 +48,7 @@ stringList* stringList::remove(string d)
         }
         if (temp == NULL)
             return this;
+
         prev->setNext(temp->getNext());
         delete temp;
         return this;
@@ -66,9 +61,7 @@ stringList* stringList::search(string d)
     while (temp != NULL)
     {
         if (temp->getString().compare(d) == 0)
-        {
             return temp;
-        }
 
         temp = temp->getNext();
     }

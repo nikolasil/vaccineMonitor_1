@@ -1,5 +1,5 @@
-CC = g++ -std=c++11 -O3
-CFLAFS = -Wall -g
+CC = g++ -std=c++11
+CFLAFS = -O3 -g
 
 FILES = main.o vaccineMonitor.o util.o citizen.o date.o tree.o stringList.o bloomFilter.o skipList.o population.o
 

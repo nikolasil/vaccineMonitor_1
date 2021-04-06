@@ -27,7 +27,7 @@ vaccineMonitor::vaccineMonitor(int bloomSize)
     this->bloomList = new bloomFilterList(bloomSize);
     checkNew(this->bloomList);
 
-    this->skiplist = new skipList_Lists();
+    this->skiplist = new skipList_List();
     checkNew(this->skiplist);
 }
 
@@ -62,9 +62,7 @@ void vaccineMonitor::addRecord(int length, string* words, string line)
     citizenRecord* citizen;
 
     if (this->checkSyntaxRecord("ERROR IN RECORD ", length, words, line)) // the record had syntax errors
-    {
         return;
-    }
 
     addNewVirus(words[5]);
     stringList* virus = virusList->search(words[5]);
@@ -95,9 +93,7 @@ void vaccineMonitor::addRecord(int length, string* words, string line)
             skiplist->getVaccinated(virus)->add(citizen->getID(), citizen);
         }
         else if (status == 'n')
-        {
             skiplist->getNotVaccinated(virus)->add(citizen->getID(), citizen);
-        }
     }
     else if (result.compare("VIRUS ADDED TO CITIZEN") == 0)
     {
@@ -107,32 +103,24 @@ void vaccineMonitor::addRecord(int length, string* words, string line)
             skiplist->getVaccinated(virus)->add(alreadyInTree->getID(), alreadyInTree);
         }
         else if (status == 'n')
-        {
             skiplist->getNotVaccinated(virus)->add(alreadyInTree->getID(), alreadyInTree);
-        }
     }
     else if (result.compare("WRONG CREDENTIALS") == 0)
     {
         if (length == 8)
-        {
             cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
-        }
         else
-        {
             cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << endl;
-        }
+
         cout << "ERROR= " << result << endl;
     }
     else if (result.compare("VIRUS DUPLICATE") == 0)
     {
         if (length == 8)
-        {
             cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << " " << words[7] << endl;
-        }
         else
-        {
             cout << "ERROR IN RECORD " << words[0] << " " << words[1] << " " << words[2] << " " << words[3] << " " << words[4] << " " << words[5] << " " << words[6] << endl;
-        }
+
         cout << "ERROR= " << result << endl;
     }
 }
@@ -159,33 +147,26 @@ void vaccineMonitor::startMenu()
         if (length > 0)
         {
             if (command[0].compare("/vaccineStatusBloom") == 0)
-            {
                 this->vaccineStatusBloom(command, length);
-            }
+
             else if (command[0].compare("/vaccineStatus") == 0)
-            {
                 this->vaccineStatus(command, length);
-            }
+
             else if (command[0].compare("/populationStatus") == 0)
-            {
                 this->populationStatus(command, length);
-            }
+
             else if (command[0].compare("/popStatusByAge") == 0)
-            {
                 this->popStatusByAge(command, length);
-            }
+
             else if (command[0].compare("/insertCitizenRecord") == 0)
-            {
                 this->insertCitizenRecord(input, true);
-            }
+
             else if (command[0].compare("/vaccinateNow") == 0)
-            {
                 this->vaccinateNow(input);
-            }
+
             else if (command[0].compare("/list-nonVaccinated-Persons") == 0)
-            {
                 this->listNonVaccinatedPersons(command, length);
-            }
+
             else if (command[0].compare("/exit") == 0)
             {
                 this->terminate();
@@ -193,12 +174,7 @@ void vaccineMonitor::startMenu()
                 break;
             }
             else
-            {
                 cout << "Invalid command!" << endl;
-            }
-        }
-        else
-        {
         }
         delete[] command;
     } while (1);
@@ -213,10 +189,22 @@ int vaccineMonitor::checkSyntaxRecord(string errorMessage, int length, string* w
         cout << "ERROR= ARGUMENT LENGTH ERROR" << endl;
         return 1;
     }
+    if (words[0].find_first_not_of("0123456789") != -1)
+    {
+        cout << errorMessage << input << endl;
+        cout << "ERROR= ID ERROR" << endl;
+        return 1;
+    }
     if (stoi(words[0]) > 9999 && stoi(words[0]) <= 0) // id is 4 digits
     {
         cout << errorMessage << input << endl;
         cout << "ERROR= ID ERROR" << endl;
+        return 1;
+    }
+    if (words[4].find_first_not_of("0123456789") != -1)
+    {
+        cout << errorMessage << input << endl;
+        cout << "ERROR= AGE ERROR" << endl;
         return 1;
     }
     if (stoi(words[4]) > 120 && stoi(words[4]) <= 0) // age is from 1 to 120
@@ -270,12 +258,11 @@ void vaccineMonitor::addNewVirus(string virusName)
 void vaccineMonitor::addNewCountry(string countryName)
 {
     if (countryList->search(countryName) == NULL) // if we dont have that country add it to the list of Countries
-    {
         countryList = countryList->add(countryName);
-    }
 }
 
 // COMMANDS
+
 void vaccineMonitor::vaccineStatusBloom(string* arguments, int length)
 {
     cout << endl;
@@ -301,9 +288,7 @@ void vaccineMonitor::vaccineStatusBloom(string* arguments, int length)
         int res;
         stringList* v = virusList->search(virus);
         if (v != NULL)
-        {
             res = bloomList->getBloom(v)->check(id);
-        }
         else
         {
             cout << "NOT VACCINATED" << endl;
@@ -341,37 +326,30 @@ void vaccineMonitor::vaccineStatus(string* arguments, int length)
         {
             id = stoi(arguments[1]);
             if (length == 3)
-            {
                 virus = arguments[2];
-            }
         }
         catch (std::exception& e)
         {
             cout << "ERROR citizenID must be given as first argument && it must be an integer" << endl;
             if (length == 3)
-            {
                 cout << "ERROR virusName must be given as second argument" << endl;
-            }
+
             return;
         }
         cout << "- citizenID: " << id << endl;
         if (length == 3)
-        {
             cout << "- virusName: " << virus << endl;
-        }
         cout << endl;
 
         stringList* v = virusList;
         do
         {
             if (v == NULL)
-            {
                 break;
-            }
+
             if (length == 3)
-            {
                 v = virusList->search(virus);
-            }
+
             skipList* l;
             if (v != NULL)
             {
@@ -380,13 +358,9 @@ void vaccineMonitor::vaccineStatus(string* arguments, int length)
                 if (n == NULL)
                 {
                     if (length == 2)
-                    {
                         cout << v->getString() << " NO" << endl;
-                    }
                     else
-                    {
                         cout << "NOT VACCINATED" << endl;
-                    }
                 }
                 else
                 {
@@ -405,13 +379,11 @@ void vaccineMonitor::vaccineStatus(string* arguments, int length)
                 }
             }
             else
-            {
                 cout << "NOT VACCINATED" << endl;
-            }
+
             if (length == 3)
-            {
                 break;
-            }
+
             v = v->getNext();
         } while (1);
     }
@@ -427,6 +399,7 @@ void vaccineMonitor::treeInOrderPopulationCountry(treeNode* node, population** s
 {
     if (node == NULL)
         return;
+
     treeInOrderPopulationCountry(node->getLeft(), stat, country, virus, date1, date2);
 
     citizenRecord* citizen = node->getCitizen();
@@ -437,22 +410,14 @@ void vaccineMonitor::treeInOrderPopulationCountry(treeNode* node, population** s
         if (citizenStatus == 'y')
         {
             if (citizenDate.compare(date1) == 1 && citizenDate.compare(date2) == -1)
-            {
                 (*stat)->inYes(0);
-            }
             else
-            {
                 (*stat)->outYes(0);
-            }
         }
         else if (citizenStatus == 'n')
-        {
             (*stat)->NO(0);
-        }
         else if (citizenStatus == '\0')
-        {
             (*stat)->noInfo(0);
-        }
     }
 
     treeInOrderPopulationCountry(node->getRight(), stat, country, virus, date1, date2);
@@ -462,6 +427,7 @@ void vaccineMonitor::treeInOrderPopulationGlobal(treeNode* node, population** st
 {
     if (node == NULL)
         return;
+
     treeInOrderPopulationGlobal(node->getLeft(), stat, virus, date1, date2);
 
     citizenRecord* citizen = node->getCitizen();
@@ -474,22 +440,14 @@ void vaccineMonitor::treeInOrderPopulationGlobal(treeNode* node, population** st
     if (citizenStatus == 'y')
     {
         if (citizenDate.compare(date1) == 1 && citizenDate.compare(date2) == -1)
-        {
             popCountry->inYes(0);
-        }
         else
-        {
             popCountry->outYes(0);
-        }
     }
     else if (citizenStatus == 'n')
-    {
         popCountry->NO(0);
-    }
     else if (citizenStatus == '\0')
-    {
         popCountry->noInfo(0);
-    }
 
     treeInOrderPopulationGlobal(node->getRight(), stat, virus, date1, date2);
 }
@@ -533,7 +491,6 @@ void vaccineMonitor::populationStatus(string* arguments, int length)
 
             if (this->countryList->search(arguments[1]) == NULL)
             { // not in countyList
-                // cout << "1" << endl;
                 cout << arguments[1] << " 0 0%" << endl;
                 return;
             }
@@ -542,13 +499,11 @@ void vaccineMonitor::populationStatus(string* arguments, int length)
                 country = countryList->search(arguments[1]);
                 if (this->virusList->search(arguments[2]) == NULL)
                 {
-                    // cout << "2" << endl;
                     cout << arguments[1] << " 0 0%" << endl;
                     return;
                 }
                 else
                 {
-                    // cout << "3" << endl;
                     virus = virusList->search(arguments[2]);
 
                     population* stat = new population(country, false);
@@ -614,50 +569,36 @@ void vaccineMonitor::treeInOrderPopulationByAgeCountry(treeNode* node, populatio
 {
     if (node == NULL)
         return;
+
     treeInOrderPopulationByAgeCountry(node->getLeft(), stat, country, virus, date1, date2);
 
     citizenRecord* citizen = node->getCitizen();
     if (citizen->getCountry()->getString().compare(country->getString()) == 0)
     {
         int age = citizen->getAge();
-        int position;
+        int ageGroupPos;
         if (age <= 19) // 0-20
-        {
-            position = 0;
-        }
+            ageGroupPos = 0;
         else if (age <= 39) // 20-40
-        {
-            position = 1;
-        }
+            ageGroupPos = 1;
         else if (age <= 59) // 40-60
-        {
-            position = 2;
-        }
+            ageGroupPos = 2;
         else // 60+
-        {
-            position = 3;
-        }
+            ageGroupPos = 3;
+
         char citizenStatus = citizen->getStatus()->getVirusStatus(virus);
         date citizenDate = citizen->getStatus()->getVirusDate(virus);
         if (citizenStatus == 'y')
         {
             if (citizenDate.compare(date1) == 1 && citizenDate.compare(date2) == -1)
-            {
-                (*stat)->inYes(position);
-            }
+                (*stat)->inYes(ageGroupPos);
             else
-            {
-                (*stat)->outYes(position);
-            }
+                (*stat)->outYes(ageGroupPos);
         }
         else if (citizenStatus == 'n')
-        {
-            (*stat)->NO(position);
-        }
+            (*stat)->NO(ageGroupPos);
         else if (citizenStatus == '\0')
-        {
-            (*stat)->noInfo(position);
-        }
+            (*stat)->noInfo(ageGroupPos);
     }
 
     treeInOrderPopulationByAgeCountry(node->getRight(), stat, country, virus, date1, date2);
@@ -671,23 +612,16 @@ void vaccineMonitor::treeInOrderPopulationByAgeGlobal(treeNode* node, population
 
     citizenRecord* citizen = node->getCitizen();
     int age = citizen->getAge();
-    int position;
+    int ageGroupPos;
     if (age <= 19) // 0-20
-    {
-        position = 0;
-    }
+        ageGroupPos = 0;
     else if (age <= 39) // 20-40
-    {
-        position = 1;
-    }
+        ageGroupPos = 1;
     else if (age <= 59) // 40-60
-    {
-        position = 2;
-    }
+        ageGroupPos = 2;
     else // 60+
-    {
-        position = 3;
-    }
+        ageGroupPos = 3;
+
     population* popCountry = (*stat)->find(citizen->getCountry());
 
     char citizenStatus = citizen->getStatus()->getVirusStatus(virus);
@@ -696,22 +630,14 @@ void vaccineMonitor::treeInOrderPopulationByAgeGlobal(treeNode* node, population
     if (citizenStatus == 'y')
     {
         if (citizenDate.compare(date1) == 1 && citizenDate.compare(date2) == -1)
-        {
-            popCountry->inYes(position);
-        }
+            popCountry->inYes(ageGroupPos);
         else
-        {
-            popCountry->outYes(position);
-        }
+            popCountry->outYes(ageGroupPos);
     }
     else if (citizenStatus == 'n')
-    {
-        popCountry->NO(position);
-    }
+        popCountry->NO(ageGroupPos);
     else if (citizenStatus == '\0')
-    {
-        popCountry->noInfo(position);
-    }
+        popCountry->noInfo(ageGroupPos);
 
     treeInOrderPopulationByAgeGlobal(node->getRight(), stat, virus, date1, date2);
 }
@@ -840,18 +766,15 @@ void vaccineMonitor::insertCitizenRecord(string line, bool selected)
         line.erase(0, 21);
     }
     else
-    {
         line.erase(0, 13);
-    }
+
     int length;
     string* words = readString(line, &length);
 
     citizenRecord* citizen;
 
     if (this->checkSyntaxRecord("SYNTAX ERROR: ", length, words, line)) // the record had syntax errors
-    {
         return;
-    }
 
     cout << "- citizenID: " << words[0] << endl;
     cout << "- firstName: " << words[1] << endl;
@@ -861,10 +784,9 @@ void vaccineMonitor::insertCitizenRecord(string line, bool selected)
     cout << "- virusName: " << words[5] << endl;
     cout << "- YES/NO: " << words[6] << endl;
     if (length == 8)
-    {
         cout << "- date: " << words[7] << endl;
-    }
     cout << endl;
+
     addNewVirus(words[5]);
     stringList* virus = virusList->search(words[5]);
     addNewCountry(words[3]);
@@ -888,14 +810,12 @@ void vaccineMonitor::insertCitizenRecord(string line, bool selected)
     if (result.compare("NEW CITIZEN") == 0)
     {
         bloomList->getBloom(virus)->add(citizen->getID());
+
         if (status == 'y')
-        {
             skiplist->getVaccinated(virus)->add(citizen->getID(), citizen);
-        }
         else if (status == 'n')
-        {
             skiplist->getNotVaccinated(virus)->add(citizen->getID(), citizen);
-        }
+
         cout << "CITIZEN " << words[0] << " ADDED" << endl;
     }
     else if (result.compare("WRONG CREDENTIALS") == 0)
@@ -915,15 +835,13 @@ void vaccineMonitor::insertCitizenRecord(string line, bool selected)
             skiplist->getVaccinated(virus)->add(alreadyInTree->getID(), alreadyInTree);
         }
         else if (status == 'n')
-        {
             skiplist->getNotVaccinated(virus)->add(alreadyInTree->getID(), alreadyInTree);
-        }
+
         cout << "THE NEW VIRUS INFORMATION ADDED TO CITIZEN " << words[0] << endl;
     }
     else if (result.compare("OLD NO NEW NO") == 0)
-    {
         cout << "ERROR: CITIZEN " << words[0] << " HAD ALREADY THAT INFORMATION ABOUT THAT VIRUS" << endl;
-    }
+
     else if (result.compare("OLD NO NEW YES") == 0)
     {
 
@@ -971,9 +889,7 @@ void vaccineMonitor::listNonVaccinatedPersons(string* arguments, int length)
 {
     cout << "- Selected: /list-nonVaccinated-Persons" << endl;
     if (length != 2)
-    {
         cout << "THERE MUST BE ONLY ONE 1 ARGUMENT" << endl;
-    }
     else
     {
         cout << "- virusName: " << arguments[1] << endl;
@@ -981,20 +897,14 @@ void vaccineMonitor::listNonVaccinatedPersons(string* arguments, int length)
         stringList* virus = virusList->search(arguments[1]);
         // cout << virus->getString() << endl;
         if (virus == NULL)
-        {
             cout << "0 RECORDS FOUND THAT ARE NOT VACCINATED FOR " << arguments[1] << endl;
-        }
         else
         {
 
             if (skiplist->getNotVaccinated(virus)->isEmpty())
-            {
                 cout << "0 RECORDS FOUND THAT ARE NOT VACCINATED FOR " << arguments[1] << endl;
-            }
             else
-            {
                 skiplist->getNotVaccinated(virus)->printFloor();
-            }
         }
     }
 }

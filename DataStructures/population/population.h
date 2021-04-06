@@ -1,3 +1,9 @@
+/*
+    This file contains the population class that is used
+    in the /populationStatus and /popStatusByAge commands
+    to make all th statistics needed.
+*/
+
 #ifndef POPULATION_H
 #define POPULATION_H
 
@@ -56,11 +62,12 @@ public:
     unsigned int getNO(int pos);
     unsigned int getNoInfo(int pos);
 
-    // SETTERS
-    void setNext(population* n) { this->next = n; }
     // GETTERS
     population* getNext() { return this->next; }
     stringList* getCountryName() { return this->countryName; }
+
+    // SETTERS
+    void setNext(population* n) { this->next = n; }
 
 private:
     stringList* countryName; // key

@@ -26,23 +26,25 @@ public:
 
     void print();
 
-    void addStatus(stringList* virus, char s, date d); /* add in the end of the list a new virus status */
+    void addStatus(stringList* virus, char s, date d); // add in the end of the list a new virus status 
     listStatus* getNode(stringList* virus);
     listStatus* getNode(string virus);
 
-    char getVirusStatus(stringList* virus); //   given the virus name return the status of that virus.
-    char getVirusStatus(string virus);                //   '\0' if that virus is not in that citizen list
+    char getVirusStatus(stringList* virus);     //   given the virus name return the status of that virus.
+    char getVirusStatus(string virus);          //   '\0' if that virus is not in that citizen list
 
-    date getVirusDate(stringList* virus); //   given the virus name return the date of that virus
-    date getVirusDate(string virus);                //     EMPTY DATE if that virus is not in that citizen list
-    // SETTERS
-    void setStatus(char status) { this->status = status; }
-    void setDate(date d) { this->dateVaccinated = d; }
-    void setDate(string d) { this->dateVaccinated.setAll(d); }
+    date getVirusDate(stringList* virus);       //   given the virus name return the date of that virus
+    date getVirusDate(string virus);            //   EMPTY DATE if that virus is not in that citizen list
+
     // GETTERS
     stringList* getVirusName() { return this->virusName; }
     char getVirusStatus() { return this->status; }
     date getDateVaccinated() { return this->dateVaccinated; }
+
+    // SETTERS
+    void setStatus(char status) { this->status = status; }
+    void setDate(date d) { this->dateVaccinated = d; }
+    void setDate(string d) { this->dateVaccinated.setAll(d); }
 
 
 private:

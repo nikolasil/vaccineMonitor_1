@@ -16,9 +16,7 @@ bloomFilter::bloomFilter(int bloomSize)
     this->array = new char[this->bloomSize];
     checkNew(this->array);
     for (int i = 0; i < bloomSize; i++)
-    {
         this->array[i] = 0;
-    }
 }
 
 bloomFilter::~bloomFilter()
@@ -31,13 +29,9 @@ void bloomFilter::setBit(int k, int value)
     int position = (k / (sizeof(char) * 8));
     int shift = (k % (sizeof(char) * 8));
     if (value == 1)
-    {
         this->array[position] = this->array[position] | (1 << shift);
-    }
     else if (value == 0)
-    {
         this->array[position] = this->array[position] & ~(1 << shift);
-    }
 }
 
 int bloomFilter::getBit(int k)
@@ -45,9 +39,7 @@ int bloomFilter::getBit(int k)
     int position = (k / (sizeof(char) * 8));
     int shift = (k % (sizeof(char) * 8));
     if (this->array[position] & (1 << shift))
-    {
         return 1;
-    }
     return 0;
 }
 
@@ -56,9 +48,7 @@ unsigned long bloomFilter::djb2(unsigned char* str)
     unsigned long hash = 5381;
     int c;
     while ((c = *str++))
-    {
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-    }
     return hash;
 }
 
@@ -68,9 +58,7 @@ unsigned long bloomFilter::sdbm(unsigned char* str)
     int c;
 
     while ((c = *str++))
-    {
         hash = c + (hash << 6) + (hash << 16) - hash;
-    }
 
     return hash;
 }
@@ -91,10 +79,8 @@ void bloomFilter::add(int number)
     unsignedNumber[3] = numberstring[3];
     int K = 16;
     for (int i = 0; i < K; i++)
-    {
-        int bit = this->hash_i(unsignedNumber, i) % this->getSize();
-        this->setBit(bit, 1);
-    }
+        this->setBit(this->hash_i(unsignedNumber, i) % this->getSize(), 1);
+
 }
 
 int bloomFilter::check(int number)
@@ -110,8 +96,7 @@ int bloomFilter::check(int number)
     int flag = 1;
     for (int i = 0; i < K; i++)
     {
-        int bit = this->hash_i(unsignedNumber, i) % this->getSize();
-        if (!this->getBit(bit))
+        if (!this->getBit(this->hash_i(unsignedNumber, i) % this->getSize()))
         {
             flag = 0;
             break;
@@ -141,13 +126,11 @@ bloomFilterList::bloomFilterList(stringList* virus, int bloomSize) : bloomSize(b
 bloomFilterList::~bloomFilterList()
 {
     if (this->bloom != NULL)
-    {
         delete this->bloom;
-    }
+
     if (this->next != NULL)
-    {
         delete this->next;
-    }
+
 }
 
 bloomFilterList* bloomFilterList::add(stringList* virus)
@@ -171,9 +154,8 @@ bloomFilter* bloomFilterList::getBloom(stringList* virus)
     while (temp != NULL)
     {
         if (temp->virus->getString().compare(virus->getString()) == 0)
-        {
             return temp->bloom;
-        }
+
         temp = temp->next;
     }
     return NULL;

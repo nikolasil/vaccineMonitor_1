@@ -1,5 +1,10 @@
+/*
+    This files contains the skipListNode, skipListLevel, skipList and skipList_List classes.
+*/
+
 #ifndef SKIPLIST_H
 #define SKIPLIST_H
+
 #include <limits>
 #include "../../citizenRecords/citizen.h"
 #include "../stringList/stringList.h"
@@ -96,14 +101,14 @@ private:
     skipListLevel* floor;
 };
 
-class skipList_Lists
+class skipList_List
 {
 public:
-    skipList_Lists();
-    skipList_Lists(stringList* virus);
-    ~skipList_Lists();
+    skipList_List();
+    skipList_List(stringList* virus);
+    ~skipList_List();
 
-    skipList_Lists* add(stringList* virus);
+    skipList_List* add(stringList* virus);
 
     skipList* getVaccinated(stringList* virus);
     skipList* getNotVaccinated(stringList* virus);
@@ -114,18 +119,18 @@ public:
     stringList* getVirus() { return this->virus; }
     skipList* getVaccinated() { return this->vaccinated; }
     skipList* getNotVaccinated() { return this->notVaccinated; }
-    skipList_Lists* getNext() { return this->next; }
+    skipList_List* getNext() { return this->next; }
     // SETTERS
     void setVirus(stringList* v) { this->virus = v; }
     void setVaccinated(skipList* l) { this->vaccinated = l; }
     void setNotVaccinated(skipList* l) { this->notVaccinated = l; }
-    void setNext(skipList_Lists* n) { this->next = n; }
+    void setNext(skipList_List* n) { this->next = n; }
 
 private:
     stringList* virus;
     skipList* vaccinated;
     skipList* notVaccinated;
-    skipList_Lists* next;
+    skipList_List* next;
 };
 
 #endif

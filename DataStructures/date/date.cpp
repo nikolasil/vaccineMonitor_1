@@ -9,18 +9,14 @@ using namespace std;
 - - - date Methods Iimplemantation - - -
 */
 
-date::date(string dd, string mm, string yy) : day(dd), month(mm), year(yy)
-{
-}
+date::date(string dd, string mm, string yy) : day(dd), month(mm), year(yy) {}
 
 date::date(string d)
 {
     this->setAll(d);
 }
 
-date::~date()
-{
-}
+date::~date() {}
 
 void date::print()
 {
@@ -44,31 +40,30 @@ int date::compare(date d)
     b.append(d.day);
 
     if (a.compare(b) < 0)
-    {
         return -1;
-    }
+
     else if (a.compare(b) > 0)
-    {
         return 1;
-    }
+
     return 0;
 }
 
 bool date::isValid()
 {
     std::string::const_iterator it = (this->day).begin();
-    while (it != (this->day).end() && std::isdigit(*it))
+    while (it != (this->day).end() && isdigit(*it))
         ++it;
     bool day = !(this->day).empty() && it == (this->day).end();
 
     it = (this->month).begin();
-    while (it != (this->month).end() && std::isdigit(*it))
+    while (it != (this->month).end() && isdigit(*it))
         ++it;
     bool month = !(this->month).empty() && it == (this->month).end();
 
     it = (this->year).begin();
-    while (it != (this->year).end() && std::isdigit(*it))
+    while (it != (this->year).end() && isdigit(*it))
         ++it;
+
     bool year = !(this->year).empty() && it == (this->year).end();
     if (day && month && year)
     {
@@ -76,9 +71,7 @@ bool date::isValid()
         int m = stoi((this->month));
         int y = stoi((this->year));
         if (d > 0 && d <= 30 && m > 0 && m <= 12 && y >= 1900 && y <= 2100)
-        {
             return true;
-        }
     }
     return false;
 }
@@ -89,9 +82,8 @@ void date::setAll(string d)
     this->month = "";
     this->year = "";
     if (d.compare("") == 0)
-    {
         return;
-    }
+
     if (isdigit(d.at(0)) && isdigit(d.at(d.length() - 1)))
     {
         string delimiter = "-";
@@ -103,9 +95,8 @@ void date::setAll(string d)
         while ((pos = d.find(delimiter)) != string::npos)
         {
             if (i == 3)
-            {
                 return;
-            }
+
             token = d.substr(0, pos);
             arr[i++] = token;
             d.erase(0, pos + delimiter.length());

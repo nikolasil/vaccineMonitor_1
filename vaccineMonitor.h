@@ -40,7 +40,7 @@ private:
     stringList* countryList;
     stringList* virusList;
     bloomFilterList* bloomList;
-    skipList_Lists* skiplist;
+    skipList_List* skiplist;
 };
 
 #endif

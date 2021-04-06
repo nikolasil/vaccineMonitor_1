@@ -1,5 +1,8 @@
 /*
-- - - citizenRecord Methods Iimplemantation - - -
+    This files contains the stringList class that is
+    used to store the virus and countries names to avoid data duplication.
+
+    Every time a country name or a virus name is needed a pointer to the node is made.
 */
 
 #ifndef STRINGLIST_H
@@ -26,6 +29,7 @@ public:
     // GETTERS
     string getString() { return this->data; }
     stringList* getNext() { return this->next; }
+
     // SETTERS
     void setString(string s) { this->data = s; }
     void setNext(stringList* n) { this->next = n; }
