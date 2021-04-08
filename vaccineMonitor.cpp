@@ -271,17 +271,19 @@ void vaccineMonitor::vaccineStatusBloom(string* arguments, int length)
     {
         int id;
         string virus = "";
-        try
+        if (arguments[1].find_first_not_of("0123456789") != -1)
         {
-            id = stoi(arguments[1]);
-            virus = arguments[2];
-        }
-        catch (std::exception& e)
-        {
-            cout << "ERROR citizenID must be given as first argument && it must be an integer" << endl;
-            cout << "ERROR virusName must be given as second argument" << endl;
+            cout << "ERROR citizenID must be given as first argument && it must be a 4 digit integer" << endl;
             return;
         }
+        else if (stoi(arguments[1]) > 9999 && stoi(arguments[1]) <= 0)
+        {
+            cout << "ERROR citizenID must be given as first argument && it must be a 4 digit integer" << endl;
+            return;
+        }
+        id = stoi(arguments[1]);
+        virus = arguments[2];
+
         cout << "- citizenID: " << id << endl;
         cout << "- virusName: " << virus << endl;
         cout << endl;
@@ -322,23 +324,24 @@ void vaccineMonitor::vaccineStatus(string* arguments, int length)
     {
         int id;
         string virus = "";
-        try
-        {
-            id = stoi(arguments[1]);
-            if (length == 3)
-                virus = arguments[2];
-        }
-        catch (std::exception& e)
-        {
-            cout << "ERROR citizenID must be given as first argument && it must be an integer" << endl;
-            if (length == 3)
-                cout << "ERROR virusName must be given as second argument" << endl;
 
+        if (arguments[1].find_first_not_of("0123456789") != -1)
+        {
+            cout << "ERROR citizenID must be given as first argument && it must be a 4 digit integer" << endl;
             return;
         }
+        else if (stoi(arguments[1]) > 9999 && stoi(arguments[1]) <= 0)
+        {
+            cout << "ERROR citizenID must be given as first argument && it must be a 4 digit integer" << endl;
+            return;
+        }
+        id = stoi(arguments[1]);
         cout << "- citizenID: " << id << endl;
         if (length == 3)
+        {
+            virus = arguments[2];
             cout << "- virusName: " << virus << endl;
+        }
         cout << endl;
 
         stringList* v = virusList;

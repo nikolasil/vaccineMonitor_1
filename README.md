@@ -3,6 +3,10 @@
 
 ---
 
+There are comments in the code.
+
+---
+
 ### **Compile & Run**
 
 Makefile is included. Use the command **make** to compile the source code.
@@ -13,6 +17,28 @@ To run the application use: **./vaccineMonitor -c inputFile.txt -b BloomSize**
 > ./vaccineMonitor -b BloomSize -c inputFile.txt 
 
 ---
+
+### **Error Handling & Checking**
+
+- Syntax of Records
+  - The line must have 7 or 8 words
+  - id is only numbers
+  - 0 <= id <= 9999
+  - age is only numbers
+  - 1 <= age <= 120
+  - 7 word must be either YES or NO
+  - If there are 7 words total the seventh word must be NO
+  - If there are 8 words total the seventh word must be YES
+  - The date if exists must have the format dd-mm-yyyy
+  - 1 <= dd <= 30 & 1 <= mm <= 12 & 1950 <= yyyy <= 2050
+
+- Bad dupicates
+  - Citizens with same id must match the credentials firstname lastname country age in order to be a valid duplicate of that citizen
+  - Citizens that have valid credentials must also have a different virus name that the already inserted citizen has.
+
+---
+
+<div style="page-break-after: always;"></div>
 
 ### **Structure & Classes**
 
@@ -30,10 +56,10 @@ public:
     //Methods
 private:
     treeNode* tree;
-    linkedListStringNode* countryList;
-    linkedListStringNode* virusList;
+    stringList* countryList;
+    stringList* virusList;
     bloomFilterList* bloomList;
-    skipList_Lists* skiplist;
+    skipList_List* skiplist;
 };
 ```
 
@@ -42,9 +68,7 @@ private:
 The files **citizenRecords/citizen.cpp** and **citizenRecords/citizen.h** contains the *citizenRecord class* and the *listStatus class*.
 Every citizen has its own list where the viruses information is beeing stored.
 
-> *Note* that in citizenRecord the country is a node of type linkedListStringNode which is a list that stores strings. This class is used to prevent data duplications for countries and viruses as the same country or virus name has to be referenced many times.
-
-<div style="page-break-after: always;"></div>
+> *Note* that in citizenRecord the country is a node of type stringList which is a list that stores strings. This class is used to prevent data duplications for countries and viruses as the same country or virus name has to be referenced many times.
 
 ```cpp
 class citizenRecord
@@ -55,41 +79,42 @@ private:
     int citizenID;
     string firstName;
     string lastName;
-    linkedListStringNode *country;
+    stringList *country;
     int age;
     listStatus *status;
 };
 ```
+<div style="page-break-after: always;"></div>
+
 ```cpp
 class listStatus
 {
 public:
     //Methods
 private:
-    linkedListStringNode *virusName;
+    stringList *virusName;
     char status; // 'y' stands for "YES", 'n' for "NO"
     date dateVaccinated;
     listStatus *next;
 };
 ```
 
-#### LinkedListStringNode
+#### stringList
 
-The files **DataStructures\linkedList\linkedListString.cpp** and **DataStructures\linkedList\linkedListString.h** contains the *LinkedListStringNode class*.
+The files **DataStructures\linkedList\linkedListString.cpp** and **DataStructures\linkedList\linkedListString.h** contains the *stringList class*.
 
 This class is used to create the list of countries and list of virus names.
 
 ```cpp
-class LinkedListStringNode
+class stringList
 {
 public:
     //Methods
 private:
     string data;
-    linkedListStringNode *next;
+    stringList *next;
 };
 ```
-<div style="page-break-after: always;"></div>
 
 #### Date
 
@@ -108,6 +133,7 @@ private:
     string year;
 };
 ```
+<div style="page-break-after: always;"></div>
 
 #### Binary AVL Tree
 
@@ -151,6 +177,8 @@ private:
     char *array;
 };
 ```
+<div style="page-break-after: always;"></div>
+
 ```cpp
 class bloomFilterList
 {
@@ -158,7 +186,7 @@ public:
     //Methods
 private:
     int bloomSize;
-    linkedListStringNode *virus;
+    stringList *virus;
     bloomFilter *bloom;
     bloomFilterList *next;
 };
@@ -166,26 +194,27 @@ private:
 
 #### SkipList
 
-The files **DataStructures\skipList\skipList.cpp** and **DataStructures\skipList\skipList.h** contains the *skipList_Lists class* , *skipList class*, *skipListLevel class*  and *skipListNode class*.
+The files **DataStructures\skipList\skipList.cpp** and **DataStructures\skipList\skipList.h** contains the *skipList_List class* , *skipList class*, *skipListLevel class*  and *skipListNode class*.
 
-- skipList_Lists : Is a class that holds the 2 skip lists for every virus.
+- skipList_List : Is a class that holds the 2 skip lists for every virus.
 - skipList : Is the skipList. It holds the top and bottom level.
 - skipListLevel : Holds informations about the level. Links the Levels together and points to the list of the level.
 - skipListNode : Is the list that each level points to.
 
+Every levels first node is minus infinity and last node is positive infinity.
+
 ```cpp
-class skipList_Lists
+class skipList_List
 {
 public:
     //Methods
 private:
-    linkedListStringNode* virus;
+    stringList* virus;
     skipList* vaccinated;
     skipList* notVaccinated;
-    skipList_Lists* next;
+    skipList_List* next;
 };
 ```
-<div style="page-break-after: always;"></div>
 
 ```cpp
 class skipList
@@ -198,6 +227,8 @@ private:
 };
 };
 ```
+<div style="page-break-after: always;"></div>
+
 ```cpp
 class skipListLevel
 {
@@ -240,13 +271,15 @@ The first node is for the first age group the second node is for the seconds age
 
 If we are in the /populationStatus that has no age groups then the first node is general(for all the ages).
 
+<div style="page-break-after: always;"></div>
+
 ```cpp
 class population
 {
 public:
     //Methods
 private:
-    linkedListStringNode *countryName; // key
+    stringList *countryName; // key
 
     yes *inRange;
     yes *outRange;
@@ -259,32 +292,14 @@ private:
 
 ---
 
-### **Error Handling & Checking**
-
-- Syntax of Records
-  - The line must have 7 or 8 words
-  - 0 <= id <= 9999
-  - 1 <= age <= 120
-  - 7 word must be either YES or NO
-  - If there are 7 words total the seventh word must be NO
-  - If there are 8 words total the seventh word must be YES
-  - The date if exists must have the format dd-mm-yyyy
-  - 1 <= dd <= 30 & 1 <= mm <= 12 & 1950 <= yyyy <= 2050
-
-- Bad dupicates
-  - Citizens with same id must match the credentials firstname lastname country age in order to be a valid duplicate of that citizen
-  - Citizens that have valid credentials must also have a different virus name that the already inserted citizen has.
-
-
-<div style="page-break-after: always;"></div>
-
----
-
 ### **Commands**
 
 #### /vaccineStatusBloom
 
 Must have exactly 2 arguments.
+At the start i check:
+- id is only numbers
+- 0 <= id <= 9999
 
 If the virus is not in the virus list it is obvius we dont have to look the bloom filter to see that this id has not made the virus so return NOT **VACCINATED**.
 If we have that virus we hash the id and check the 16 bits to be set to 1. If all of them are 1 then **MAYBE** the id has been vaccinated fot that virus. If at least on bit is 0 then surely the id is **NOT VACCINATED**.
@@ -292,12 +307,17 @@ If we have that virus we hash the id and check the 16 bits to be set to 1. If al
 #### /vaccineStatus
 
 Must have 1 or 2 arguments.
+At the start i check:
+- id is only numbers
+- 0 <= id <= 9999
 
 If a virus name is given:
 - Then if we dont have that virus in the virus list then return **NOT VACCINATED**.
 - If the virus exists in the virus list, check in vaccinated skip list of that virus to see if this id exists. if yes return **VACCINATED ON dd-mm-yyy** if no return **NOT VACCINATED**.
 
 If a virus name is **not** given do the above for every virus in the virus list.
+
+<div style="page-break-after: always;"></div>
 
 #### /populationStatus
 
@@ -324,8 +344,6 @@ If a country is **not** given:
   - if this citizen has YES in the list status fot that virus do +1 in the inRange count or the outRange count accordingly of the found population node above. 
   - if this citizen has NO in the list status fot that virus do +1 in the No count of the found population node above.
   - if this citizen has no information for that virus do +1 in the noInfo of the found population node above.
-
-
 
 #### /popStatusByAge
 
@@ -360,6 +378,30 @@ The statistics are:
   > count = YES_in_range_fourth
   > percentage = YES_in_range_fourth / (YES_in_range_fourth + YES_out_range_fourth + NO_fourth + none_information_fourth) * 100
 
+#### /insertCitizenRecord
+
+This command behaves the same with inserting records from the inputFile.txt **BUT** if it is a duplicate with the same virus we will check the YES/NO.
+Cases:
+- Already inserted citizen for that virus is **NO** and the citizen we try to insert has **YES** then we change the already inserted citizen from NO -> YES DATE. [ print(status changed) ]
+- Already inserted citizen for that virus is **NO** and the citizen we try to insert has **NO** then we dont do anything. [ print(already NO) ]
+- Already inserted citizen for that virus is **YES** and the citizen we try to insert has **NO** then we dont do anything. [ print(has made the vaccine) ]
+- Already inserted citizen for that virus is **YES** and the citizen we try to insert has **YES** then we dont do anything. [ print(has made the vaccine) ]
+
+#### /vaccinateNow
+
+Just calls the command /insertCitizenRecord with the aguments given + YES + TODAY DATE cause the have the same functionality.
+
+#### /list-nonVaccinated-Persons
+
+Just prints the 0 level of the not vaccinate skiplist of that virus.
+
+<div style="page-break-after: always;"></div>
+
 ### **Script**
 
-The script is inside the directory **/script** with the name **script.sh**.
+The script is in the **script\testFile.sh**.
+
+The script uses arrays to store the coutries and viruses.
+Also uses 2 additional arrays to store the ids that have been used before and the credentials of the records that have been already produced.
+
+The is a function that creates a new record. That is used when creating a new record with unique id and store it to the 2 arrays.
